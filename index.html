@@ -1,1 +1,109 @@
+<<<<<<< HEAD
 My Page
+=======
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+<title>TRAVIS FELDMAN: HOME</title>
+<link rel="stylesheet" type="text/css" href="/style.css"/>
+<script type="text/javascript" src="/js/analytics.js"></script>
+<script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="/js/jquery.lazyload.min.js" type="text/javascript"></script>
+<script>
+$(function(){
+  $("img.lazy").lazyload({
+    effect : "fadeIn"
+  });
+});
+</script>
+<script>
+$(function(){
+  var blackOverlays = $(".blackOverlay");
+  blackOverlays.mouseover(function(){
+      $(this).stop().fadeTo(100, 0.7);
+  });
+  blackOverlays.mouseout(function(){
+      $(this).stop().fadeTo(300, 0.0);
+  });
+});
+</script>
+<style>
+
+#homeCoverImg {background: url(../images/cover/600.jpg) no-repeat center center;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+}
+
+@media screen and (min-width: 800px) {
+    #homeCoverImg {background: url(../images/cover/1200.jpg) no-repeat center center;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+    }
+}
+@media screen and (min-width: 1800px) {
+    #homeCoverImg {background: url(../images/cover/2500.jpg) no-repeat center center;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+    }
+}
+
+</style>
+<script src="/js/jquery.waitforimages.js" type="text/javascript"></script>
+<script>
+    $(function(){
+        $("#homeCoverImg").hide();
+        $('#homeCoverImg').waitForImages(function() {
+            // All descendant images have loaded, now slide up.
+            $("#homeCoverImg").fadeIn();
+        });
+        var mainImg = $('#mainImageContainer');
+        var mainImgOverlay = $('.mainImgOverlay');
+        mainImg.mouseover(function(){
+          mainImgOverlay.stop().fadeTo(100, 0.7);
+        });
+        mainImg.mouseout(function(){
+          mainImgOverlay.stop().fadeTo(300, 0.0);
+        });
+    });
+</script>
+
+</head>
+<body>
+<div id="homeBacker"></div>
+<a id="mainImageContainer" href="http://travisfeldman.org/08" target="_blank"><div id="homeCoverImg"></div><div class="mainImgOverlay blackOverlay">
+    <span>Travis Feldman</span><br/>
+    Education / DIY Electronics / Design
+</div>
+</a>
+
+<div id="menu">
+<ul>
+<li class="leftTxt"><a id="selectedMenuItem">HOME</a></li>
+<li class="centerTxt"><a href="https://github.com/moleculesynth">GIT</a></li>
+<li class="rightTxt"><a href="https://twitter.com/moleculesynth">TWITTER</a></li>
+</ul></div>
+<div class="homeWrapper">
+<div id="contentWrapper" class="fullWidth coverImage">
+<ul>
+<li><img data-original="/images/1.jpg" class="fullWidth lazy"/></li>
+<li><img data-original="/images/2.jpg" class="fullWidth lazy"/></li>
+<li><img data-original="/images/3.jpg" class="fullWidth lazy"/></li>
+<li><img data-original="/images/4.jpg" class="fullWidth lazy"/></li>
+<li><img data-original="/images/6.jpg" class="fullWidth lazy"/></li>
+<li><img data-original="/images/7.jpg" class="fullWidth lazy"/></li>
+
+</ul>
+
+</div>
+</div>
+</body>
+</html>
+
+>>>>>>> master
