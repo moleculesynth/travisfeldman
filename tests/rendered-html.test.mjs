@@ -8,73 +8,72 @@ async function render() {
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("http://localhost/", {
-      headers: { accept: "text/html" },
-    }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
+    new Request("http://localhost/", { headers: { accept: "text/html" } }),
+    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
+    { waitUntil() {}, passThroughOnException() {} },
   );
 }
 
-test("server-renders the image-first Travis Feldman portfolio", async () => {
+test("server-renders the 0.3.1 split work index", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(
-    html,
-    /<title>Travis Feldman — Objects, Signals, Images, Language<\/title>/i,
-  );
-  assert.match(html, /Artist · designer · musician · educator/);
-  assert.match(html, /Objects/);
-  assert.match(html, /signals/);
-  assert.match(html, /images/);
-  assert.match(html, /language/);
-  assert.match(html, /Molecule[\s\S]*Synth/);
-  assert.match(html, /100[\s\S]*Trees/);
+  assert.match(html, /<title>Travis Feldman — Objects, Signals, Images, Language<\/title>/i);
+  assert.match(html, /Homepage 0\.3\.1/);
+  assert.match(html, /Objects, images, signals, language/);
+  assert.match(html, /100 Trees/);
   assert.match(html, /Hegelian meditation on the one and the many/);
   assert.match(html, /Sleeping Giant State Park/);
   assert.match(html, /Selva[\s\S]*Oscura/);
   assert.match(html, /Dantean exploration of slow exposure and digital night/);
-  assert.match(html, /Micro\/[\s\S]*graphia/);
+  assert.match(html, /Micrographia/);
   assert.match(html, /Night Shift/);
-  assert.match(html, /Nerve[\s\S]*Maps/);
-  assert.match(html, /BPOW!!!/);
-  assert.match(html, /Tarot TV/);
-  assert.match(html, /Things that[\s\S]*want to move/);
+  assert.match(html, /Molecule Synth/);
+  assert.match(html, /GANtoons \+ MoviePosterGAN/);
+  assert.match(html, /How might a machine express emotion/);
+  assert.match(html, /School of MA/);
   assert.match(html, /PIJIN/);
+  assert.match(html, /BPOW!!!/);
+  assert.match(html, /Shrink Circuits Nomad Lab/);
+  assert.match(html, /Playable prototypes/);
+  assert.match(html, /Nerve Maps/);
+  assert.match(html, /The Many Mansions/);
+  assert.match(html, /Tarot TV/);
   assert.match(html, /A reader among machines/);
-  assert.match(html, /Let&#x27;s make contact/);
+  assert.equal((html.match(/id="pijin"/g) ?? []).length, 1);
+  assert.equal((html.match(/id="shrink-circuits"/g) ?? []).length, 1);
+  assert.doesNotMatch(html, />0[1-9] ·/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Codex is working/i);
 });
 
-test("keeps Kickstarter, audio, writing, and project destinations direct", async () => {
+test("keeps video, Kickstarter, audio, writing, and project links direct", async () => {
   const response = await render();
   const html = await response.text();
 
-  assert.match(html, /https:\/\/www\.kickstarter\.com\/profile\/travisfeldman/);
-  assert.match(html, /https:\/\/www\.kickstarter\.com\/projects\/travisfeldman\/molecule-synth/);
-  assert.match(html, /https:\/\/www\.kickstarter\.com\/projects\/travisfeldman\/pijin-the-spelling-game-of-the-spoken-word/);
-  assert.match(html, /https:\/\/www\.kickstarter\.com\/projects\/travisfeldman\/bpow-battery-powered-orchestra-workshop/);
-  assert.match(html, /https:\/\/moleculesynth\.com/);
-  assert.match(html, /https:\/\/nervemaps\.bandcamp\.com/);
-  assert.match(html, /https:\/\/themanymansions\.bandcamp\.com/);
-  assert.match(html, /https:\/\/www\.awesomefoundation\.org\/en\/projects\/30742-shrink-circuits-nomad-lab/);
-  assert.match(html, /https:\/\/ijamm\.pubpub\.org\/pub\/o9n1tv3t/);
-  assert.match(html, /mailto:moleculesynth@gmail\.com/);
+  for (const destination of [
+    "https://youtu.be/BNb0xTEe69I",
+    "https://youtu.be/Ct37TbZJlrk",
+    "https://youtu.be/lmEL5HyCGRE",
+    "https://www.kickstarter.com/profile/travisfeldman",
+    "https://www.kickstarter.com/projects/travisfeldman/molecule-synth",
+    "https://www.kickstarter.com/projects/travisfeldman/pijin-the-spelling-game-of-the-spoken-word",
+    "https://www.kickstarter.com/projects/travisfeldman/bpow-battery-powered-orchestra-workshop",
+    "https://moleculesynth.com",
+    "https://nervemaps.bandcamp.com",
+    "https://themanymansions.bandcamp.com/",
+    "https://www.awesomefoundation.org/en/projects/30742-shrink-circuits-nomad-lab",
+    "https://ijamm.pubpub.org/pub/o9n1tv3t",
+    "mailto:moleculesynth@gmail.com",
+  ]) {
+    assert.ok(html.includes(destination), `missing direct destination: ${destination}`);
+  }
   assert.doesNotMatch(html, /linkedin\.com/i);
 });
 
-test("ships recent-project images, the custom share card, and no source library", async () => {
-  const [packageJson, layout, page, gitignore, ogImage, treeImage, selvaImage] = await Promise.all([
+test("ships gallery and GAN imagery while excluding the source library", async () => {
+  const [packageJson, layout, page, gitignore, ogImage, treeImage, selvaImage, ganImage] = await Promise.all([
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
@@ -82,6 +81,7 @@ test("ships recent-project images, the custom share card, and no source library"
     readFile(new URL("../public/og-visual.png", import.meta.url)),
     readFile(new URL("../public/art/trees-35.jpg", import.meta.url)),
     readFile(new URL("../public/art/selva-moon-trees.jpg", import.meta.url)),
+    readFile(new URL("../public/art/gantoons-movie-posters.jpg", import.meta.url)),
   ]);
 
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
@@ -91,4 +91,5 @@ test("ships recent-project images, the custom share card, and no source library"
   assert.ok(ogImage.byteLength > 100_000);
   assert.ok(treeImage.byteLength > 100_000);
   assert.ok(selvaImage.byteLength > 100_000);
+  assert.ok(ganImage.byteLength > 10_000);
 });
