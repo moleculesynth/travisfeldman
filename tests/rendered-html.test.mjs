@@ -31,14 +31,22 @@ test("server-renders the finished Travis Feldman portfolio", async () => {
   const html = await response.text();
   assert.match(
     html,
-    /<title>Travis Feldman — The life between things<\/title>/i,
+    /<title>Travis Feldman — Literature, Learning, Experimental Sound, Physical Electronics<\/title>/i,
   );
-  assert.match(html, /The life/);
+  assert.match(html, /Travis Feldman\./);
+  assert.match(html, /Literature, Learning, Experimental sound, Physical electronics/);
+  assert.match(html, /Marshall McLuhan/);
+  assert.match(html, /Claude Lévi-Strauss/);
+  assert.match(html, /poetry on potsherds/);
+  assert.match(html, /Make, play, revise/);
+  assert.match(html, /Shenzhen, Santiago/);
+  assert.match(html, /Music &amp; composition/);
   assert.match(html, /A reader among machines/);
   assert.match(html, /Another arrangement\?/);
+  assert.doesNotMatch(html, /Photo portfolios/);
   assert.doesNotMatch(html, /rouze|the faculties to act/i);
   assert.match(html, /Molecule Synth/);
-  assert.match(html, /A room for making/);
+  assert.match(html, /Makerspaces/);
   assert.doesNotMatch(html, /Choate|choate\.edu/i);
   assert.match(html, /Nerve Maps/);
   assert.match(html, /Controversial Crabbe/);

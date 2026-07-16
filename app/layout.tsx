@@ -3,13 +3,13 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://travisfeldman.org"),
-  title: "Travis Feldman — The life between things",
+  title: "Travis Feldman — Literature, Learning, Experimental Sound, Physical Electronics",
   description:
-    "Poems, circuits, spaces, and sound: the work of Travis Feldman across literature, learning, experimental electronics, photography, and music.",
+    "Travis Feldman. Literature, learning, experimental sound, and physical electronics.",
   openGraph: {
-    title: "Travis Feldman — The life between things",
+    title: "Travis Feldman — Literature, Learning, Experimental Sound, Physical Electronics",
     description:
-      "Words, circuits, rooms, and sound—work across literature, learning, electronics, photography, and music.",
+      "Literature, learning, experimental sound, and physical electronics.",
     type: "website",
     url: "https://travisfeldman.org",
     siteName: "Travis Feldman",
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Travis Feldman — The life between things",
+    title: "Travis Feldman — Literature, Learning, Experimental Sound, Physical Electronics",
     description:
-      "Words, circuits, rooms, and sound—work across literature, learning, electronics, photography, and music.",
+      "Literature, learning, experimental sound, and physical electronics.",
     images: ["/og-blake.jpg"],
   },
 };

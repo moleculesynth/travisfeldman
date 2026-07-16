@@ -150,7 +150,6 @@ p {
   padding: clamp(4rem, 7vw, 8rem) clamp(2rem, 6vw, 6rem) clamp(4rem, 6vw, 6rem) 4vw;
 }
 
-.eyebrow,
 .section-label,
 .project-type,
 .publication-meta {
@@ -161,51 +160,22 @@ p {
   text-transform: uppercase;
 }
 
-.eyebrow {
-  align-items: center;
-  display: flex;
-  margin-bottom: 2.25rem;
-}
-
-.eyebrow::before {
-  background: var(--blue);
-  border-radius: 50%;
-  content: "";
-  height: 9px;
-  margin-right: 0.75rem;
-  width: 9px;
-}
-
 .hero h1 {
   font-family: var(--serif);
   font-size: clamp(4rem, 7.3vw, 7rem);
   font-weight: 400;
   letter-spacing: -0.065em;
   line-height: 0.88;
-  margin-bottom: 2rem;
+  margin-bottom: 1.35rem;
   max-width: 720px;
 }
 
-.provocation-title span {
-  display: block;
-}
-
-.provocation-title .title-accent {
+.hero-fields {
   color: var(--blue);
-  font-style: italic;
-  margin-left: clamp(1rem, 5vw, 5rem);
-  position: relative;
-  transition: color 180ms ease, transform 180ms ease;
-}
-
-.provocation-title:hover .title-accent {
-  color: var(--ink);
-  transform: translateX(0.14em);
-}
-
-.hero-intro {
-  font-size: clamp(1.05rem, 1.35vw, 1.32rem);
-  line-height: 1.6;
+  font-family: var(--serif);
+  font-size: clamp(1.55rem, 2.45vw, 2.45rem);
+  letter-spacing: -0.025em;
+  line-height: 1.18;
   max-width: 620px;
 }
 
@@ -270,36 +240,6 @@ p {
   width: 100%;
 }
 
-.hero-note {
-  background: var(--paper);
-  bottom: 2rem;
-  font-family: var(--serif);
-  font-size: 1.05rem;
-  line-height: 1.15;
-  padding: 1rem 1.2rem;
-  position: absolute;
-  z-index: 2;
-}
-
-.hero-note span {
-  display: block;
-  font-family: var(--sans);
-  font-size: 0.62rem;
-  font-weight: 750;
-  letter-spacing: 0.12em;
-  margin-bottom: 0.35rem;
-  text-transform: uppercase;
-}
-
-.hero-note-one {
-  left: 2rem;
-}
-
-.hero-note-two {
-  background: var(--acid);
-  right: 2rem;
-}
-
 .section-pad {
   margin: 0 auto;
   max-width: var(--max);
@@ -310,20 +250,52 @@ p {
   margin-bottom: 1rem;
 }
 
-.statement {
+.particulars {
+  background: var(--ink);
+  color: var(--paper);
   border-bottom: 1px solid var(--line);
   border-top: 1px solid var(--line);
   display: grid;
-  gap: 2rem;
-  grid-template-columns: 1fr 3fr;
+  gap: 1.5rem 3rem;
+  grid-template-columns: minmax(180px, 0.55fr) 1.45fr;
 }
 
-.statement-text {
+.particulars-heading > p:last-child {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.particulars-lead {
+  align-self: end;
   font-family: var(--serif);
-  font-size: clamp(1.9rem, 3.5vw, 3.5rem);
-  letter-spacing: -0.045em;
-  line-height: 1.04;
+  font-size: clamp(1.4rem, 2.4vw, 2.2rem);
+  font-style: italic;
   margin-bottom: 0;
+}
+
+.particulars-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  grid-column: 2;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.particulars-list li {
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 2.45vw, 2.45rem);
+  letter-spacing: -0.025em;
+  line-height: 1.28;
+}
+
+.particulars-list li:not(:last-child)::after {
+  color: var(--acid);
+  content: " · ";
+  margin: 0 0.2em;
 }
 
 .section-heading {
@@ -350,6 +322,25 @@ p {
   font-size: 0.95rem;
   margin-bottom: 0.5rem;
   max-width: 460px;
+}
+
+.work-index {
+  border-top: 1px solid var(--line);
+  list-style: none;
+  margin: 0;
+  max-width: 520px;
+  padding: 0;
+}
+
+.work-index li {
+  border-bottom: 1px solid var(--line);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  padding: 0.7rem 0;
+}
+
+.work-index strong {
+  font-weight: 750;
 }
 
 .project-grid {
@@ -557,79 +548,55 @@ p {
 .practice {
   background: var(--paper);
   display: grid;
-  gap: clamp(4rem, 8vw, 8rem);
-  grid-template-columns: 0.85fr 1.15fr;
+  gap: 2rem clamp(3rem, 7vw, 7rem);
+  grid-template-columns: 1.2fr 0.8fr;
   max-width: none;
   padding-left: max(4vw, calc((100vw - var(--max)) / 2 + 4vw));
   padding-right: max(4vw, calc((100vw - var(--max)) / 2 + 4vw));
 }
 
-.practice-intro {
-  align-self: start;
-  position: sticky;
-  top: 130px;
-}
-
-.practice-intro > p:last-child {
+.practice-copy > p:last-child {
   font-size: 1rem;
   margin-top: 1.25rem;
-  max-width: 570px;
+  max-width: 720px;
 }
 
-.practice-list {
-  border-top: 1px solid var(--line);
+.practice-points {
+  border-top: 1px solid var(--ink);
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.practice-list article {
+.practice-points li {
   border-bottom: 1px solid var(--line);
-  display: grid;
-  gap: 1.5rem;
-  grid-template-columns: 60px 1fr;
-  padding: 2.5rem 0;
-}
-
-.practice-number {
-  color: var(--blue);
   font-family: var(--serif);
-  font-size: 1.1rem;
-  font-style: italic;
+  font-size: 1.2rem;
+  padding: 0.85rem 0;
 }
 
-.practice-list h3 {
-  font-family: var(--serif);
-  font-size: clamp(1.75rem, 2.5vw, 2.7rem);
-  font-weight: 400;
-  letter-spacing: -0.035em;
-  margin-bottom: 0.65rem;
-}
-
-.practice-list p {
-  margin-bottom: 0;
-  max-width: 610px;
-}
-
-.paper-callout {
+.practice-paper {
+  align-items: center;
   background: var(--ink);
   color: white;
-  display: grid;
-  gap: 4rem;
+  display: flex;
+  gap: 1.5rem;
   grid-column: 1 / -1;
-  grid-template-columns: 1.35fr 0.65fr;
-  padding: clamp(2rem, 5vw, 5rem);
+  padding: 1.4rem 1.6rem;
 }
 
-.paper-callout h3 {
-  font-family: var(--serif);
-  font-size: clamp(2.1rem, 3.8vw, 4rem);
-  font-weight: 400;
-  letter-spacing: -0.04em;
-  line-height: 1.06;
+.practice-paper p {
   margin-bottom: 0;
 }
 
-.paper-callout .text-link {
+.practice-paper > p:nth-child(2) {
+  flex: 1;
+  font-family: var(--serif);
+}
+
+.practice-paper .text-link {
   color: var(--acid);
-  margin-right: 1.25rem;
+  margin-top: 0;
 }
 
 .writing {
@@ -834,7 +801,10 @@ footer a {
     align-self: end;
   }
 
-  .practice,
+  .practice {
+    gap: 2rem 4rem;
+  }
+
   .writing {
     gap: 5rem;
   }
@@ -870,26 +840,13 @@ footer a {
     font-size: clamp(3.9rem, 18vw, 6.2rem);
   }
 
-  .provocation-title .title-accent {
-    margin-left: 0.4em;
-  }
-
-  .hero-intro {
-    font-size: 1.05rem;
+  .hero-fields {
+    font-size: 1.5rem;
   }
 
   .hero-visual {
     min-height: 78vh;
   }
-
-  .hero-note {
-    bottom: 1rem;
-    font-size: 0.9rem;
-    padding: 0.85rem;
-  }
-
-  .hero-note-one { left: 1rem; }
-  .hero-note-two { right: 1rem; }
 
   .section-pad {
     padding: 5.5rem 1.25rem;
@@ -902,18 +859,21 @@ footer a {
     padding-right: 1.25rem !important;
   }
 
-  .statement,
+  .particulars,
   .section-heading,
   .practice,
   .writing,
   .about,
-  .contact,
-  .paper-callout {
+  .contact {
     grid-template-columns: 1fr;
   }
 
-  .statement {
+  .particulars {
     gap: 1rem;
+  }
+
+  .particulars-list {
+    grid-column: 1;
   }
 
   .section-heading {
@@ -951,12 +911,13 @@ footer a {
     padding-right: 1.25rem;
   }
 
-  .practice-intro {
-    position: static;
+  .practice {
+    gap: 2rem;
   }
 
-  .paper-callout {
-    gap: 2rem;
+  .practice-paper {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .contact h2,

@@ -1,3 +1,5 @@
+import { minuteParticulars } from "./content";
+
 const Arrow = () => <span aria-hidden="true">↗</span>;
 
 const ExternalLink = ({
@@ -40,16 +42,9 @@ export default function Home() {
       <div id="content">
         <section className="hero" id="top">
           <div className="hero-copy">
-            <p className="eyebrow">Words · circuits · rooms · sound</p>
-            <h1 className="provocation-title">
-              <span>The life</span>
-              <span>between</span>
-              <span className="title-accent">things.</span>
-            </h1>
-            <p className="hero-intro">
-              I’m Travis Feldman. My work gathers around literature, learning,
-              experimental sound, and physical electronics—especially the
-              unstable space where one becomes another.
+            <h1>Travis Feldman.</h1>
+            <p className="hero-fields">
+              Literature, Learning, Experimental sound, Physical electronics.
             </p>
             <div className="hero-actions">
               <a className="button button-primary" href="#work">
@@ -66,32 +61,34 @@ export default function Home() {
               src="/images/portrait-cover.jpg"
               alt="A field of translucent green hexagonal Molecule Synth modules"
             />
-            <div className="hero-note hero-note-one">
-              <span>Materials</span>
-              Words, voltage, rooms, sound
-            </div>
-            <div className="hero-note hero-note-two">
-              <span>Possibility</span>
-              Another arrangement
-            </div>
           </div>
         </section>
 
-        <section className="statement section-pad">
-          <p className="section-label">In practice</p>
-          <p className="statement-text">
-            A poem, a circuit, a room, a pulse: each becomes more interesting
-            when it leaves something unresolved.
-          </p>
+        <section className="particulars section-pad" id="practice">
+          <div className="particulars-heading">
+            <p className="section-label">In practice</p>
+            <p>Minute particulars · partial and ongoing</p>
+          </div>
+          <p className="particulars-lead">Exploring modes of</p>
+          <ul className="particulars-list">
+            {minuteParticulars.map((particular) => (
+              <li key={particular}>{particular}</li>
+            ))}
+            <li>and so on</li>
+          </ul>
         </section>
 
         <section className="work section-pad" id="work">
           <div className="section-heading">
             <div>
               <p className="section-label">Work</p>
-              <h2>Made, played, revised.</h2>
+              <h2>Make, play, revise.</h2>
             </div>
-            <p>Instruments, spaces, games, gatherings.</p>
+            <ul className="work-index">
+              <li><strong>Molecule Synth</strong> — physical-electronics synthesizer and experimenter’s design set</li>
+              <li><strong>PIJIN</strong> — spelling game of the spoken word</li>
+              <li><strong>BPOW</strong> — DIY electronics as a medium of self-expression</li>
+            </ul>
           </div>
 
           <div className="project-grid">
@@ -105,8 +102,8 @@ export default function Home() {
                 <p className="project-type">Instrument design · physical electronics</p>
                 <h3>Molecule Synth</h3>
                 <p>
-                  A snap-together electronic instrument that turns the building
-                  blocks of synthesis into a playful, rearrangeable interface.
+                  A physical-electronics synthesizer and experimenter’s design
+                  set: snap-together building blocks for synthesis.
                 </p>
                 <ExternalLink href="https://moleculesynth.com" className="project-link">
                   Visit the project
@@ -122,27 +119,26 @@ export default function Home() {
                 />
               </div>
               <div className="project-content">
-                <p className="project-type">Learning space · shared tools · student work</p>
-                <h3>A room for making</h3>
+                <p className="project-type">Learning spaces · shared tools</p>
+                <h3>Makerspaces</h3>
                 <p>
-                  For years I worked inside a school makerspace—shaping prompts,
-                  tools, events, and the conditions in which students could
-                  surprise themselves and one another.
+                  I have worked in makerspaces in Shenzhen, Santiago, Chile,
+                  and Portland, and designed school makerspaces in Portland
+                  and Connecticut.
                 </p>
               </div>
             </article>
 
             <article className="project project-acid project-nerve">
               <div className="project-content">
-                <p className="project-type">Experimental electronic music</p>
-                <h3>Nerve Maps</h3>
+                <p className="project-type">Minute particular · Nerve Maps</p>
+                <h3>Music & composition</h3>
                 <p>
-                  Electronic composition from first principles: phase-based
-                  structure, emergent timbre, modulated texture, and liminal
-                  pulse.
+                  Experimental sound, percussion, phase-based structure,
+                  emergent timbre, modulated texture, and liminal pulse.
                 </p>
                 <ExternalLink href="https://nervemaps.bandcamp.com" className="project-link">
-                  Listen on Bandcamp
+                  Listen to Nerve Maps
                 </ExternalLink>
               </div>
               <img
@@ -160,7 +156,7 @@ export default function Home() {
               <div className="project-content">
                 <p className="project-type">Game design · language</p>
                 <h3>PIJIN</h3>
-                <p>A future-primitive word game built from the sounds of speech.</p>
+                <p>A spelling game of the spoken word, built from the sounds of speech.</p>
                 <ExternalLink href="https://www.behance.net/gallery/14485693/Pijin" className="project-link">
                   View the project archive
                 </ExternalLink>
@@ -172,9 +168,9 @@ export default function Home() {
                 <p className="project-type">Community · festival · salvaged sound</p>
                 <h3>BPOW!!!</h3>
                 <p>
-                  The Battery Powered Orchestra Workshop brought Portland
-                  together for two days of circuit bending, DIY electronics,
-                  workshops, performances, and a public electronic orchestra.
+                  DIY electronics as a medium of self-expression: circuit
+                  bending, workshops, performances, and a public electronic
+                  orchestra.
                 </p>
                 <ExternalLink href="https://makezine.com/article/craft/music/bpow-festival-celebrates-the-art-of-salvaged-sound/" className="project-link">
                   Read the festival story
@@ -191,84 +187,48 @@ export default function Home() {
 
             <article className="project project-photo">
               <img
-                src="/images/photo-2.jpg"
-                alt="Two people in conversation at a glowing table, from the Biz Photos series"
+                src="/images/photo-1.jpg"
+                alt="Street portrait of a woman in sunglasses caught in bright afternoon light"
               />
               <div className="project-content">
-                <p className="project-type">Photography · observation</p>
-                <h3>Photo portfolios</h3>
+                <p className="project-type">Photography</p>
+                <h3>Ways of seeing</h3>
                 <p>
                   Portraits, objects, working environments, and invented scenes
                   photographed with an eye for people inside systems.
                 </p>
                 <ExternalLink href="https://www.behance.net/molecule" className="project-link">
-                  Browse the Behance portfolio
+                  View the work
                 </ExternalLink>
               </div>
             </article>
           </div>
         </section>
 
-        <section className="practice section-pad" id="practice">
-          <div className="practice-intro">
+        <section className="practice section-pad" id="learning">
+          <div className="practice-copy">
             <p className="section-label">Learning & making</p>
             <h2>Room to find out.</h2>
-            <p>Tools, attention, and the possibility of surprise.</p>
+            <p>
+              My work with makerspaces brings a humanities practice to hands-on
+              technology: prompts before prescriptions, shared objects across
+              disciplines, and tools that leave people more able to pursue
+              questions of their own.
+            </p>
           </div>
 
-          <div className="practice-list">
-            <article>
-              <span className="practice-number">01</span>
-              <div>
-                <h3>The useful uncertainty of beginning</h3>
-                <p>
-                  Material first; the next question often arrives from what
-                  actually happened.
-                </p>
-              </div>
-            </article>
-            <article>
-              <span className="practice-number">02</span>
-              <div>
-                <h3>Abstractions, held</h3>
-                <p>
-                  A shared object can join engineering, music, art, language,
-                  and social questions without flattening their differences.
-                </p>
-              </div>
-            </article>
-            <article>
-              <span className="practice-number">03</span>
-              <div>
-                <h3>An open system</h3>
-                <p>
-                  The measure is not spectacle. It is whether someone leaves
-                  more capable of asking—and pursuing—their own questions.
-                </p>
-              </div>
-            </article>
-          </div>
+          <ul className="practice-points">
+            <li>Questions before answers</li>
+            <li>Materials across disciplines</li>
+            <li>Agency over novelty</li>
+          </ul>
 
-          <aside className="paper-callout">
-            <div>
-              <p className="section-label">Academic makerspaces</p>
-              <h3>
-                “Do We Need a New Epistemology for Learning as it Happens in
-                21st-Century Makerspaces?”
-              </h3>
-            </div>
-            <div>
-              <p>
-                Presented at the International Symposium on Academic Makerspaces
-                at Case Western Reserve University, Cleveland.
-              </p>
-              <ExternalLink href="https://ijamm.pubpub.org/pub/o9n1tv3t?readingCollection=7726e307">
-                Read the paper
-              </ExternalLink>
-              <ExternalLink href="https://ijamm.pubpub.org/isam2017">
-                Explore the symposium archive
-              </ExternalLink>
-            </div>
+          <aside className="practice-paper">
+            <p className="project-type">Related paper</p>
+            <p>“Do We Need a New Epistemology for Learning as it Happens in 21st-Century Makerspaces?”</p>
+            <ExternalLink href="https://ijamm.pubpub.org/pub/o9n1tv3t?readingCollection=7726e307">
+              Read
+            </ExternalLink>
           </aside>
         </section>
 
