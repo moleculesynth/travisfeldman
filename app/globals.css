@@ -186,6 +186,23 @@ p {
   max-width: 720px;
 }
 
+.provocation-title span {
+  display: block;
+}
+
+.provocation-title .title-accent {
+  color: var(--blue);
+  font-style: italic;
+  margin-left: clamp(1rem, 5vw, 5rem);
+  position: relative;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.provocation-title:hover .title-accent {
+  color: var(--ink);
+  transform: translateX(0.14em);
+}
+
 .hero-intro {
   font-size: clamp(1.05rem, 1.35vw, 1.32rem);
   line-height: 1.6;
@@ -287,6 +304,105 @@ p {
   margin: 0 auto;
   max-width: var(--max);
   padding: clamp(5rem, 9vw, 9rem) 4vw;
+}
+
+.rouze {
+  background: var(--ink);
+  color: var(--paper);
+  overflow: hidden;
+  padding: clamp(5rem, 9vw, 9rem) 4vw 0;
+}
+
+.rouze .section-label {
+  color: var(--acid);
+  margin: 0 auto 2rem;
+  max-width: var(--max);
+}
+
+.rouze blockquote {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  font-family: var(--serif);
+  font-size: clamp(4.6rem, 12vw, 12rem);
+  font-weight: 400;
+  justify-content: center;
+  letter-spacing: -0.075em;
+  line-height: 0.75;
+  margin: 0 auto;
+  max-width: var(--max);
+  padding: clamp(2rem, 5vw, 5rem) 0 clamp(4rem, 7vw, 7rem);
+}
+
+.rouze-word {
+  display: inline-block;
+  transition: color 180ms ease, transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.rouze-word-one {
+  color: var(--acid);
+  font-style: italic;
+  transform: rotate(-3deg) translateY(-0.06em);
+}
+
+.rouze-word-two {
+  margin: 0 0.08em;
+  transform: translateY(0.15em);
+}
+
+.rouze-word-three {
+  color: #7d9bff;
+  transform: rotate(2deg) translateY(-0.03em);
+}
+
+.rouze blockquote:hover .rouze-word-one {
+  transform: rotate(1deg) translate(-0.05em, 0.05em);
+}
+
+.rouze blockquote:hover .rouze-word-two {
+  color: var(--acid);
+  transform: translateY(0);
+}
+
+.rouze blockquote:hover .rouze-word-three {
+  transform: rotate(-2deg) translateX(0.08em);
+}
+
+.rouze-source {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin: 0 auto 2.5rem;
+  max-width: var(--max);
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.rouze-prompts {
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0 auto;
+  max-width: var(--max);
+}
+
+.rouze-prompts span {
+  border-right: 1px solid rgba(255, 255, 255, 0.28);
+  font-family: var(--serif);
+  font-size: clamp(1rem, 1.6vw, 1.45rem);
+  min-height: 120px;
+  padding: 1.6rem;
+  transition: background 180ms ease, color 180ms ease, padding 180ms ease;
+}
+
+.rouze-prompts span:first-child {
+  border-left: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.rouze-prompts span:hover {
+  background: var(--acid);
+  color: var(--ink);
+  padding-top: 2.3rem;
 }
 
 .section-label {
@@ -651,6 +767,19 @@ p {
   padding: 2.25rem 0 2.6rem;
 }
 
+.publication-blake {
+  background: var(--ink);
+  color: var(--paper);
+  margin-left: clamp(-3.5rem, -3vw, -2rem);
+  padding-left: clamp(2rem, 3vw, 3.5rem) !important;
+  padding-right: clamp(2rem, 3vw, 3.5rem) !important;
+}
+
+.publication-blake .publication-meta,
+.publication-blake .text-link {
+  color: var(--acid);
+}
+
 .publication-meta {
   color: var(--blue);
   margin-bottom: 1rem;
@@ -840,6 +969,10 @@ footer a {
     font-size: clamp(3.9rem, 18vw, 6.2rem);
   }
 
+  .provocation-title .title-accent {
+    margin-left: 0.4em;
+  }
+
   .hero-intro {
     font-size: 1.05rem;
   }
@@ -859,6 +992,48 @@ footer a {
 
   .section-pad {
     padding: 5.5rem 1.25rem;
+  }
+
+  .rouze {
+    padding: 5.5rem 1.25rem 0;
+  }
+
+  .rouze blockquote {
+    align-items: flex-start;
+    flex-direction: column;
+    font-size: clamp(4.2rem, 22vw, 7.5rem);
+    line-height: 0.82;
+    padding: 2rem 0 4rem;
+  }
+
+  .rouze-word-two {
+    margin: 0;
+    transform: translateX(0.2em);
+  }
+
+  .rouze-word-three {
+    align-self: flex-end;
+  }
+
+  .rouze-prompts {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rouze-prompts span {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+    min-height: 105px;
+    padding: 1.2rem;
+  }
+
+  .rouze-prompts span:nth-child(odd) {
+    border-left: 1px solid rgba(255, 255, 255, 0.28);
+  }
+
+  .publication-blake {
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
   }
 
   .statement,

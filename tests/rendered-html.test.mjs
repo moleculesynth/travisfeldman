@@ -31,16 +31,19 @@ test("server-renders the finished Travis Feldman portfolio", async () => {
   const html = await response.text();
   assert.match(
     html,
-    /<title>Travis Feldman — Scholar, Maker, Composer &amp; Educator<\/title>/i,
+    /<title>Travis Feldman — Enter the system\. Change it\.<\/title>/i,
   );
-  assert.match(html, /I build things that invite people in\./);
+  assert.match(html, /Enter the/);
+  assert.match(html, /rouze/);
+  assert.match(html, /the faculties/);
   assert.match(html, /Molecule Synth/);
-  assert.match(html, /Choate i\.d\.Lab/);
+  assert.match(html, /A room for making/);
+  assert.doesNotMatch(html, /Choate|choate\.edu/i);
   assert.match(html, /Nerve Maps/);
   assert.match(html, /Controversial Crabbe/);
   assert.match(html, /The Four Zoas/);
   assert.match(html, /og:image/);
-  assert.match(html, /https:\/\/travisfeldman\.org\/og\.png/);
+  assert.match(html, /https:\/\/travisfeldman\.org\/og-v2\.png/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Codex is working/i);
 });
 
@@ -62,7 +65,7 @@ test("ships the custom share card and removes starter dependencies", async () =>
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../public/og.png", import.meta.url)),
+    readFile(new URL("../public/og-v2.png", import.meta.url)),
   ]);
 
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);

@@ -40,12 +40,16 @@ export default function Home() {
       <div id="content">
         <section className="hero" id="top">
           <div className="hero-copy">
-            <p className="eyebrow">Scholar · maker · composer · educator</p>
-            <h1>I build things that invite people in.</h1>
+            <p className="eyebrow">Poems · circuits · spaces · sound</p>
+            <h1 className="provocation-title">
+              <span>Enter the</span>
+              <span>system.</span>
+              <span className="title-accent">Change it.</span>
+            </h1>
             <p className="hero-intro">
-              I’m Travis Feldman. My work moves between literature, learning,
-              experimental sound, physical electronics, and the communities
-              that form when people make something together.
+              I’m Travis Feldman. I work where literature, learning,
+              experimental sound, and physical electronics become things other
+              people can enter, question, and rearrange.
             </p>
             <div className="hero-actions">
               <a className="button button-primary" href="#work">
@@ -63,23 +67,37 @@ export default function Home() {
               alt="A field of translucent green hexagonal Molecule Synth modules"
             />
             <div className="hero-note hero-note-one">
-              <span>Based in</span>
-              Portland, Oregon
+              <span>Begin anywhere</span>
+              There is no correct first move
             </div>
             <div className="hero-note hero-note-two">
-              <span>Through-line</span>
-              Learning by making
+              <span>Then notice</span>
+              What changes you back
             </div>
           </div>
         </section>
 
+        <section className="rouze" aria-labelledby="rouze-title">
+          <p className="section-label">Not too explicit</p>
+          <blockquote id="rouze-title">
+            <span className="rouze-word rouze-word-one">rouze</span>
+            <span className="rouze-word rouze-word-two">the faculties</span>
+            <span className="rouze-word rouze-word-three">to act.</span>
+          </blockquote>
+          <p className="rouze-source">William Blake, letter to Dr. Trusler, 1799</p>
+          <div className="rouze-prompts" aria-label="Ways to enter the work">
+            <span>Look again</span>
+            <span>Try a combination</span>
+            <span>Disturb the pattern</span>
+            <span>Leave a door open</span>
+          </div>
+        </section>
+
         <section className="statement section-pad">
-          <p className="section-label">A practice in many forms</p>
+          <p className="section-label">Working premise</p>
           <p className="statement-text">
-            Whether the material is a poem, a circuit, a learning space, a
-            photograph, or a pulse of sound, I’m interested in systems that
-            become more expressive when other people can enter and rearrange
-            them.
+            Leave room. Let the thing resist. Make the encounter active enough
+            that its meaning cannot arrive preassembled.
           </p>
         </section>
 
@@ -119,20 +137,17 @@ export default function Home() {
               <div className="project-image-frame">
                 <img
                   src="/images/work-1.jpg"
-                  alt="An interactive hexagonal wall with hand-built wooden controls"
+                  alt="An interactive wall of illuminated hexagons and hand-shaped wooden controls"
                 />
               </div>
               <div className="project-content">
-                <p className="project-type">Learning design · institutional leadership</p>
-                <h3>Choate i.d.Lab</h3>
+                <p className="project-type">Learning space · shared tools · student work</p>
+                <h3>A room for making</h3>
                 <p>
-                  Nine years directing a purpose-built makerspace and weaving
-                  design thinking, creative technology, and hands-on inquiry
-                  across the curriculum.
+                  For years I worked inside a school makerspace—shaping prompts,
+                  tools, events, and the conditions in which students could
+                  surprise themselves and one another.
                 </p>
-                <ExternalLink href="https://www.choate.edu/academics/academic-facilities/lanphier-center" className="project-link">
-                  See the learning environment
-                </ExternalLink>
               </div>
             </article>
 
@@ -216,11 +231,10 @@ export default function Home() {
         <section className="practice section-pad" id="practice">
           <div className="practice-intro">
             <p className="section-label">Learning & making</p>
-            <h2>Build the conditions for discovery.</h2>
+            <h2>Make the conditions. Then get out of the way.</h2>
             <p>
-              My educational work brings a humanities sensibility to technology:
-              tools matter, but the deeper work is helping people acquire the
-              confidence, language, and community to use them on their own terms.
+              A good space does not prescribe an answer. It makes attention,
+              agency, and unexpected combinations more likely.
             </p>
           </div>
 
@@ -228,33 +242,30 @@ export default function Home() {
             <article>
               <span className="practice-number">01</span>
               <div>
-                <h3>Make learning participatory</h3>
+                <h3>Begin before you understand</h3>
                 <p>
-                  From first-time Arduino experiments to student-led game jams,
-                  good prompts create many legitimate ways to begin—and many
-                  directions for expertise to grow.
+                  Touch the material. Make a provisional move. Let the next
+                  question come from what actually happened.
                 </p>
               </div>
             </article>
             <article>
               <span className="practice-number">02</span>
               <div>
-                <h3>Connect disciplines through materials</h3>
+                <h3>Put abstractions in someone’s hands</h3>
                 <p>
-                  Prototypes make abstract ideas discussable. A shared object can
-                  link engineering, music, art, language, and social questions
-                  without flattening their differences.
+                  A shared object can join engineering, music, art, language,
+                  and social questions without flattening their differences.
                 </p>
               </div>
             </article>
             <article>
               <span className="practice-number">03</span>
               <div>
-                <h3>Design for agency, not novelty</h3>
+                <h3>Leave the system open</h3>
                 <p>
-                  The measure of a tool or space is not how impressive it looks,
-                  but whether people leave more capable of asking and pursuing
-                  their own questions.
+                  The measure is not spectacle. It is whether someone leaves
+                  more capable of asking—and pursuing—their own questions.
                 </p>
               </div>
             </article>
@@ -286,12 +297,10 @@ export default function Home() {
         <section className="writing section-pad" id="writing">
           <div className="writing-lead">
             <p className="section-label">Scholarship & writing</p>
-            <h2>Texts are designed objects, too.</h2>
+            <h2>The unfinished is alive.</h2>
             <p>
-              Before electronics and makerspaces, my central material was
-              literature. That work still shapes how I think: close attention to
-              structure, transmission, ambiguity, and what happens when a work
-              meets its readers.
+              A poem is not a sealed object. Its revisions, contradictions,
+              histories, and readers continue to make it happen.
             </p>
             <div className="subject-cloud" aria-label="Research subjects">
               <span>William Blake</span>
@@ -303,18 +312,7 @@ export default function Home() {
           </div>
 
           <div className="publication-list">
-            <article>
-              <p className="publication-meta">Studies in Romanticism · 2012</p>
-              <h3>Controversial Crabbe: A “Namby-Pamby Mandeville”</h3>
-              <p>
-                An essay on the social realities, aesthetic controversy, and
-                critical reception surrounding George Crabbe’s poetry.
-              </p>
-              <ExternalLink href="https://www.jstor.org/stable/24247222">
-                View the publication
-              </ExternalLink>
-            </article>
-            <article>
+            <article className="publication-blake">
               <p className="publication-meta">Ph.D. dissertation · University of Washington · 2005</p>
               <h3>
                 The Contexts and Production of William Blake’s “The Four Zoas”
@@ -325,6 +323,17 @@ export default function Home() {
               </p>
               <ExternalLink href="https://cinema.washington.edu/people/travis-feldman">
                 View the university record
+              </ExternalLink>
+            </article>
+            <article>
+              <p className="publication-meta">Studies in Romanticism · 2012</p>
+              <h3>Controversial Crabbe: A “Namby-Pamby Mandeville”</h3>
+              <p>
+                An essay on the social realities, aesthetic controversy, and
+                critical reception surrounding George Crabbe’s poetry.
+              </p>
+              <ExternalLink href="https://www.jstor.org/stable/24247222">
+                View the publication
               </ExternalLink>
             </article>
             <article>
@@ -372,10 +381,10 @@ export default function Home() {
               I hold a Ph.D. in Comparative Literature from the University of
               Washington, an M.A. in Classics from the University of Victoria,
               and a B.A. from St. John’s College. I taught literature before
-              spending nine years directing the i.d.Lab at Choate Rosemary Hall.
-              Across those settings, the question has remained remarkably
-              consistent: how do people learn to see a system—and then gain the
-              confidence to change it?
+              spending years directing a school makerspace. Across those
+              settings, the question has remained remarkably consistent: how do
+              people learn to see a system—and then gain the confidence to
+              change it?
             </p>
             <p>
               I’m now based in Portland and open to thoughtful collaborations
@@ -398,7 +407,7 @@ export default function Home() {
 
         <section className="contact section-pad">
           <p className="section-label">Start somewhere</p>
-          <h2>Have a question, a strange idea, or a project that crosses boundaries?</h2>
+          <h2>Bring me a problem that won’t stay in its category.</h2>
           <a href="mailto:moleculesynth@gmail.com">
             moleculesynth@gmail.com <Arrow />
           </a>
