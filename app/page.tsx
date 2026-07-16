@@ -40,23 +40,23 @@ export default function Home() {
       <div id="content">
         <section className="hero" id="top">
           <div className="hero-copy">
-            <p className="eyebrow">Poems · circuits · spaces · sound</p>
+            <p className="eyebrow">Words · circuits · rooms · sound</p>
             <h1 className="provocation-title">
-              <span>Enter the</span>
-              <span>system.</span>
-              <span className="title-accent">Change it.</span>
+              <span>The life</span>
+              <span>between</span>
+              <span className="title-accent">things.</span>
             </h1>
             <p className="hero-intro">
-              I’m Travis Feldman. I work where literature, learning,
-              experimental sound, and physical electronics become things other
-              people can enter, question, and rearrange.
+              I’m Travis Feldman. My work gathers around literature, learning,
+              experimental sound, and physical electronics—especially the
+              unstable space where one becomes another.
             </p>
             <div className="hero-actions">
               <a className="button button-primary" href="#work">
-                Explore selected work <span aria-hidden="true">↓</span>
+                Selected work <span aria-hidden="true">↓</span>
               </a>
               <a className="button button-secondary" href="mailto:moleculesynth@gmail.com">
-                Start a conversation
+                Email
               </a>
             </div>
           </div>
@@ -67,50 +67,31 @@ export default function Home() {
               alt="A field of translucent green hexagonal Molecule Synth modules"
             />
             <div className="hero-note hero-note-one">
-              <span>Begin anywhere</span>
-              There is no correct first move
+              <span>Materials</span>
+              Words, voltage, rooms, sound
             </div>
             <div className="hero-note hero-note-two">
-              <span>Then notice</span>
-              What changes you back
+              <span>Possibility</span>
+              Another arrangement
             </div>
-          </div>
-        </section>
-
-        <section className="rouze" aria-labelledby="rouze-title">
-          <p className="section-label">Not too explicit</p>
-          <blockquote id="rouze-title">
-            <span className="rouze-word rouze-word-one">rouze</span>
-            <span className="rouze-word rouze-word-two">the faculties</span>
-            <span className="rouze-word rouze-word-three">to act.</span>
-          </blockquote>
-          <p className="rouze-source">William Blake, letter to Dr. Trusler, 1799</p>
-          <div className="rouze-prompts" aria-label="Ways to enter the work">
-            <span>Look again</span>
-            <span>Try a combination</span>
-            <span>Disturb the pattern</span>
-            <span>Leave a door open</span>
           </div>
         </section>
 
         <section className="statement section-pad">
-          <p className="section-label">Working premise</p>
+          <p className="section-label">In practice</p>
           <p className="statement-text">
-            Leave room. Let the thing resist. Make the encounter active enough
-            that its meaning cannot arrive preassembled.
+            A poem, a circuit, a room, a pulse: each becomes more interesting
+            when it leaves something unresolved.
           </p>
         </section>
 
         <section className="work section-pad" id="work">
           <div className="section-heading">
             <div>
-              <p className="section-label">Selected work</p>
-              <h2>Ideas made tangible.</h2>
+              <p className="section-label">Work</p>
+              <h2>Made, played, revised.</h2>
             </div>
-            <p>
-              Instruments, spaces, games, gatherings, and recordings—each one
-              an invitation to experiment.
-            </p>
+            <p>Instruments, spaces, games, gatherings.</p>
           </div>
 
           <div className="project-grid">
@@ -231,28 +212,25 @@ export default function Home() {
         <section className="practice section-pad" id="practice">
           <div className="practice-intro">
             <p className="section-label">Learning & making</p>
-            <h2>Make the conditions. Then get out of the way.</h2>
-            <p>
-              A good space does not prescribe an answer. It makes attention,
-              agency, and unexpected combinations more likely.
-            </p>
+            <h2>Room to find out.</h2>
+            <p>Tools, attention, and the possibility of surprise.</p>
           </div>
 
           <div className="practice-list">
             <article>
               <span className="practice-number">01</span>
               <div>
-                <h3>Begin before you understand</h3>
+                <h3>The useful uncertainty of beginning</h3>
                 <p>
-                  Touch the material. Make a provisional move. Let the next
-                  question come from what actually happened.
+                  Material first; the next question often arrives from what
+                  actually happened.
                 </p>
               </div>
             </article>
             <article>
               <span className="practice-number">02</span>
               <div>
-                <h3>Put abstractions in someone’s hands</h3>
+                <h3>Abstractions, held</h3>
                 <p>
                   A shared object can join engineering, music, art, language,
                   and social questions without flattening their differences.
@@ -262,7 +240,7 @@ export default function Home() {
             <article>
               <span className="practice-number">03</span>
               <div>
-                <h3>Leave the system open</h3>
+                <h3>An open system</h3>
                 <p>
                   The measure is not spectacle. It is whether someone leaves
                   more capable of asking—and pursuing—their own questions.
@@ -296,12 +274,9 @@ export default function Home() {
 
         <section className="writing section-pad" id="writing">
           <div className="writing-lead">
-            <p className="section-label">Scholarship & writing</p>
-            <h2>The unfinished is alive.</h2>
-            <p>
-              A poem is not a sealed object. Its revisions, contradictions,
-              histories, and readers continue to make it happen.
-            </p>
+            <p className="section-label">Writing</p>
+            <h2>Forms in motion.</h2>
+            <p>Poems keep happening—in revision, transmission, and reading.</p>
             <div className="subject-cloud" aria-label="Research subjects">
               <span>William Blake</span>
               <span>George Crabbe</span>
@@ -371,7 +346,7 @@ export default function Home() {
           </div>
           <div className="about-copy">
             <p className="section-label">About</p>
-            <h2>A humanist in the workshop.</h2>
+            <h2>A reader among machines.</h2>
             <p className="about-large">
               I’m a scholar, educator, designer, and musician whose path has run
               from comparative literature and classics to academic makerspaces,
@@ -406,8 +381,8 @@ export default function Home() {
         </section>
 
         <section className="contact section-pad">
-          <p className="section-label">Start somewhere</p>
-          <h2>Bring me a problem that won’t stay in its category.</h2>
+          <p className="section-label">Contact</p>
+          <h2>Another arrangement?</h2>
           <a href="mailto:moleculesynth@gmail.com">
             moleculesynth@gmail.com <Arrow />
           </a>

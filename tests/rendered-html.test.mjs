@@ -31,11 +31,12 @@ test("server-renders the finished Travis Feldman portfolio", async () => {
   const html = await response.text();
   assert.match(
     html,
-    /<title>Travis Feldman — Enter the system\. Change it\.<\/title>/i,
+    /<title>Travis Feldman — The life between things<\/title>/i,
   );
-  assert.match(html, /Enter the/);
-  assert.match(html, /rouze/);
-  assert.match(html, /the faculties/);
+  assert.match(html, /The life/);
+  assert.match(html, /A reader among machines/);
+  assert.match(html, /Another arrangement\?/);
+  assert.doesNotMatch(html, /rouze|the faculties to act/i);
   assert.match(html, /Molecule Synth/);
   assert.match(html, /A room for making/);
   assert.doesNotMatch(html, /Choate|choate\.edu/i);
@@ -43,7 +44,7 @@ test("server-renders the finished Travis Feldman portfolio", async () => {
   assert.match(html, /Controversial Crabbe/);
   assert.match(html, /The Four Zoas/);
   assert.match(html, /og:image/);
-  assert.match(html, /https:\/\/travisfeldman\.org\/og-v2\.png/);
+  assert.match(html, /https:\/\/travisfeldman\.org\/og-blake\.jpg/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Codex is working/i);
 });
 
@@ -65,7 +66,7 @@ test("ships the custom share card and removes starter dependencies", async () =>
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../public/og-v2.png", import.meta.url)),
+    readFile(new URL("../public/og-blake.jpg", import.meta.url)),
   ]);
 
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);

@@ -3,31 +3,31 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://travisfeldman.org"),
-  title: "Travis Feldman — Enter the system. Change it.",
+  title: "Travis Feldman — The life between things",
   description:
     "Poems, circuits, spaces, and sound: the work of Travis Feldman across literature, learning, experimental electronics, photography, and music.",
   openGraph: {
-    title: "Travis Feldman — Enter the system. Change it.",
+    title: "Travis Feldman — The life between things",
     description:
-      "Poems, circuits, spaces, and sound—work made to be entered, questioned, and rearranged.",
+      "Words, circuits, rooms, and sound—work across literature, learning, electronics, photography, and music.",
     type: "website",
     url: "https://travisfeldman.org",
     siteName: "Travis Feldman",
     images: [
       {
-        url: "/og-v2.png",
-        width: 1730,
-        height: 909,
-        alt: "Travis Feldman — Enter the system. Change it.",
+        url: "/og-blake.jpg",
+        width: 1929,
+        height: 1745,
+        alt: "William Blake’s Spectre over Los, from Jerusalem plate 6",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Travis Feldman — Enter the system. Change it.",
+    title: "Travis Feldman — The life between things",
     description:
-      "Poems, circuits, spaces, and sound—work made to be entered, questioned, and rearranged.",
-    images: ["/og-v2.png"],
+      "Words, circuits, rooms, and sound—work across literature, learning, electronics, photography, and music.",
+    images: ["/og-blake.jpg"],
   },
 };
 
