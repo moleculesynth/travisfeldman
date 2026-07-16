@@ -39,6 +39,11 @@ test("server-renders the image-first Travis Feldman portfolio", async () => {
   assert.match(html, /images/);
   assert.match(html, /language/);
   assert.match(html, /Molecule[\s\S]*Synth/);
+  assert.match(html, /100[\s\S]*Trees/);
+  assert.match(html, /Hegelian meditation on the one and the many/);
+  assert.match(html, /Sleeping Giant State Park/);
+  assert.match(html, /Selva[\s\S]*Oscura/);
+  assert.match(html, /Dantean exploration of slow exposure and digital night/);
   assert.match(html, /Micro\/[\s\S]*graphia/);
   assert.match(html, /Night Shift/);
   assert.match(html, /Nerve[\s\S]*Maps/);
@@ -68,13 +73,15 @@ test("keeps Kickstarter, audio, writing, and project destinations direct", async
   assert.doesNotMatch(html, /linkedin\.com/i);
 });
 
-test("ships the custom share card and keeps source assets out of the site", async () => {
-  const [packageJson, layout, page, gitignore, ogImage] = await Promise.all([
+test("ships recent-project images, the custom share card, and no source library", async () => {
+  const [packageJson, layout, page, gitignore, ogImage, treeImage, selvaImage] = await Promise.all([
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../.gitignore", import.meta.url), "utf8"),
     readFile(new URL("../public/og-visual.png", import.meta.url)),
+    readFile(new URL("../public/art/trees-35.jpg", import.meta.url)),
+    readFile(new URL("../public/art/selva-moon-trees.jpg", import.meta.url)),
   ]);
 
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
@@ -82,4 +89,6 @@ test("ships the custom share card and keeps source assets out of the site", asyn
   assert.doesNotMatch(layout, /codex-preview|Starter Project/);
   assert.match(gitignore, /\/source-assets\//);
   assert.ok(ogImage.byteLength > 100_000);
+  assert.ok(treeImage.byteLength > 100_000);
+  assert.ok(selvaImage.byteLength > 100_000);
 });

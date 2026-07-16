@@ -36,7 +36,7 @@ export default function Home() {
         </a>
         <nav aria-label="Primary navigation">
           <a href="#molecule">Molecule</a>
-          <a href="#images">Images</a>
+          <a href="#recent">Recent work</a>
           <a href="#sound">Sound</a>
           <a href="#archive">Archive</a>
         </nav>
@@ -147,10 +147,85 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="trees" id="recent">
+          <div className="trees-heading">
+            <div>
+              <p className="eyebrow">02 · Photographic sequence · 2024</p>
+              <h2>100 <em>Trees</em></h2>
+            </div>
+            <div className="trees-description">
+              <p>
+                A Hegelian meditation on the one and the many: photographs of
+                the same tree, from the same position, over the course of a year.
+              </p>
+              <p>Sleeping Giant State Park · Connecticut</p>
+            </div>
+          </div>
+          <div className="trees-sequence" aria-label="100 Trees seasonal sequence">
+            <figure>
+              <img src="/art/trees-01.jpg" alt="The tree at a rocky overlook in late autumn" />
+              <figcaption>01</figcaption>
+            </figure>
+            <figure>
+              <img src="/art/trees-07.jpg" alt="The same tree against a darkening autumn sky" />
+              <figcaption>07</figcaption>
+            </figure>
+            <figure>
+              <img src="/art/trees-35.jpg" alt="The same tree and rocky overlook covered in snow" />
+              <figcaption>35</figcaption>
+            </figure>
+            <figure>
+              <img src="/art/trees-64.jpg" alt="The same tree as green returns to the hillside" />
+              <figcaption>64</figcaption>
+            </figure>
+            <figure>
+              <img src="/art/trees-73.jpg" alt="The same tree illuminated by warm seasonal light" />
+              <figcaption>73</figcaption>
+            </figure>
+            <figure>
+              <img src="/art/trees-95.jpg" alt="The same tree overlooking a fully green landscape" />
+              <figcaption>95</figcaption>
+            </figure>
+          </div>
+          <p className="trees-count">one tree · one position · one year · one hundred encounters</p>
+        </section>
+
+        <section className="selva">
+          <div className="selva-heading">
+            <p className="eyebrow">03 · Photographic collection · 2022–2023</p>
+            <h2>Selva<br /><em>Oscura</em></h2>
+            <p>
+              A Dantean exploration of slow exposure and digital night
+              photography: the ordinary woods becoming strange at the edge of
+              what the camera can see.
+            </p>
+          </div>
+          <div className="selva-grid">
+            <figure className="selva-moon-trees">
+              <img src="/art/selva-moon-trees.jpg" alt="Moonlight caught in the branches of old trees" />
+            </figure>
+            <figure className="selva-dusk-forest">
+              <img src="/art/selva-dusk-forest.jpg" alt="Dark tree trunks against the last light of evening" />
+            </figure>
+            <figure className="selva-moon-sky">
+              <img src="/art/selva-moon-sky.jpg" alt="The moon hanging above a dark horizon in a long exposure" />
+            </figure>
+            <figure className="selva-vertical-woods">
+              <img src="/art/selva-vertical-woods.jpg" alt="A vertical view through a dim forest canopy" />
+            </figure>
+            <figure className="selva-lit-woods">
+              <img src="/art/selva-lit-woods.jpg" alt="Dense woodland glowing with gathered evening light" />
+            </figure>
+            <figure className="selva-stars">
+              <img src="/art/selva-stars.jpg" alt="A field of stars recorded in a deep blue night sky" />
+            </figure>
+          </div>
+        </section>
+
         <section className="micrographia" id="images">
           <div className="collection-heading">
             <div>
-              <p className="eyebrow">02 · Photographic collection · 2025</p>
+              <p className="eyebrow">04 · Photographic collection · 2025</p>
               <h2>Micro/<br />graphia</h2>
             </div>
             <p>
@@ -198,7 +273,7 @@ export default function Home() {
 
         <section className="night-shift">
           <div className="night-title">
-            <p className="eyebrow">03 · Night Shift · 2025</p>
+            <p className="eyebrow">05 · Night Shift · 2025</p>
             <h2>Still<br />working</h2>
           </div>
           <figure className="night-wide">
@@ -226,7 +301,7 @@ export default function Home() {
 
         <section className="sound" id="sound">
           <div className="sound-copy">
-            <p className="eyebrow">04 · Listen</p>
+            <p className="eyebrow">06 · Listen</p>
             <h2>Nerve<br />Maps</h2>
             <p>
               Phase-based structures, emergent timbre, modulated texture, and
@@ -253,7 +328,7 @@ export default function Home() {
         <section className="bpow">
           <div className="collection-heading bpow-heading">
             <div>
-              <p className="eyebrow">05 · Performance / community / salvaged sound</p>
+              <p className="eyebrow">07 · Performance / community / salvaged sound</p>
               <h2>BPOW!!!</h2>
             </div>
             <div>
@@ -291,7 +366,7 @@ export default function Home() {
 
         <section className="archive" id="archive">
           <div className="archive-title">
-            <p className="eyebrow">06 · Moving image archive · 2001</p>
+            <p className="eyebrow">08 · Moving image archive · 2001</p>
             <h2>Tarot TV</h2>
             <p>Video noise, found gestures, technological divination.</p>
           </div>
@@ -306,7 +381,7 @@ export default function Home() {
 
         <section className="prototypes">
           <div className="prototype-heading">
-            <p className="eyebrow">07 · Playable systems / prototypes</p>
+            <p className="eyebrow">09 · Playable systems / prototypes</p>
             <h2>Things that<br />want to move</h2>
             <p>Tiles become a race. Circuits grow legs. A board becomes a behavior.</p>
           </div>
