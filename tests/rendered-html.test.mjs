@@ -23,7 +23,7 @@ async function render() {
   );
 }
 
-test("server-renders the finished Travis Feldman portfolio", async () => {
+test("server-renders the image-first Travis Feldman portfolio", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -31,54 +31,55 @@ test("server-renders the finished Travis Feldman portfolio", async () => {
   const html = await response.text();
   assert.match(
     html,
-    /<title>Travis Feldman — Literature, Learning, Experimental Sound, Physical Electronics<\/title>/i,
+    /<title>Travis Feldman — Objects, Signals, Images, Language<\/title>/i,
   );
-  assert.match(html, /Travis Feldman\./);
-  assert.match(html, /Literature, Learning, Experimental sound, Physical electronics/);
-  assert.match(html, /Marshall McLuhan/);
-  assert.match(html, /Claude Lévi-Strauss/);
-  assert.match(html, /poetry on potsherds/);
-  assert.match(html, /Make, play, revise/);
-  assert.match(html, /Shenzhen, Santiago/);
-  assert.match(html, /Music &amp; composition/);
+  assert.match(html, /Artist · designer · musician · educator/);
+  assert.match(html, /Objects/);
+  assert.match(html, /signals/);
+  assert.match(html, /images/);
+  assert.match(html, /language/);
+  assert.match(html, /Molecule[\s\S]*Synth/);
+  assert.match(html, /Micro\/[\s\S]*graphia/);
+  assert.match(html, /Night Shift/);
+  assert.match(html, /Nerve[\s\S]*Maps/);
+  assert.match(html, /BPOW!!!/);
+  assert.match(html, /Tarot TV/);
+  assert.match(html, /Things that[\s\S]*want to move/);
+  assert.match(html, /PIJIN/);
   assert.match(html, /A reader among machines/);
-  assert.match(html, /Another arrangement\?/);
-  assert.doesNotMatch(html, /Photo portfolios/);
-  assert.doesNotMatch(html, /rouze|the faculties to act/i);
-  assert.match(html, /Molecule Synth/);
-  assert.match(html, /Makerspaces/);
-  assert.doesNotMatch(html, /Choate|choate\.edu/i);
-  assert.match(html, /Nerve Maps/);
-  assert.match(html, /Controversial Crabbe/);
-  assert.match(html, /The Four Zoas/);
-  assert.match(html, /og:image/);
-  assert.match(html, /https:\/\/travisfeldman\.org\/og-blake\.jpg/);
+  assert.match(html, /Let&#x27;s make contact/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Codex is working/i);
 });
 
-test("keeps important destinations direct and independent of LinkedIn", async () => {
+test("keeps Kickstarter, audio, writing, and project destinations direct", async () => {
   const response = await render();
   const html = await response.text();
 
+  assert.match(html, /https:\/\/www\.kickstarter\.com\/profile\/travisfeldman/);
+  assert.match(html, /https:\/\/www\.kickstarter\.com\/projects\/travisfeldman\/molecule-synth/);
+  assert.match(html, /https:\/\/www\.kickstarter\.com\/projects\/travisfeldman\/pijin-the-spelling-game-of-the-spoken-word/);
+  assert.match(html, /https:\/\/www\.kickstarter\.com\/projects\/travisfeldman\/bpow-battery-powered-orchestra-workshop/);
   assert.match(html, /https:\/\/moleculesynth\.com/);
   assert.match(html, /https:\/\/nervemaps\.bandcamp\.com/);
-  assert.match(html, /https:\/\/www\.behance\.net\/molecule/);
+  assert.match(html, /https:\/\/themanymansions\.bandcamp\.com/);
+  assert.match(html, /https:\/\/www\.awesomefoundation\.org\/en\/projects\/30742-shrink-circuits-nomad-lab/);
   assert.match(html, /https:\/\/ijamm\.pubpub\.org\/pub\/o9n1tv3t/);
-  assert.match(html, /https:\/\/bmcr\.brynmawr\.edu\/2002\/2002\.09\.37/);
   assert.match(html, /mailto:moleculesynth@gmail\.com/);
   assert.doesNotMatch(html, /linkedin\.com/i);
 });
 
-test("ships the custom share card and removes starter dependencies", async () => {
-  const [packageJson, layout, page, ogImage] = await Promise.all([
+test("ships the custom share card and keeps source assets out of the site", async () => {
+  const [packageJson, layout, page, gitignore, ogImage] = await Promise.all([
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../public/og-blake.jpg", import.meta.url)),
+    readFile(new URL("../.gitignore", import.meta.url), "utf8"),
+    readFile(new URL("../public/og-visual.png", import.meta.url)),
   ]);
 
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(page, /_sites-preview|SkeletonPreview/);
   assert.doesNotMatch(layout, /codex-preview|Starter Project/);
+  assert.match(gitignore, /\/source-assets\//);
   assert.ok(ogImage.byteLength > 100_000);
 });

@@ -3,31 +3,31 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://travisfeldman.org"),
-  title: "Travis Feldman — Literature, Learning, Experimental Sound, Physical Electronics",
+  title: "Travis Feldman — Objects, Signals, Images, Language",
   description:
-    "Travis Feldman. Literature, learning, experimental sound, and physical electronics.",
+    "Travis Feldman: physical electronics, photography, experimental sound, games, moving images, and shared learning spaces.",
   openGraph: {
-    title: "Travis Feldman — Literature, Learning, Experimental Sound, Physical Electronics",
+    title: "Travis Feldman — Objects, Signals, Images, Language",
     description:
-      "Literature, learning, experimental sound, and physical electronics.",
+      "Physical electronics, photography, experimental sound, games, moving images, and shared learning spaces.",
     type: "website",
     url: "https://travisfeldman.org",
     siteName: "Travis Feldman",
     images: [
       {
-        url: "/og-blake.jpg",
-        width: 1929,
-        height: 1745,
-        alt: "William Blake’s Spectre over Los, from Jerusalem plate 6",
+        url: "/og-visual.png",
+        width: 1731,
+        height: 909,
+        alt: "Travis Feldman — Objects, Signals, Images, Language, with Molecule Synth, Micrographia, and BPOW imagery",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Travis Feldman — Literature, Learning, Experimental Sound, Physical Electronics",
+    title: "Travis Feldman — Objects, Signals, Images, Language",
     description:
-      "Literature, learning, experimental sound, and physical electronics.",
-    images: ["/og-blake.jpg"],
+      "Physical electronics, photography, experimental sound, games, moving images, and shared learning spaces.",
+    images: ["/og-visual.png"],
   },
 };
 
