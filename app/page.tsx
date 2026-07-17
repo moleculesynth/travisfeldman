@@ -25,6 +25,25 @@ const IndexLink = ({ href, children, year }: {
   </a>
 );
 
+const ArchiveGrid = ({ images, className = "" }: {
+  images: ReadonlyArray<{ src: string; alt: string; className?: string }>;
+  className?: string;
+}) => (
+  <div className={`archive-grid ${className}`.trim()}>
+    {images.map(({ src, alt, className: imageClass }, index) => (
+      <figure className={imageClass} key={`${src}-${index}`}>
+        <img src={src} alt={alt} />
+      </figure>
+    ))}
+  </div>
+);
+
+const numberedArchive = (prefix: string, count: number, description: string) =>
+  Array.from({ length: count }, (_, index) => ({
+    src: `/art/${prefix}-${String(index + 1).padStart(2, "0")}.jpg`,
+    alt: `${description} ${index + 1}`,
+  }));
+
 const ProjectHeader = ({ title, year, children, links, expanded, onToggle, controlsId }: {
   title: React.ReactNode;
   year?: string;
@@ -45,7 +64,7 @@ const ProjectHeader = ({ title, year, children, links, expanded, onToggle, contr
           type="button"
         >
           <h2>{title}</h2>
-          <span>{expanded ? "Close view ×" : "More images +"}</span>
+          <span>{expanded ? "[−] close" : "[+] more images"}</span>
         </button>
       ) : <h2>{title}</h2>}
       {year ? <time>{year}</time> : null}
@@ -85,7 +104,6 @@ const ExpandableProject = ({ id, className, title, year, summary, links, preview
       {preview}
       {more ? (
         <div className="expanded-view" hidden={!expanded} id={controlsId}>
-          <p className="expanded-label">Extended project view</p>
           {more}
         </div>
       ) : null}
@@ -102,14 +120,52 @@ const tarotFrames = [
   ["/art/tarot-ceiling.jpg", "An arched ceiling blurred by video motion"],
 ] as const;
 
-const tarotMore = [
-  ["/art/tarot-speechmaker.jpg", "A speaker transformed by analog video color"],
-  ["/art/tarot-triangulation.jpg", "A figure caught in a triangular video composition"],
-  ["/art/tarot-exodus.jpg", "A layered figure moving through video noise"],
-  ["/art/tarot-watcher.jpg", "A watching face suspended in saturated blue"],
-  ["/art/tarot-microphone.jpg", "A microphone isolated as an electronic omen"],
-  ["/art/tarot-glance.jpg", "A fearful glance interrupted by scan lines"],
-] as const;
+const microArchive = numberedArchive("micro-more", 9, "Micrographia study");
+const nightArchive = numberedArchive("night-more", 6, "Night Shift photograph");
+const treeArchive = [
+  ...[13, 19, 25, 43, 58, 82].map((number) => ({ src: `/art/trees-${number}.jpg`, alt: `100 Trees sequence, position ${number}` })),
+  ...numberedArchive("trees-more-new", 12, "Additional 100 Trees photograph"),
+];
+const selvaArchive = [
+  ...[2184, 2317, 2398, 2700].map((number) => ({ src: `/art/selva-${number}.jpg`, alt: `Selva Oscura night study ${number}` })),
+  ...numberedArchive("selva-more-new", 8, "Additional Selva Oscura photograph"),
+];
+const metalArchive = numberedArchive("metal-more", 30, "Metalworks and Design study");
+const tarotArchive = numberedArchive("tarot-archive", 18, "Tarot TV still");
+const bpowArchive = numberedArchive("bpow-archive", 12, "BPOW workshop and performance photograph");
+const consumerArchive = [
+  ...numberedArchive("consumer-more-new", 5, "Consumerisms work"),
+  { src: "/art/consumerisms-view-5.jpg", alt: "Consumerisms installation view" },
+  { src: "/art/consumerisms-view-6.jpg", alt: "Consumerisms sculpture view" },
+  { src: "/art/consumerisms-garden.jpg", alt: "Consumerisms garden work" },
+  { src: "/art/consumerisms-ikarus.jpg", alt: "Ikarus from Consumerisms" },
+  { src: "/art/consumerisms-view-1.jpg", alt: "Detail of a Consumerisms figure", className: "archive-crop crop-left" },
+  { src: "/art/consumerisms-sungod.jpg", alt: "Detail of Sungod", className: "archive-crop crop-center" },
+  { src: "/art/consumerisms-cosmos.jpg", alt: "Detail of New Cosmos", className: "archive-crop crop-right" },
+];
+const gantoonsArchive = [
+  ...[1, 2, 3].map((number) => ({ src: `/art/gantoons-still-${number}.jpg`, alt: `GANtoons loop still ${number}` })),
+  ...[1, 2, 3].map((number) => ({ src: `/art/gantoons-cover-still-${number}.jpg`, alt: `Comic Book Covers GAN still ${number}` })),
+  { src: "/art/gantoons-loop-title.jpg", alt: "GANtoons generated image sequence" },
+  { src: "/art/gantoons-cover-title.jpg", alt: "Comic Book Covers generated image sequence" },
+  { src: "/art/gantoons-comic-covers.jpg", alt: "Detail from the comic cover GAN", className: "archive-crop crop-center" },
+];
+const moviePosterArchive = [
+  ...[1, 2, 3].map((number) => ({ src: `/art/movieposter-still-${number}.jpg`, alt: `MoviePosterGAN still ${number}` })),
+  ...Array.from({ length: 6 }, (_, index) => ({
+    src: "/art/gantoons-movie-posters.jpg",
+    alt: `MoviePosterGAN poster detail ${index + 1}`,
+    className: `archive-crop poster-crop-${index + 1}`,
+  })),
+];
+const moleculeArchive = [
+  ...[1, 4, 6, 7].map((number) => ({ src: `/images/work-${number}.jpg`, alt: `Molecule Synth view ${number}` })),
+  ...[1, 2, 3, 4].map((number) => ({ src: `/images/photo-${number}.jpg`, alt: `Molecule Synth photograph ${number}` })),
+  { src: "/images/work-2.jpg", alt: "Molecule Synth module detail", className: "archive-crop crop-left" },
+  { src: "/images/work-3.jpg", alt: "Illuminated Molecule Synth detail", className: "archive-crop crop-center" },
+  { src: "/images/portrait-cover.jpg", alt: "Translucent Molecule Synth detail", className: "archive-crop crop-right" },
+  { src: "/images/work-7.jpg", alt: "Molecule Synth assembly detail", className: "archive-crop crop-center" },
+];
 
 export default function Home() {
   return (
@@ -118,7 +174,7 @@ export default function Home() {
 
       <aside className="index-panel">
         <div className="identity">
-          <p className="version">Homepage 0.3.3</p>
+          <p className="version">Homepage 0.3.4</p>
           <h1>Travis Feldman</h1>
           <p>Objects, images, signals, language, and ways of learning together.</p>
         </div>
@@ -151,10 +207,19 @@ export default function Home() {
             <IndexLink href="#nerve-maps" year="2025–present">Nerve Maps</IndexLink>
             <IndexLink href="#many-mansions" year="2012–14">The Many Mansions</IndexLink>
           </section>
+
+          <section>
+            <h2>Writing + research</h2>
+            <ExternalLink href="https://ijamm.pubpub.org/pub/o9n1tv3t?readingCollection=7726e307">Learning in makerspaces</ExternalLink>
+            <ExternalLink href="https://educ-met-site.sites.olt.ubc.ca/files/2023/05/Feldman_MET_25MAY2023.pdf">Makerspaces as social systems</ExternalLink>
+            <ExternalLink href="https://cinema.washington.edu/people/travis-feldman">William Blake / The Four Zoas</ExternalLink>
+            <ExternalLink href="https://www.jstor.org/stable/24247222">Controversial Crabbe</ExternalLink>
+            <ExternalLink href="https://bmcr.brynmawr.edu/2002/2002.09.37">Sappho: Poems and Fragments</ExternalLink>
+          </section>
         </nav>
 
         <div className="index-footer">
-          <a href="#about">About + writing</a>
+          <a href="#about">About</a>
           <a href="mailto:moleculesynth@gmail.com">Email</a>
           <ExternalLink href="https://www.kickstarter.com/profile/travisfeldman">Kickstarter</ExternalLink>
           <ExternalLink href="https://github.com/moleculesynth">GitHub</ExternalLink>
@@ -163,7 +228,7 @@ export default function Home() {
 
       <div className="gallery-panel" id="gallery">
         <header className="gallery-banner">
-          <p>Selected work · click a project title for more images</p>
+          <p>Selected work</p>
           <a href="#about">Info ↓</a>
         </header>
 
@@ -181,13 +246,7 @@ export default function Home() {
               <figure className="micro-d"><img src="/art/micro-town-council.jpg" alt="Three translucent insect forms facing one another" /></figure>
             </div>
           }
-          more={
-            <div className="more-grid more-grid-micro">
-              <figure><img src="/art/micro-dreamy.jpg" alt="A luminous specimen dissolving into pale light" /></figure>
-              <figure className="detail-crop"><img src="/art/micro-cicadas.jpg" alt="Detail of the cicada specimen arrangement" /></figure>
-              <figure className="detail-crop"><img src="/art/micro-town-council.jpg" alt="Detail of translucent insect forms" /></figure>
-            </div>
-          }
+          more={<ArchiveGrid images={microArchive} />}
         />
 
         <ExpandableProject
@@ -203,12 +262,7 @@ export default function Home() {
               <figure className="night-c"><img src="/art/night-skyward-2.jpg" alt="A high-key building dissolving into vertical streaks" /></figure>
             </div>
           }
-          more={
-            <div className="more-grid more-grid-night">
-              <figure><img src="/art/night-still-working.jpg" alt="An office building still illuminated late at night" /></figure>
-              <figure className="detail-crop"><img src="/art/night-void-color.jpg" alt="Detail of illuminated office windows" /></figure>
-            </div>
-          }
+          more={<ArchiveGrid images={nightArchive} />}
         />
 
         <ExpandableProject
@@ -227,13 +281,7 @@ export default function Home() {
               <figure><img src="/art/trees-95.jpg" alt="The same tree overlooking a fully green landscape" /><figcaption>95</figcaption></figure>
             </div>
           }
-          more={
-            <div className="trees-stream more-trees" aria-label="Additional 100 Trees photographs">
-              {[13, 19, 25, 43, 58, 82].map((number) => (
-                <figure key={number}><img src={`/art/trees-${number}.jpg`} alt={`The same tree at point ${number} in the yearlong sequence`} /><figcaption>{number}</figcaption></figure>
-              ))}
-            </div>
-          }
+          more={<ArchiveGrid images={treeArchive} className="archive-trees" />}
         />
 
         <ExpandableProject
@@ -252,14 +300,7 @@ export default function Home() {
               <figure className="selva-f"><img src="/art/selva-stars.jpg" alt="Stars recorded in a deep blue night sky" /></figure>
             </div>
           }
-          more={
-            <div className="more-grid more-grid-selva">
-              <figure><img src="/art/selva-2184.jpg" alt="Trees disappearing into deep blue night" /></figure>
-              <figure><img src="/art/selva-2317.jpg" alt="A long exposure through moonlit branches" /></figure>
-              <figure><img src="/art/selva-2398.jpg" alt="A dark woodland gathered by the camera" /></figure>
-              <figure><img src="/art/selva-2700.jpg" alt="Night foliage illuminated by slow exposure" /></figure>
-            </div>
-          }
+          more={<ArchiveGrid images={selvaArchive} />}
         />
 
         <ExpandableProject
@@ -278,20 +319,7 @@ export default function Home() {
               <figure className="metal-f"><img src="/art/metal-fur-table.jpg" alt="A small circular table with a white furry surface" /><figcaption>Fur + steel</figcaption></figure>
             </div>
           }
-          more={
-            <div className="metalworks-more">
-              <figure><img src="/art/metal-speaker-process.jpg" alt="Folded and welded metal forms for speaker construction" /><figcaption>Fabrication studies</figcaption></figure>
-              <figure><img src="/art/metal-speaker-unfinished.jpg" alt="An unfinished speaker box showing its material assembly" /><figcaption>Unfinished speaker</figcaption></figure>
-              <figure><img src="/art/metal-form-studies.jpg" alt="Small welded forms testing angles and surface" /><figcaption>Form + texture</figcaption></figure>
-              <figure><img src="/art/metal-pegboard-panel.jpg" alt="A laser-cut acrylic and pegboard classroom panel" /><figcaption>Acrylic + pegboard</figcaption></figure>
-              <figure><img src="/art/metal-rolling-pegboard.jpg" alt="A mobile pegboard system on a welded frame" /><figcaption>Mobile storage</figcaption></figure>
-              <figure><img src="/art/metal-rolling-cart.jpg" alt="A wood and steel classroom cart on casters" /><figcaption>Rolling cart</figcaption></figure>
-              <figure><img src="/art/metal-round-table.jpg" alt="A small lacquered circular table on hairpin legs" /><figcaption>Lacquered wood</figcaption></figure>
-              <figure><img src="/art/metal-nested-tables.jpg" alt="A pair of nested square steel and wood tables" /><figcaption>Nested tables</figcaption></figure>
-              <figure><img src="/art/metal-classroom-table.jpg" alt="A long wood classroom table on a welded steel frame" /><figcaption>Classroom table</figcaption></figure>
-              <figure><img src="/art/metal-heavy-frame.jpg" alt="A heavy welded equipment frame during fabrication" /><figcaption>Heavy frame</figcaption></figure>
-            </div>
-          }
+          more={<ArchiveGrid images={metalArchive} className="archive-metal" />}
         />
 
         <ExpandableProject
@@ -307,11 +335,7 @@ export default function Home() {
               <a href="https://youtu.be/Ct37TbZJlrk" target="_blank" rel="noreferrer"><img src="/art/gantoons-comic-covers.jpg" alt="GAN-generated comic-book cover imagery" /><span className="play-badge">Comic Book Covers ↗</span></a>
             </div>
           }
-          more={
-            <div className="more-grid more-grid-gan">
-              {[1, 2, 3].map((number) => <figure key={number}><img src={`/art/gantoons-still-${number}.jpg`} alt={`Still ${number} from the GANtoons video loop`} /></figure>)}
-            </div>
-          }
+          more={<ArchiveGrid images={gantoonsArchive} />}
         />
 
         <ExpandableProject
@@ -327,11 +351,7 @@ export default function Home() {
               <span className="play-badge">Play MoviePosterGAN ↗</span>
             </a>
           }
-          more={
-            <div className="more-grid more-grid-gan">
-              {[1, 2, 3].map((number) => <figure key={number}><img src={`/art/movieposter-still-${number}.jpg`} alt={`Still ${number} from MoviePosterGAN`} /></figure>)}
-            </div>
-          }
+          more={<ArchiveGrid images={moviePosterArchive} />}
         />
 
         <ExpandableProject
@@ -348,14 +368,7 @@ export default function Home() {
               <figure className="consumer-d"><img src="/art/consumerisms-cosmos.jpg" alt="A black-and-white cosmological figure" /></figure>
             </div>
           }
-          more={
-            <div className="more-grid more-grid-consumerisms">
-              <figure><img src="/art/consumerisms-view-5.jpg" alt="An installation view of a handmade figure" /></figure>
-              <figure><img src="/art/consumerisms-view-6.jpg" alt="A second installation view of the sculptural figure" /></figure>
-              <figure><img src="/art/consumerisms-garden.jpg" alt="A vertical garden image from Consumerisms" /></figure>
-              <figure><img src="/art/consumerisms-ikarus.jpg" alt="Ikarus, a painted figure from Consumerisms" /></figure>
-            </div>
-          }
+          more={<ArchiveGrid images={consumerArchive} />}
         />
 
         <ExpandableProject
@@ -365,7 +378,7 @@ export default function Home() {
           year="2001"
           summary="Video noise, found gestures, and technological divination."
           preview={<div className="tarot-stream">{tarotFrames.map(([src, alt]) => <figure key={src}><img src={src} alt={alt} /></figure>)}</div>}
-          more={<div className="tarot-stream tarot-more">{tarotMore.map(([src, alt]) => <figure key={src}><img src={src} alt={alt} /></figure>)}</div>}
+          more={<ArchiveGrid images={tarotArchive} />}
         />
 
         <section className="gallery-project project-shrink" id="shrink-circuits">
@@ -392,11 +405,7 @@ export default function Home() {
               <figure className="molecule-c"><img src="/images/work-2.jpg" alt="Hands arranging Molecule Synth modules" /></figure>
             </div>
           }
-          more={
-            <div className="more-grid more-grid-molecule">
-              {[1, 4, 6, 7].map((number) => <figure key={number}><img src={`/images/work-${number}.jpg`} alt={`Molecule Synth project view ${number}`} /></figure>)}
-            </div>
-          }
+          more={<ArchiveGrid images={moleculeArchive} />}
         />
 
         <ExpandableProject
@@ -439,14 +448,7 @@ export default function Home() {
               <figure><img src="/art/bpow-tv.jpg" alt="Bands of color displayed on a CRT television" /></figure>
             </div>
           }
-          more={
-            <div className="more-grid more-grid-bpow">
-              <figure><img src="/art/bpow-build-table.jpg" alt="Participants building instruments together at BPOW" /></figure>
-              <figure><img src="/art/bpow-workshop.jpg" alt="A BPOW electronics workshop in progress" /></figure>
-              <figure><img src="/art/bpow-performance-2.jpg" alt="A performer at the BPOW festival" /></figure>
-              <figure><img src="/art/bpow-performance-3.jpg" alt="A second BPOW performance" /></figure>
-            </div>
-          }
+          more={<ArchiveGrid images={bpowArchive} />}
         />
 
         <ExpandableProject
@@ -478,30 +480,16 @@ export default function Home() {
           <div>
             <p className="version">About</p>
             <h2>A reader among machines.</h2>
-            <figure className="about-portrait">
-              <img src="/art/portrait-workshop.jpg" alt="Travis Feldman in welding gear in the workshop" />
-              <figcaption>Between materials, 2020.</figcaption>
-            </figure>
           </div>
           <div className="about-copy">
             <p>Travis Feldman is an artist, scholar, educator, designer, and musician working across physical electronics, photography, experimental sound, literature, and shared learning spaces.</p>
-            <details>
-              <summary>Writing and research <span>+</span></summary>
-              <div>
-                <ExternalLink href="https://ijamm.pubpub.org/pub/o9n1tv3t?readingCollection=7726e307">Learning in makerspaces</ExternalLink>
-                <ExternalLink href="https://educ-met-site.sites.olt.ubc.ca/files/2023/05/Feldman_MET_25MAY2023.pdf">Makerspaces as social systems</ExternalLink>
-                <ExternalLink href="https://cinema.washington.edu/people/travis-feldman">William Blake and The Four Zoas</ExternalLink>
-                <ExternalLink href="https://www.jstor.org/stable/24247222">Controversial Crabbe</ExternalLink>
-                <ExternalLink href="https://bmcr.brynmawr.edu/2002/2002.09.37">Sappho, Poems and Fragments</ExternalLink>
-              </div>
-            </details>
             <a className="email-link" href="mailto:moleculesynth@gmail.com">moleculesynth@gmail.com <Arrow /></a>
           </div>
         </section>
 
         <footer className="gallery-footer">
           <p>© {new Date().getFullYear()} Travis Feldman</p>
-          <p>Homepage 0.3.3</p>
+          <p>Homepage 0.3.4</p>
           <a href="#gallery">Back to top ↑</a>
         </footer>
       </div>
