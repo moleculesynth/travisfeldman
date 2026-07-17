@@ -4,6 +4,28 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 const Arrow = () => <span aria-hidden="true">↗</span>;
 
+const optimizedImagePath = (src: string, size: "thumb" | "full") =>
+  /^\/(art|artworks|images)\/.+\.jpe?g$/i.test(src) ? `/optimized/${size}${src}` : src;
+
+const ArtworkImage = ({ alt, priority = false, size = "full", src, ...props }: Omit<React.ImgHTMLAttributes<HTMLImageElement>, "alt" | "src"> & {
+  alt: string;
+  priority?: boolean;
+  size?: "thumb" | "full";
+  src: string;
+}) => (
+  <img
+    {...props}
+    alt={alt}
+    decoding="async"
+    fetchPriority={priority ? "high" : undefined}
+    loading={priority ? "eager" : "lazy"}
+    src={optimizedImagePath(src, size)}
+    srcSet={size === "full"
+      ? `${optimizedImagePath(src, "thumb")} 1x, ${optimizedImagePath(src, "full")} 2x`
+      : undefined}
+  />
+);
+
 const ExternalLink = ({ href, children, className = "external-link" }: {
   href: string;
   children: React.ReactNode;
@@ -18,14 +40,31 @@ const IndexLink = ({ href, children, year }: {
   href: string;
   children: React.ReactNode;
   year?: string;
-}) => (
-  <a href={href}>
-    <span>{children}</span>
-    {year ? <time>{year}</time> : null}
-  </a>
-);
+}) => {
+  const alignLinkedProject = () => {
+    if (!href.startsWith("#")) return;
+
+    window.requestAnimationFrame(() => {
+      const target = document.getElementById(href.slice(1));
+      if (!target) return;
+
+      target.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "start",
+      });
+    });
+  };
+
+  return (
+    <a href={href} onClick={alignLinkedProject}>
+      <span>{children}</span>
+      {year ? <time>{year}</time> : null}
+    </a>
+  );
+};
 
 type ArchiveImage = { src: string; alt: string; className?: string };
+type ProjectThumbnailData = { src: string; alt: string; href?: string };
 type ArchiveGridProps = {
   images: ReadonlyArray<ArchiveImage>;
   className?: string;
@@ -126,7 +165,7 @@ const ArchiveGrid = ({ images, className = "", shuffle = true }: ArchiveGridProp
     <div className="archive-shell">
       <div className={`archive-grid ${className}`.trim()}>
         {orderedImages.map(({ src, alt, className: imageClass }, index) => (
-          <figure className={imageClass} key={src}>
+          <figure className={imageClass} key={`${src}-${imageClass ?? index}`}>
             <button
               aria-label={`View ${alt} full screen`}
               className="archive-image-button"
@@ -136,7 +175,7 @@ const ArchiveGrid = ({ images, className = "", shuffle = true }: ArchiveGridProp
               }}
               type="button"
             >
-              <img src={src} alt={alt} />
+              <ArtworkImage src={src} alt={alt} size="thumb" />
             </button>
           </figure>
         ))}
@@ -157,7 +196,7 @@ const ArchiveGrid = ({ images, className = "", shuffle = true }: ArchiveGridProp
           <button aria-label="Close full-screen image" className="lightbox-close" onClick={closeViewer} ref={closeButtonRef} type="button">[close]</button>
           <button aria-label="Previous image" className="lightbox-previous" onClick={() => moveSelection(-1)} type="button">[←]</button>
           <figure>
-            <img src={activeImage.src} alt={activeImage.alt} />
+            <ArtworkImage src={activeImage.src} alt={activeImage.alt} />
             <figcaption>{selected + 1} / {orderedImages.length} · {activeImage.alt}</figcaption>
           </figure>
           <button aria-label="Next image" className="lightbox-next" onClick={() => moveSelection(1)} type="button">[→]</button>
@@ -173,48 +212,89 @@ const numberedArchive = (prefix: string, count: number, description: string) =>
     alt: `${description} ${index + 1}`,
   }));
 
-const ProjectHeader = ({ title, year, links, expanded, onToggle, controlsId }: {
+const ProjectThumbnail = ({ thumbnail, expanded, onToggle, controlsId }: {
+  thumbnail: ProjectThumbnailData;
+  expanded?: boolean;
+  onToggle?: () => void;
+  controlsId?: string;
+}) => {
+  const image = <ArtworkImage alt={thumbnail.alt} size="thumb" src={thumbnail.src} />;
+
+  if (onToggle) {
+    return (
+      <button
+        aria-controls={controlsId}
+        aria-expanded={expanded}
+        aria-label={expanded ? `Close image gallery for ${thumbnail.alt}` : `Open image gallery for ${thumbnail.alt}`}
+        className="project-header-thumbnail"
+        onClick={onToggle}
+        type="button"
+      >
+        {image}
+      </button>
+    );
+  }
+
+  if (thumbnail.href) {
+    return (
+      <a aria-label={`Open ${thumbnail.alt}`} className="project-header-thumbnail" href={thumbnail.href} rel="noreferrer" target="_blank">
+        {image}
+      </a>
+    );
+  }
+
+  return <figure className="project-header-thumbnail">{image}</figure>;
+};
+
+const ProjectHeader = ({ title, year, links, thumbnail, expanded, onToggle, controlsId }: {
   title: React.ReactNode;
   year?: string;
   links?: React.ReactNode;
+  thumbnail?: ProjectThumbnailData;
   expanded?: boolean;
   onToggle?: () => void;
   controlsId?: string;
 }) => (
   <header className="project-header">
-    <div className="project-title-row">
-      {onToggle ? (
-        <div className="project-title-actions">
-          <button className="project-title-button" onClick={onToggle} type="button">
-            <h2>{title}</h2>
-          </button>
-          <div className="project-control-row">
-            <button
-              aria-controls={controlsId}
-              aria-expanded={expanded}
-              aria-label={expanded ? "Close image gallery" : "Open image gallery"}
-              className="project-toggle-button"
-              onClick={onToggle}
-              type="button"
-            >
-              {expanded ? "[−]" : "[+]"}
-            </button>
-          </div>
+    <div className={`project-heading-layout${thumbnail ? " project-heading-layout-compact" : ""}`}>
+      <div className="project-heading-copy">
+        <div className="project-title-row">
+          {onToggle ? (
+            <div className="project-title-actions">
+              <button className="project-title-button" onClick={onToggle} type="button">
+                <h2>{title}</h2>
+              </button>
+              <div className="project-control-row">
+                <button
+                  aria-controls={controlsId}
+                  aria-expanded={expanded}
+                  aria-label={expanded ? "Close image gallery" : "Open image gallery"}
+                  className="project-toggle-button"
+                  onClick={onToggle}
+                  type="button"
+                >
+                  {expanded ? "[−]" : "[+]"}
+                </button>
+              </div>
+            </div>
+          ) : <h2>{title}</h2>}
+          {year ? <time>{year}</time> : null}
         </div>
-      ) : <h2>{title}</h2>}
-      {year ? <time>{year}</time> : null}
+        {links ? <div className="project-links">{links}</div> : null}
+      </div>
+      {thumbnail ? <ProjectThumbnail controlsId={controlsId} expanded={expanded} onToggle={onToggle} thumbnail={thumbnail} /> : null}
     </div>
-    {links ? <div className="project-links">{links}</div> : null}
   </header>
 );
 
-const ExpandableProject = ({ id, className, title, year, links, preview, more }: {
+const ExpandableProject = ({ id, className, title, year, links, thumbnail, preview, more }: {
   id: string;
   className: string;
   title: React.ReactNode;
   year?: string;
   links?: React.ReactNode;
-  preview: React.ReactNode;
+  thumbnail?: ProjectThumbnailData;
+  preview?: React.ReactNode;
   more?: React.ReactElement<ArchiveGridProps>;
 }) => {
   const [expanded, setExpanded] = useState(false);
@@ -226,28 +306,20 @@ const ExpandableProject = ({ id, className, title, year, links, preview, more }:
         title={title}
         year={year}
         links={links}
+        thumbnail={thumbnail}
         expanded={expanded}
         onToggle={more ? () => setExpanded((value) => !value) : undefined}
         controlsId={more ? controlsId : undefined}
       />
       {more ? (
         <div className="expanded-view" hidden={!expanded} id={controlsId}>
-          {more}
+          {expanded ? more : null}
         </div>
       ) : null}
-      {preview}
+      {preview ? <div className="project-preview">{preview}</div> : null}
     </section>
   );
 };
-
-const tarotFrames = [
-  ["/art/tarot-conversation.jpg", "A pale blue video still of a skeletal figure"],
-  ["/art/tarot-ear.jpg", "An abstract, close-cropped video image of an ear"],
-  ["/art/tarot-talker.jpg", "An orange, solarized video portrait"],
-  ["/art/tarot-attic.jpg", "A dim, distorted view into an attic"],
-  ["/art/tarot-hope.jpg", "A luminous green figure seen through video noise"],
-  ["/art/tarot-ceiling.jpg", "An arched ceiling blurred by video motion"],
-] as const;
 
 const microArchive = [
   ...numberedArchive("micro-more", 9, "Micrographia study"),
@@ -284,11 +356,11 @@ const consumerArchive = [
   { src: "/art/consumer-more-new-03.jpg", alt: "Dark garden painting" },
   { src: "/art/consumer-more-new-05.jpg", alt: "Dark celestial landscape painting" },
   { src: "/art/consumerisms-garden.jpg", alt: "Garden work" },
-  { src: "/art/consumer-more-new-01.jpg", alt: "Consumerisms sculpture view" },
-  { src: "/art/consumer-more-new-02.jpg", alt: "Consumerisms sculpture study" },
-  { src: "/art/consumerisms-view-5.jpg", alt: "Consumerisms installation view" },
-  { src: "/art/consumerisms-view-6.jpg", alt: "Consumerisms sculpture view" },
-  { src: "/art/consumerisms-view-1.jpg", alt: "Detail of a Consumerisms figure" },
+  { src: "/art/consumer-more-new-01.jpg", alt: "Consumerismos sculpture view" },
+  { src: "/art/consumer-more-new-02.jpg", alt: "Consumerismos sculpture study" },
+  { src: "/art/consumerisms-view-5.jpg", alt: "Consumerismos installation view" },
+  { src: "/art/consumerisms-view-6.jpg", alt: "Consumerismos sculpture view" },
+  { src: "/art/consumerisms-view-1.jpg", alt: "Detail of a Consumerismos figure" },
 ];
 const gantoonsArchive = [
   ...[1, 2, 3].map((number) => ({ src: `/art/gantoons-still-${number}.jpg`, alt: `GANtoons loop still ${number}` })),
@@ -323,6 +395,29 @@ const shrinkArchive = [
   { src: "/art/shrink-circuits.jpg", alt: "A collection of Shrink Circuits boards" },
 ];
 const prototypeArchive = numberedArchive("prototype-extra", 4, "Playable prototype development photograph");
+const artworksArchive = [
+  { src: "/artworks/creating-a-class-room.jpg", alt: "Preparing the Artworks summer youth program classroom" },
+  { src: "/artworks/new-signs-for-our-entrance.jpg", alt: "Hand-painted Artworks entrance signs drying in the studio" },
+  { src: "/artworks/carol.jpg", alt: "Artworks participant Carol painting a panel" },
+  { src: "/artworks/carols-panel.jpg", alt: "Carol's completed Artworks panel" },
+  { src: "/artworks/fernando-scratches-his-head-what-next.jpg", alt: "Fernando considering the next step in his panel" },
+  { src: "/artworks/fernandos-panel.jpg", alt: "Fernando's completed Artworks panel" },
+  { src: "/artworks/cheyenes-poster.jpg", alt: "Cheyene's Artworks poster" },
+  { src: "/artworks/fish.jpg", alt: "Fish mural panel from the Artworks program" },
+  { src: "/artworks/snake.jpg", alt: "Snake mural panel from the Artworks program" },
+  { src: "/artworks/zacs-bird.jpg", alt: "Zac's bird mural panel" },
+  { src: "/artworks/the-jungle.jpg", alt: "Jungle mural panel from the Artworks program" },
+  { src: "/artworks/circle.jpg", alt: "Painted circle created during the Artworks program" },
+  { src: "/artworks/we-painted-a-ritual-circle.jpg", alt: "Participants painting a ritual circle" },
+  { src: "/artworks/fearless.jpg", alt: "Fearless mural panel from the Artworks program" },
+  { src: "/artworks/jester-1.jpg", alt: "Jester mural panel in progress" },
+  { src: "/artworks/jester-2.jpg", alt: "Completed jester mural panel" },
+  { src: "/artworks/laryan-and-his-son.jpg", alt: "LaRyan and his son at Artworks" },
+  { src: "/artworks/hugh1.jpg", alt: "Hugh at the Artworks summer program" },
+  { src: "/artworks/new-city-hall-construction-site.jpg", alt: "The new Seattle City Hall construction site in 2001" },
+  { src: "/artworks/no-strange-poses-allowed.jpg", alt: "Artworks participants posing outside" },
+  { src: "/artworks/view-of-the-walkway.jpg", alt: "Finished youth mural panels installed along the Artworks walkway" },
+];
 
 export default function Home() {
   return (
@@ -334,41 +429,41 @@ export default function Home() {
           <h1>Travis Feldman</h1>
           <div className="identity-ledger">
             <p>Selected works, exhibitions, recordings, and writing</p>
-            <p>2001—present</p>
           </div>
         </div>
 
         <nav className="work-index" aria-label="Work index">
           <section>
-            <h2>Designs + images</h2>
+            <h2>Design / image</h2>
             <IndexLink href="#micrographia" year="2025">Micrographia</IndexLink>
             <IndexLink href="#night-shift" year="2025">Night Shift</IndexLink>
             <IndexLink href="#hundred-trees" year="2024">100 Trees</IndexLink>
             <IndexLink href="#selva-oscura" year="2022–23">Selva Oscura</IndexLink>
-            <IndexLink href="#metalworks" year="2020–21">Metalworks &amp; Design</IndexLink>
+            <IndexLink href="#metalworks" year="2016–23">Metalworks &amp; Design</IndexLink>
             <IndexLink href="#gantoons" year="2018">GANtoons</IndexLink>
             <IndexLink href="#movieposter-gan" year="2018">MoviePosterGAN</IndexLink>
-            <IndexLink href="#consumerisms" year="2001–02">Consumerisms</IndexLink>
+            <IndexLink href="#consumerisms" year="2001–02">Consumerismos</IndexLink>
             <IndexLink href="#tarot-tv" year="2001">Tarot TV</IndexLink>
           </section>
 
           <section>
-            <h2>Instruments + systems</h2>
+            <h2>Instrument / system</h2>
             <IndexLink href="#shrink-circuits" year="2013–18">Shrink Circuits</IndexLink>
             <IndexLink href="#molecule-synth" year="2012–18">Molecule Synth</IndexLink>
-            <IndexLink href="#prototypes" year="2013–17">Playable prototypes</IndexLink>
             <IndexLink href="#pijin" year="2013">PIJIN</IndexLink>
             <IndexLink href="#bpow" year="2013">BPOW!!!</IndexLink>
+            <IndexLink href="#prototypes" year="2012–18">Playable prototypes</IndexLink>
+            <IndexLink href="#artworks" year="2001">Artworks Summer Youth Program</IndexLink>
           </section>
 
           <section>
-            <h2>Sounds + signals</h2>
+            <h2>Sound / signal</h2>
             <IndexLink href="#nerve-maps" year="2025–present">Nerve Maps</IndexLink>
             <IndexLink href="#many-mansions" year="2012–14">The Many Mansions</IndexLink>
           </section>
 
           <section>
-            <h2>Writing + research</h2>
+            <h2>Writing / research</h2>
             <IndexLink href="https://educ-met-site.sites.olt.ubc.ca/files/2023/05/Feldman_MET_25MAY2023.pdf" year="2023">Makerspaces as social systems</IndexLink>
             <IndexLink href="https://ijamm.pubpub.org/pub/o9n1tv3t?readingCollection=7726e307" year="2022">Learning in makerspaces</IndexLink>
             <IndexLink href="https://www.jstor.org/stable/24247222" year="2012">Controversial Crabbe</IndexLink>
@@ -388,9 +483,14 @@ export default function Home() {
       </aside>
 
       <div className="gallery-panel" id="gallery">
-        <header className="gallery-banner">
-          <p>Selected work</p>
-        </header>
+        <ExpandableProject
+          id="nerve-maps"
+          className="project-sound"
+          title="Nerve Maps"
+          year="2025–present"
+          links={<ExternalLink href="https://nervemaps.bandcamp.com">Listen on Bandcamp</ExternalLink>}
+          thumbnail={{ src: "/images/nerve-maps.jpg", alt: "Nerve Maps cover image", href: "https://nervemaps.bandcamp.com" }}
+        />
 
         <ExpandableProject
           id="micrographia"
@@ -399,10 +499,10 @@ export default function Home() {
           year="2025"
           preview={
             <div className="micro-stream">
-              <figure className="micro-a"><img src="/art/micro-cicadas.jpg" alt="Three cicada specimens arranged on white" /></figure>
-              <figure className="micro-b"><img src="/art/micro-spore.jpg" alt="A thorny seed pod photographed as a specimen" /></figure>
-              <figure className="micro-c"><img src="/art/micro-butterfly-ray.jpg" alt="Rayogram of a butterfly on a deep gray field" /></figure>
-              <figure className="micro-d"><img src="/art/micro-town-council.jpg" alt="Three translucent insect forms facing one another" /></figure>
+              <figure className="micro-a"><ArtworkImage priority src="/art/micro-cicadas.jpg" alt="Three cicada specimens arranged on white" /></figure>
+              <figure className="micro-b"><ArtworkImage src="/art/micro-spore.jpg" alt="A thorny seed pod photographed as a specimen" /></figure>
+              <figure className="micro-c"><ArtworkImage src="/art/micro-butterfly-ray.jpg" alt="Rayogram of a butterfly on a deep gray field" /></figure>
+              <figure className="micro-d"><ArtworkImage src="/art/micro-town-council.jpg" alt="Three translucent insect forms facing one another" /></figure>
             </div>
           }
           more={<ArchiveGrid images={microArchive} />}
@@ -415,9 +515,9 @@ export default function Home() {
           year="2025"
           preview={
             <div className="night-stream">
-              <figure className="night-a"><img src="/art/night-void-color.jpg" alt="A brightly illuminated office building at night" /></figure>
-              <figure className="night-b"><img src="/art/night-skyward.jpg" alt="A night building stretched into vertical trails of light" /></figure>
-              <figure className="night-c"><img src="/art/night-skyward-2.jpg" alt="A high-key building dissolving into vertical streaks" /></figure>
+              <figure className="night-a"><ArtworkImage src="/art/night-void-color.jpg" alt="A brightly illuminated office building at night" /></figure>
+              <figure className="night-b"><ArtworkImage src="/art/night-skyward.jpg" alt="A night building stretched into vertical trails of light" /></figure>
+              <figure className="night-c"><ArtworkImage src="/art/night-skyward-2.jpg" alt="A high-key building dissolving into vertical streaks" /></figure>
             </div>
           }
           more={<ArchiveGrid images={nightArchive} />}
@@ -430,12 +530,12 @@ export default function Home() {
           year="2024"
           preview={
             <div className="trees-stream" aria-label="100 Trees seasonal sequence">
-              <figure><img src="/art/trees-01.jpg" alt="The tree at a rocky overlook in late autumn" /><figcaption>01</figcaption></figure>
-              <figure><img src="/art/trees-07.jpg" alt="The same tree against a darkening autumn sky" /><figcaption>07</figcaption></figure>
-              <figure><img src="/art/trees-35.jpg" alt="The same tree and overlook covered in snow" /><figcaption>35</figcaption></figure>
-              <figure><img src="/art/trees-64.jpg" alt="The same tree as green returns to the hillside" /><figcaption>64</figcaption></figure>
-              <figure><img src="/art/trees-73.jpg" alt="The same tree illuminated by warm seasonal light" /><figcaption>73</figcaption></figure>
-              <figure><img src="/art/trees-95.jpg" alt="The same tree overlooking a fully green landscape" /><figcaption>95</figcaption></figure>
+              <figure><ArtworkImage src="/art/trees-01.jpg" alt="The tree at a rocky overlook in late autumn" /><figcaption>01</figcaption></figure>
+              <figure><ArtworkImage src="/art/trees-07.jpg" alt="The same tree against a darkening autumn sky" /><figcaption>07</figcaption></figure>
+              <figure><ArtworkImage src="/art/trees-35.jpg" alt="The same tree and overlook covered in snow" /><figcaption>35</figcaption></figure>
+              <figure><ArtworkImage src="/art/trees-64.jpg" alt="The same tree as green returns to the hillside" /><figcaption>64</figcaption></figure>
+              <figure><ArtworkImage src="/art/trees-73.jpg" alt="The same tree illuminated by warm seasonal light" /><figcaption>73</figcaption></figure>
+              <figure><ArtworkImage src="/art/trees-95.jpg" alt="The same tree overlooking a fully green landscape" /><figcaption>95</figcaption></figure>
             </div>
           }
           more={<ArchiveGrid images={treeArchive} className="archive-trees" shuffle={false} />}
@@ -448,33 +548,15 @@ export default function Home() {
           year="2022–2023"
           preview={
             <div className="selva-stream">
-              <figure className="selva-a"><img src="/art/selva-moon-trees.jpg" alt="Moonlight caught in the branches of old trees" /></figure>
-              <figure className="selva-b"><img src="/art/selva-dusk-forest.jpg" alt="Dark tree trunks against the last evening light" /></figure>
-              <figure className="selva-c"><img src="/art/selva-moon-sky.jpg" alt="The moon above a dark horizon in a long exposure" /></figure>
-              <figure className="selva-d"><img src="/art/selva-vertical-woods.jpg" alt="A vertical view through a dim forest canopy" /></figure>
-              <figure className="selva-e"><img src="/art/selva-lit-woods.jpg" alt="Dense woodland glowing with gathered evening light" /></figure>
-              <figure className="selva-f"><img src="/art/selva-stars.jpg" alt="Stars recorded in a deep blue night sky" /></figure>
+              <figure className="selva-a"><ArtworkImage src="/art/selva-moon-trees.jpg" alt="Moonlight caught in the branches of old trees" /></figure>
+              <figure className="selva-b"><ArtworkImage src="/art/selva-dusk-forest.jpg" alt="Dark tree trunks against the last evening light" /></figure>
+              <figure className="selva-c"><ArtworkImage src="/art/selva-moon-sky.jpg" alt="The moon above a dark horizon in a long exposure" /></figure>
+              <figure className="selva-d"><ArtworkImage src="/art/selva-vertical-woods.jpg" alt="A vertical view through a dim forest canopy" /></figure>
+              <figure className="selva-e"><ArtworkImage src="/art/selva-lit-woods.jpg" alt="Dense woodland glowing with gathered evening light" /></figure>
+              <figure className="selva-f"><ArtworkImage src="/art/selva-stars.jpg" alt="Stars recorded in a deep blue night sky" /></figure>
             </div>
           }
           more={<ArchiveGrid images={selvaArchive} />}
-        />
-
-        <ExpandableProject
-          id="metalworks"
-          className="project-metalworks"
-          title="Metalworks & Design"
-          year="2020–2021"
-          preview={
-            <div className="metalworks-stream">
-              <figure className="metal-a"><img src="/art/metal-speakers-pair.jpg" alt="A pair of handmade wooden speakers with exposed drivers" /></figure>
-              <figure className="metal-b"><img src="/art/metal-shopbot.jpg" alt="A ShopBot CNC machine mounted on a heavy-duty welded frame" /></figure>
-              <figure className="metal-c"><img src="/art/metal-whiteboard.jpg" alt="A large classroom whiteboard on a welded rolling base" /></figure>
-              <figure className="metal-d"><img src="/art/metal-hex-tables.jpg" alt="Circular and hexagonal tables in fur, metal, unfinished wood, and lacquered wood" /></figure>
-              <figure className="metal-e"><img src="/art/metal-speaker-wood.jpg" alt="A handmade wooden speaker enclosure" /></figure>
-              <figure className="metal-f"><img src="/art/metal-fur-table.jpg" alt="A small circular table with a white furry surface" /></figure>
-            </div>
-          }
-          more={<ArchiveGrid images={metalArchive} className="archive-metal" />}
         />
 
         <ExpandableProject
@@ -483,12 +565,7 @@ export default function Home() {
           title="GANtoons"
           year="Berlin · 2018"
           links={<><ExternalLink href="https://youtu.be/BNb0xTEe69I">30-minute loop</ExternalLink><ExternalLink href="https://youtu.be/Ct37TbZJlrk">Comic covers</ExternalLink></>}
-          preview={
-            <div className="gan-stream gan-stream-two">
-              <a href="https://youtu.be/BNb0xTEe69I" target="_blank" rel="noreferrer"><img src="/art/gantoons-comic-loop.jpg" alt="GAN-generated comic cover imagery" /><span className="play-badge">Play GANtoons loop ↗</span></a>
-              <a href="https://youtu.be/Ct37TbZJlrk" target="_blank" rel="noreferrer"><img src="/art/gantoons-comic-covers.jpg" alt="GAN-generated comic-book cover imagery" /><span className="play-badge">Comic Book Covers ↗</span></a>
-            </div>
-          }
+          thumbnail={{ src: "/art/gantoons-comic-loop.jpg", alt: "GANtoons generated image sequence" }}
           more={<ArchiveGrid images={gantoonsArchive} />}
         />
 
@@ -498,38 +575,26 @@ export default function Home() {
           title="MoviePosterGAN"
           year="Berlin · 2018"
           links={<ExternalLink href="https://youtu.be/lmEL5HyCGRE">Play MoviePosterGAN</ExternalLink>}
-          preview={
-            <a className="movieposter-hero" href="https://youtu.be/lmEL5HyCGRE" target="_blank" rel="noreferrer">
-              <img src="/art/gantoons-movie-posters.jpg" alt="A grid of GAN-generated movie posters" />
-              <span className="play-badge">Play MoviePosterGAN ↗</span>
-            </a>
-          }
+          thumbnail={{ src: "/art/gantoons-movie-posters.jpg", alt: "MoviePosterGAN generated poster grid" }}
           more={<ArchiveGrid images={moviePosterArchive} />}
         />
 
         <ExpandableProject
-          id="consumerisms"
-          className="project-consumerisms"
-          title="Consumerisms"
-          year="2001–2002"
+          id="metalworks"
+          className="project-metalworks"
+          title="Metalworks & Design"
+          year="2016–2023"
           preview={
-            <div className="consumerisms-stream">
-              <figure className="consumer-a"><img src="/art/consumer-more-new-04.jpg" alt="Quad-eyed Uranus painted in earth tones" /></figure>
-              <figure className="consumer-b"><img src="/art/consumerisms-cosmos.jpg" alt="A black-and-white cosmological figure" /></figure>
-              <figure className="consumer-c"><img src="/art/consumerisms-ikarus.jpg" alt="Ikarus, a painted figure carrying an axe" /></figure>
-              <figure className="consumer-d"><img src="/art/consumerisms-sungod.jpg" alt="A four-eyed figure painted in muted earth tones" /></figure>
+            <div className="metalworks-stream">
+              <figure className="metal-a"><ArtworkImage src="/art/metal-speakers-pair.jpg" alt="A pair of handmade wooden speakers with exposed drivers" /></figure>
+              <figure className="metal-b"><ArtworkImage src="/art/metal-shopbot.jpg" alt="A ShopBot CNC machine mounted on a heavy-duty welded frame" /></figure>
+              <figure className="metal-c"><ArtworkImage src="/art/metal-whiteboard.jpg" alt="A large classroom whiteboard on a welded rolling base" /></figure>
+              <figure className="metal-d"><ArtworkImage src="/art/metal-hex-tables.jpg" alt="Circular and hexagonal tables in fur, metal, unfinished wood, and lacquered wood" /></figure>
+              <figure className="metal-e"><ArtworkImage src="/art/metal-speaker-wood.jpg" alt="A handmade wooden speaker enclosure" /></figure>
+              <figure className="metal-f"><ArtworkImage src="/art/metal-fur-table.jpg" alt="A small circular table with a white furry surface" /></figure>
             </div>
           }
-          more={<ArchiveGrid images={consumerArchive} />}
-        />
-
-        <ExpandableProject
-          id="tarot-tv"
-          className="project-tarot"
-          title="Tarot TV"
-          year="2001"
-          preview={<div className="tarot-stream">{tarotFrames.map(([src, alt]) => <figure key={src}><img src={src} alt={alt} /></figure>)}</div>}
-          more={<ArchiveGrid images={tarotArchive} />}
+          more={<ArchiveGrid images={metalArchive} className="archive-metal" />}
         />
 
         <ExpandableProject
@@ -540,12 +605,31 @@ export default function Home() {
           links={<><ExternalLink href="http://shrinkcircuits.org/">Project site</ExternalLink><ExternalLink href="https://www.awesomefoundation.org/en/projects/30742-shrink-circuits-nomad-lab">Project record</ExternalLink></>}
           preview={
             <div className="shrink-stream">
-              <figure className="shrink-a"><img src="/art/shrink-workshop.jpg" alt="A Shrink Circuits workshop gathered around a soldering station" /></figure>
-              <figure><img src="/art/shrink-lights.jpg" alt="Small illuminated circuits built in a Shrink Circuits workshop" /></figure>
-              <figure><img src="/images/work-2.jpg" alt="DISCO!! Extended Play circular Shrink Circuits board design" /></figure>
+              <figure className="shrink-a"><ArtworkImage src="/art/shrink-workshop.jpg" alt="A Shrink Circuits workshop gathered around a soldering station" /></figure>
+              <figure><ArtworkImage src="/art/shrink-lights.jpg" alt="Small illuminated circuits built in a Shrink Circuits workshop" /></figure>
+              <figure><ArtworkImage src="/images/work-2.jpg" alt="DISCO!! Extended Play circular Shrink Circuits board design" /></figure>
             </div>
           }
           more={<ArchiveGrid images={shrinkArchive} />}
+        />
+
+        <ExpandableProject
+          id="pijin"
+          className="project-pijin"
+          title="PIJIN"
+          year="2013"
+          links={<><ExternalLink href="https://www.kickstarter.com/projects/travisfeldman/pijin-the-spelling-game-of-the-spoken-word">Kickstarter</ExternalLink><ExternalLink href="https://www.behance.net/gallery/14485693/Pijin">Visual archive</ExternalLink></>}
+          thumbnail={{ src: "/images/pijin.jpg", alt: "PIJIN game session", href: "https://www.behance.net/gallery/14485693/Pijin" }}
+        />
+
+        <ExpandableProject
+          id="bpow"
+          className="project-bpow"
+          title="BPOW!!!"
+          year="2013"
+          links={<><ExternalLink href="https://www.kickstarter.com/projects/travisfeldman/bpow-battery-powered-orchestra-workshop">Kickstarter</ExternalLink><ExternalLink href="https://makezine.com/article/craft/music/bpow-festival-celebrates-the-art-of-salvaged-sound/">Festival story</ExternalLink></>}
+          thumbnail={{ src: "/art/bpow-stage.jpg", alt: "BPOW performance" }}
+          more={<ArchiveGrid images={bpowArchive} />}
         />
 
         <ExpandableProject
@@ -556,9 +640,9 @@ export default function Home() {
           links={<><ExternalLink href="https://www.kickstarter.com/projects/travisfeldman/molecule-synth">Kickstarter</ExternalLink><ExternalLink href="https://moleculesynth.com">Project site</ExternalLink></>}
           preview={
             <div className="molecule-stream">
-              <figure className="molecule-a"><img src="/images/portrait-cover.jpg" alt="A field of translucent green Molecule Synth modules" /></figure>
-              <figure className="molecule-b"><img src="/images/work-3.jpg" alt="An illuminated Molecule Synth assembled from hexagonal pieces" /></figure>
-              <figure className="molecule-c"><img src="/images/work-1.jpg" alt="Wooden controllers arranged across the Molecule Synth surface" /></figure>
+              <figure className="molecule-a"><ArtworkImage src="/images/portrait-cover.jpg" alt="A field of translucent green Molecule Synth modules" /></figure>
+              <figure className="molecule-b"><ArtworkImage src="/images/work-3.jpg" alt="An illuminated Molecule Synth assembled from hexagonal pieces" /></figure>
+              <figure className="molecule-c"><ArtworkImage src="/images/work-1.jpg" alt="Wooden controllers arranged across the Molecule Synth surface" /></figure>
             </div>
           }
           more={<ArchiveGrid images={moleculeArchive} />}
@@ -568,55 +652,9 @@ export default function Home() {
           id="prototypes"
           className="project-prototypes"
           title="Playable prototypes"
-          year="2013–2017"
-          preview={
-            <div className="prototype-stream">
-              <figure><img src="/art/prototype-swarmbots.jpg" alt="Experimental swarm robots assembled from batteries and circuit boards" /></figure>
-              <figure><img src="/art/prototype-racecar.jpg" alt="A sliding-tile racecar game prototype" /></figure>
-              <figure><img src="/art/prototype-swarmboard.jpg" alt="Copper circuit boards beside a small wheeled robot" /></figure>
-            </div>
-          }
+          year="2012–2018"
+          thumbnail={{ src: "/art/prototype-swarmbots.jpg", alt: "Playable prototype swarm robots" }}
           more={<ArchiveGrid images={prototypeArchive} />}
-        />
-
-        <ExpandableProject
-          id="pijin"
-          className="project-pijin"
-          title="PIJIN"
-          year="2013"
-          links={<><ExternalLink href="https://www.kickstarter.com/projects/travisfeldman/pijin-the-spelling-game-of-the-spoken-word">Kickstarter</ExternalLink><ExternalLink href="https://www.behance.net/gallery/14485693/Pijin">Visual archive</ExternalLink></>}
-          preview={<figure className="single-image"><img src="/images/pijin.jpg" alt="People arranging letter-sound tiles in a game of PIJIN" /></figure>}
-        />
-
-        <ExpandableProject
-          id="bpow"
-          className="project-bpow"
-          title="BPOW!!!"
-          year="2013"
-          links={<><ExternalLink href="https://www.kickstarter.com/projects/travisfeldman/bpow-battery-powered-orchestra-workshop">Kickstarter</ExternalLink><ExternalLink href="https://makezine.com/article/craft/music/bpow-festival-celebrates-the-art-of-salvaged-sound/">Festival story</ExternalLink></>}
-          preview={
-            <div className="bpow-stream">
-              <figure><img src="/art/bpow-stage.jpg" alt="A performer silhouetted in saturated stage light" /></figure>
-              <figure><img src="/art/bpow-table.jpg" alt="A group building electronic instruments around a worktable" /></figure>
-              <figure><img src="/art/bpow-circuit.jpg" alt="Hand-wired electronic components across a table" /></figure>
-              <figure><img src="/art/bpow-tv.jpg" alt="Bands of color displayed on a CRT television" /></figure>
-            </div>
-          }
-          more={<ArchiveGrid images={bpowArchive} />}
-        />
-
-        <ExpandableProject
-          id="nerve-maps"
-          className="project-sound"
-          title="Nerve Maps"
-          year="2025–present"
-          links={<ExternalLink href="https://nervemaps.bandcamp.com">Listen on Bandcamp</ExternalLink>}
-          preview={
-            <div className="sound-stream">
-              <img src="/images/nerve-maps.jpg" alt="A red-tiled entrance illuminated at night" />
-              <div className="sound-lines" aria-hidden="true">{Array.from({ length: 28 }, (_, i) => <span key={i} />)}</div>
-            </div>
-          }
         />
 
         <ExpandableProject
@@ -625,12 +663,34 @@ export default function Home() {
           title="The Many Mansions"
           year="2012–2014"
           links={<ExternalLink href="https://themanymansions.bandcamp.com/">Listen on Bandcamp</ExternalLink>}
-          preview={
-            <a className="many-mansions-cover" href="https://themanymansions.bandcamp.com/" target="_blank" rel="noreferrer">
-              <img src="/art/many-mansions-album.jpg" alt="The Many Mansions — Early Retirement album artwork" />
-              <span className="play-badge">Listen on Bandcamp ↗</span>
-            </a>
-          }
+          thumbnail={{ src: "/art/many-mansions-album.jpg", alt: "The Many Mansions — Early Retirement album artwork", href: "https://themanymansions.bandcamp.com/" }}
+        />
+
+        <ExpandableProject
+          id="consumerisms"
+          className="project-consumerisms"
+          title="Consumerismos"
+          year="2001–2002"
+          thumbnail={{ src: "/art/consumer-more-new-04.jpg", alt: "Consumerismos quad-eyed Uranus painting" }}
+          more={<ArchiveGrid images={consumerArchive} />}
+        />
+
+        <ExpandableProject
+          id="tarot-tv"
+          className="project-tarot"
+          title="Tarot TV"
+          year="2001"
+          thumbnail={{ src: "/art/tarot-conversation.jpg", alt: "Tarot TV video still" }}
+          more={<ArchiveGrid images={tarotArchive} />}
+        />
+
+        <ExpandableProject
+          id="artworks"
+          className="project-artworks"
+          title="Artworks Summer Youth Program"
+          year="Seattle · 2001"
+          thumbnail={{ src: "/artworks/view-of-the-walkway.jpg", alt: "Artworks youth mural walkway" }}
+          more={<ArchiveGrid images={artworksArchive} shuffle={false} />}
         />
 
         <footer className="gallery-footer">
