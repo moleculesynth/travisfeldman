@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const Arrow = () => <span aria-hidden="true">↗</span>;
 
@@ -25,18 +25,161 @@ const IndexLink = ({ href, children, year }: {
   </a>
 );
 
-const ArchiveGrid = ({ images, className = "" }: {
-  images: ReadonlyArray<{ src: string; alt: string; className?: string }>;
+type ArchiveImage = { src: string; alt: string; className?: string };
+
+const hashString = (value: string) => {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+};
+
+const shuffledImages = (images: ReadonlyArray<ArchiveImage>, seed: number) => {
+  const result = [...images];
+  let state = seed >>> 0;
+  const random = () => {
+    state += 0x6d2b79f5;
+    let value = state;
+    value = Math.imul(value ^ (value >>> 15), value | 1);
+    value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+    return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+  };
+
+  for (let index = result.length - 1; index > 0; index -= 1) {
+    const target = Math.floor(random() * (index + 1));
+    [result[index], result[target]] = [result[target], result[index]];
+  }
+  return result;
+};
+
+const ArchiveGrid = ({ images, className = "", shuffle = true }: {
+  images: ReadonlyArray<ArchiveImage>;
   className?: string;
-}) => (
-  <div className={`archive-grid ${className}`.trim()}>
-    {images.map(({ src, alt, className: imageClass }, index) => (
-      <figure className={imageClass} key={`${src}-${index}`}>
-        <img src={src} alt={alt} />
-      </figure>
-    ))}
-  </div>
-);
+  shuffle?: boolean;
+}) => {
+  const [dailySeed, setDailySeed] = useState(0);
+  const [shuffleStep, setShuffleStep] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const archiveKey = images.map(({ src }) => src).join("|");
+  const orderedImages = useMemo(
+    () => shuffle && dailySeed ? shuffledImages(images, dailySeed + shuffleStep) : [...images],
+    [dailySeed, images, shuffle, shuffleStep],
+  );
+
+  useEffect(() => {
+    if (!shuffle) return;
+    const now = new Date();
+    const day = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+    setDailySeed(hashString(`${day}|${archiveKey}`));
+  }, [archiveKey, shuffle]);
+
+  const closeViewer = () => {
+    setSelected(null);
+    window.requestAnimationFrame(() => triggerRef.current?.focus());
+  };
+
+  const moveSelection = (direction: number) => {
+    setSelected((current) => current === null
+      ? null
+      : (current + direction + orderedImages.length) % orderedImages.length);
+  };
+
+  useEffect(() => {
+    if (selected === null) return;
+    closeButtonRef.current?.focus();
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeViewer();
+      if (event.key === "ArrowLeft") moveSelection(-1);
+      if (event.key === "ArrowRight") moveSelection(1);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [orderedImages.length, selected]);
+
+  const trapFocus = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== "Tab") return;
+    const buttons = Array.from(dialogRef.current?.querySelectorAll<HTMLButtonElement>("button") ?? []);
+    if (!buttons.length) return;
+    const activeIndex = buttons.indexOf(document.activeElement as HTMLButtonElement);
+    if (event.shiftKey && activeIndex <= 0) {
+      event.preventDefault();
+      buttons.at(-1)?.focus();
+    } else if (!event.shiftKey && activeIndex === buttons.length - 1) {
+      event.preventDefault();
+      buttons[0].focus();
+    }
+  };
+
+  const activeImage = selected === null ? null : orderedImages[selected];
+
+  return (
+    <div className="archive-shell">
+      {shuffle ? (
+        <div className="archive-toolbar">
+          <button
+            aria-label="Rearrange this image gallery"
+            onClick={() => {
+              setSelected(null);
+              setShuffleStep((step) => step + 1);
+            }}
+            type="button"
+          >
+            [rearrange]
+          </button>
+        </div>
+      ) : null}
+      <div className={`archive-grid ${className}`.trim()}>
+        {orderedImages.map(({ src, alt, className: imageClass }, index) => (
+          <figure className={imageClass} key={src}>
+            <button
+              aria-label={`View ${alt} full screen`}
+              className="archive-image-button"
+              onClick={(event) => {
+                triggerRef.current = event.currentTarget;
+                setSelected(index);
+              }}
+              type="button"
+            >
+              <img src={src} alt={alt} />
+            </button>
+          </figure>
+        ))}
+      </div>
+
+      {activeImage ? (
+        <div
+          aria-label="Full-screen image viewer"
+          aria-modal="true"
+          className="archive-lightbox"
+          onClick={(event) => {
+            if (event.currentTarget === event.target) closeViewer();
+          }}
+          onKeyDown={trapFocus}
+          ref={dialogRef}
+          role="dialog"
+        >
+          <button aria-label="Close full-screen image" className="lightbox-close" onClick={closeViewer} ref={closeButtonRef} type="button">[close]</button>
+          <button aria-label="Previous image" className="lightbox-previous" onClick={() => moveSelection(-1)} type="button">[←]</button>
+          <figure>
+            <img src={activeImage.src} alt={activeImage.alt} />
+            <figcaption>{selected + 1} / {orderedImages.length} · {activeImage.alt}</figcaption>
+          </figure>
+          <button aria-label="Next image" className="lightbox-next" onClick={() => moveSelection(1)} type="button">[→]</button>
+        </div>
+      ) : null}
+    </div>
+  );
+};
 
 const numberedArchive = (prefix: string, count: number, description: string) =>
   Array.from({ length: count }, (_, index) => ({
@@ -309,7 +452,7 @@ export default function Home() {
               <figure><img src="/art/trees-95.jpg" alt="The same tree overlooking a fully green landscape" /><figcaption>95</figcaption></figure>
             </div>
           }
-          more={<ArchiveGrid images={treeArchive} className="archive-trees" />}
+          more={<ArchiveGrid images={treeArchive} className="archive-trees" shuffle={false} />}
         />
 
         <ExpandableProject

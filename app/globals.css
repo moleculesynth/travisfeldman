@@ -184,6 +184,23 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 
 .expanded-view { border-top: 1px solid var(--ink); }
 .expanded-view[hidden] { display: none; }
+.archive-toolbar {
+  background: var(--paper);
+  border-bottom: 1px solid var(--ink);
+  display: flex;
+  justify-content: flex-end;
+  padding: .5rem .65rem;
+}
+.archive-toolbar button {
+  background: transparent;
+  border: 0;
+  color: var(--accent);
+  cursor: pointer;
+  font: inherit;
+  font-size: .61rem;
+  padding: .15rem .25rem;
+}
+.archive-toolbar button:hover { text-decoration: underline; text-underline-offset: .2em; }
 .archive-grid {
   display: grid;
   gap: 2px;
@@ -192,6 +209,18 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 }
 .archive-grid figure { aspect-ratio: 4 / 3; overflow: hidden; }
 .archive-grid img { height: 100%; object-fit: cover; width: 100%; }
+.archive-image-button {
+  background: transparent;
+  border: 0;
+  cursor: zoom-in;
+  display: block;
+  height: 100%;
+  padding: 0;
+  width: 100%;
+}
+.archive-image-button img { display: block; }
+.archive-image-button:hover img { filter: brightness(.92); }
+.archive-image-button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .archive-trees figure { aspect-ratio: 3 / 4; }
 .archive-metal { grid-template-columns: repeat(5, 1fr); }
 .archive-metal figure { aspect-ratio: 3 / 4; }
@@ -205,6 +234,53 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .poster-crop-4 img { object-position: 15% 85%; transform: scale(2.2); }
 .poster-crop-5 img { object-position: 50% 85%; transform: scale(2.2); }
 .poster-crop-6 img { object-position: 85% 85%; transform: scale(2.2); }
+
+.archive-lightbox {
+  background: rgba(15, 15, 13, .97);
+  display: grid;
+  grid-template-columns: minmax(44px, 6vw) minmax(0, 1fr) minmax(44px, 6vw);
+  grid-template-rows: auto minmax(0, 1fr);
+  inset: 0;
+  padding: clamp(.65rem, 2vw, 1.5rem);
+  position: fixed;
+  z-index: 1000;
+}
+.archive-lightbox > button {
+  background: transparent;
+  border: 0;
+  color: var(--paper);
+  cursor: pointer;
+  font: inherit;
+  font-size: .68rem;
+  padding: .75rem .35rem;
+}
+.archive-lightbox > button:hover, .archive-lightbox > button:focus-visible { color: var(--accent); }
+.lightbox-close { grid-column: 1 / 4; justify-self: end; }
+.lightbox-previous { align-self: center; grid-column: 1; grid-row: 2; }
+.lightbox-next { align-self: center; grid-column: 3; grid-row: 2; }
+.archive-lightbox figure {
+  align-items: center;
+  display: grid;
+  grid-column: 2;
+  grid-row: 2;
+  grid-template-rows: minmax(0, 1fr) auto;
+  justify-items: center;
+  min-height: 0;
+  overflow: hidden;
+}
+.archive-lightbox figure img {
+  max-height: calc(100svh - 7rem);
+  max-width: 100%;
+  object-fit: contain;
+}
+.archive-lightbox figcaption {
+  color: var(--paper);
+  font-size: .6rem;
+  line-height: 1.45;
+  max-width: 60rem;
+  padding-top: .65rem;
+  text-align: center;
+}
 
 .project-micro, .project-trees, .project-movieposter, .project-tarot, .project-shrink,
 .project-molecule, .project-pijin, .project-sound { background: var(--paper); }
@@ -355,6 +431,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   .archive-grid, .archive-metal { grid-template-columns: repeat(2, 1fr); }
   .archive-grid figure, .archive-metal figure { aspect-ratio: 4 / 3; }
   .archive-trees figure { aspect-ratio: 3 / 4; }
+  .archive-lightbox { grid-template-columns: 42px minmax(0, 1fr) 42px; padding: .5rem; }
+  .archive-lightbox figcaption { font-size: .55rem; }
   .trees-stream { grid-template-columns: repeat(6, 68vw); overflow-x: auto; }
   .selva-stream { grid-template-rows: 72vw 58vw 60vw; }
   .selva-a { grid-column: 1 / 13; }

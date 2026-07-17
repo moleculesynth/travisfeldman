@@ -14,14 +14,14 @@ async function render() {
   );
 }
 
-test("server-renders the 0.3.6 Braun-inspired work index", async () => {
+test("server-renders the 1.0.1 Braun-inspired work index", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
   assert.match(html, /<title>Travis Feldman — Objects, Signals, Images, Language<\/title>/i);
-  assert.doesNotMatch(html, /Homepage 0\.3\.5|Homepage 0\.3\.6/);
+  assert.doesNotMatch(html, /Homepage 0\.3\.5|Homepage 0\.3\.6|Homepage 1\.0\.1/);
   assert.match(html, /Objects, images, signals, language/);
   assert.match(html, /100 Trees/);
   assert.match(html, /The One Tree and the Many Trees/);
@@ -51,6 +51,8 @@ test("server-renders the 0.3.6 Braun-inspired work index", async () => {
   assert.equal((html.match(/id="shrink-circuits"/g) ?? []).length, 1);
   assert.equal((html.match(/id="metalworks"/g) ?? []).length, 1);
   assert.ok((html.match(/\[\+\] more images/g) ?? []).length >= 11);
+  assert.ok((html.match(/\[rearrange\]/g) ?? []).length >= 10);
+  assert.ok((html.match(/archive-image-button/g) ?? []).length >= 100);
   assert.match(html, /aria-controls="micrographia-more"/);
   assert.match(html, /id="micrographia-more"/);
   assert.match(html, /<h2>Designs \+ images<\/h2>[\s\S]*Micrographia[\s\S]*Night Shift[\s\S]*100 Trees[\s\S]*Selva Oscura[\s\S]*Metalworks (?:&amp;|&) Design[\s\S]*GANtoons[\s\S]*MoviePosterGAN[\s\S]*Consumerisms[\s\S]*Tarot TV/);
@@ -137,6 +139,12 @@ test("ships the restrained design system and deep archives without the source li
 
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(page, /_sites-preview|SkeletonPreview/);
+  assert.match(page, /archive-lightbox/);
+  assert.match(page, /aria-modal="true"/);
+  assert.match(page, /ArrowLeft/);
+  assert.match(page, /ArrowRight/);
+  assert.match(page, /hashString\(`\$\{day\}\|\$\{archiveKey\}`\)/);
+  assert.match(page, /className="archive-trees" shuffle=\{false\}/);
   assert.doesNotMatch(layout, /codex-preview|Starter Project/);
   assert.match(styles, /--mono:/);
   assert.match(styles, /--accent: #e6532f/);
