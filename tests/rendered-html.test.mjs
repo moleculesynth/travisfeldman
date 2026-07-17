@@ -14,14 +14,14 @@ async function render() {
   );
 }
 
-test("server-renders the 0.3.2 chronological split work index", async () => {
+test("server-renders the 0.3.3 chronological split work index", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
   assert.match(html, /<title>Travis Feldman — Objects, Signals, Images, Language<\/title>/i);
-  assert.match(html, /Homepage 0\.3\.2/);
+  assert.match(html, /Homepage 0\.3\.3/);
   assert.match(html, /Objects, images, signals, language/);
   assert.match(html, /100 Trees/);
   assert.match(html, /Hegelian meditation on the one and the many/);
@@ -30,6 +30,12 @@ test("server-renders the 0.3.2 chronological split work index", async () => {
   assert.match(html, /Dantean exploration of slow exposure and digital night/);
   assert.match(html, /Micrographia/);
   assert.match(html, /Night Shift/);
+  assert.match(html, /Metalworks (?:&amp;|&) Design/);
+  assert.match(html, /2020–2021/);
+  assert.match(html, /Speakers, furniture, and classroom infrastructure/);
+  assert.match(html, /ShopBot frame/);
+  assert.match(html, /Rolling classroom system/);
+  assert.match(html, /Fur \+ steel/);
   assert.match(html, /Molecule Synth/);
   assert.match(html, /GANtoons/);
   assert.match(html, /MoviePosterGAN/);
@@ -45,10 +51,12 @@ test("server-renders the 0.3.2 chronological split work index", async () => {
   assert.match(html, /A reader among machines/);
   assert.equal((html.match(/id="pijin"/g) ?? []).length, 1);
   assert.equal((html.match(/id="shrink-circuits"/g) ?? []).length, 1);
-  assert.ok((html.match(/More images \+/g) ?? []).length >= 10);
+  assert.equal((html.match(/id="metalworks"/g) ?? []).length, 1);
+  assert.ok((html.match(/More images \+/g) ?? []).length >= 11);
   assert.match(html, /aria-controls="micrographia-more"/);
   assert.match(html, /id="micrographia-more"/);
-  assert.match(html, /<h2>Images<\/h2>[\s\S]*Micrographia[\s\S]*Night Shift[\s\S]*100 Trees[\s\S]*Selva Oscura[\s\S]*GANtoons[\s\S]*MoviePosterGAN[\s\S]*Consumerisms[\s\S]*Tarot TV/);
+  assert.match(html, /<h2>Designs \+ images<\/h2>[\s\S]*Micrographia[\s\S]*Night Shift[\s\S]*100 Trees[\s\S]*Selva Oscura[\s\S]*Metalworks (?:&amp;|&) Design[\s\S]*GANtoons[\s\S]*MoviePosterGAN[\s\S]*Consumerisms[\s\S]*Tarot TV/);
+  assert.match(html, /<h2>Sounds \+ signals<\/h2>/);
   assert.match(html, /Nerve Maps[\s\S]*2025–present[\s\S]*The Many Mansions[\s\S]*2012–14/);
   assert.match(html, /Shrink Circuits[\s\S]*2013–18/);
   assert.doesNotMatch(html, />0[1-9] ·/);
@@ -80,7 +88,7 @@ test("keeps video, Kickstarter, audio, writing, and project links direct", async
 });
 
 test("ships expanded gallery imagery while excluding the source library", async () => {
-  const [packageJson, layout, page, gitignore, ogImage, treeImage, selvaImage, ganImage, consumerImage] = await Promise.all([
+  const [packageJson, layout, page, gitignore, ogImage, treeImage, selvaImage, ganImage, consumerImage, metalImage, portraitImage] = await Promise.all([
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
@@ -90,6 +98,8 @@ test("ships expanded gallery imagery while excluding the source library", async 
     readFile(new URL("../public/art/selva-moon-trees.jpg", import.meta.url)),
     readFile(new URL("../public/art/gantoons-movie-posters.jpg", import.meta.url)),
     readFile(new URL("../public/art/consumerisms-view-1.jpg", import.meta.url)),
+    readFile(new URL("../public/art/metal-shopbot.jpg", import.meta.url)),
+    readFile(new URL("../public/art/portrait-workshop.jpg", import.meta.url)),
   ]);
 
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
@@ -101,4 +111,6 @@ test("ships expanded gallery imagery while excluding the source library", async 
   assert.ok(selvaImage.byteLength > 100_000);
   assert.ok(ganImage.byteLength > 10_000);
   assert.ok(consumerImage.byteLength > 100_000);
+  assert.ok(metalImage.byteLength > 100_000);
+  assert.ok(portraitImage.byteLength > 100_000);
 });

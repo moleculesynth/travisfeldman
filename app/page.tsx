@@ -118,18 +118,19 @@ export default function Home() {
 
       <aside className="index-panel">
         <div className="identity">
-          <p className="version">Homepage 0.3.2</p>
+          <p className="version">Homepage 0.3.3</p>
           <h1>Travis Feldman</h1>
           <p>Objects, images, signals, language, and ways of learning together.</p>
         </div>
 
         <nav className="work-index" aria-label="Work index">
           <section>
-            <h2>Images</h2>
+            <h2>Designs + images</h2>
             <IndexLink href="#micrographia" year="2025">Micrographia</IndexLink>
             <IndexLink href="#night-shift" year="2025">Night Shift</IndexLink>
             <IndexLink href="#hundred-trees" year="2024">100 Trees</IndexLink>
             <IndexLink href="#selva-oscura" year="2022–23">Selva Oscura</IndexLink>
+            <IndexLink href="#metalworks" year="2020–21">Metalworks &amp; Design</IndexLink>
             <IndexLink href="#gantoons" year="2018">GANtoons</IndexLink>
             <IndexLink href="#movieposter-gan" year="2018">MoviePosterGAN</IndexLink>
             <IndexLink href="#consumerisms" year="2001–02">Consumerisms</IndexLink>
@@ -146,7 +147,7 @@ export default function Home() {
           </section>
 
           <section>
-            <h2>Sound</h2>
+            <h2>Sounds + signals</h2>
             <IndexLink href="#nerve-maps" year="2025–present">Nerve Maps</IndexLink>
             <IndexLink href="#many-mansions" year="2012–14">The Many Mansions</IndexLink>
           </section>
@@ -257,6 +258,38 @@ export default function Home() {
               <figure><img src="/art/selva-2317.jpg" alt="A long exposure through moonlit branches" /></figure>
               <figure><img src="/art/selva-2398.jpg" alt="A dark woodland gathered by the camera" /></figure>
               <figure><img src="/art/selva-2700.jpg" alt="Night foliage illuminated by slow exposure" /></figure>
+            </div>
+          }
+        />
+
+        <ExpandableProject
+          id="metalworks"
+          className="project-metalworks"
+          title="Metalworks & Design"
+          year="2020–2021"
+          summary="Speakers, furniture, and classroom infrastructure built through welding and fabrication—an extended experiment in metal, unfinished and lacquered wood, fur, and laser-cut acrylic."
+          preview={
+            <div className="metalworks-stream">
+              <figure className="metal-a"><img src="/art/metal-speakers-pair.jpg" alt="A pair of handmade wooden speakers with exposed drivers" /><figcaption>Speakers</figcaption></figure>
+              <figure className="metal-b"><img src="/art/metal-shopbot.jpg" alt="A ShopBot CNC machine mounted on a heavy-duty welded frame" /><figcaption>ShopBot frame</figcaption></figure>
+              <figure className="metal-c"><img src="/art/metal-whiteboard.jpg" alt="A large classroom whiteboard on a welded rolling base" /><figcaption>Rolling classroom system</figcaption></figure>
+              <figure className="metal-d"><img src="/art/metal-hex-tables.jpg" alt="Circular and hexagonal tables in fur, metal, unfinished wood, and lacquered wood" /><figcaption>Material studies</figcaption></figure>
+              <figure className="metal-e"><img src="/art/metal-speaker-wood.jpg" alt="A handmade wooden speaker enclosure" /><figcaption>Wood + sound</figcaption></figure>
+              <figure className="metal-f"><img src="/art/metal-fur-table.jpg" alt="A small circular table with a white furry surface" /><figcaption>Fur + steel</figcaption></figure>
+            </div>
+          }
+          more={
+            <div className="metalworks-more">
+              <figure><img src="/art/metal-speaker-process.jpg" alt="Folded and welded metal forms for speaker construction" /><figcaption>Fabrication studies</figcaption></figure>
+              <figure><img src="/art/metal-speaker-unfinished.jpg" alt="An unfinished speaker box showing its material assembly" /><figcaption>Unfinished speaker</figcaption></figure>
+              <figure><img src="/art/metal-form-studies.jpg" alt="Small welded forms testing angles and surface" /><figcaption>Form + texture</figcaption></figure>
+              <figure><img src="/art/metal-pegboard-panel.jpg" alt="A laser-cut acrylic and pegboard classroom panel" /><figcaption>Acrylic + pegboard</figcaption></figure>
+              <figure><img src="/art/metal-rolling-pegboard.jpg" alt="A mobile pegboard system on a welded frame" /><figcaption>Mobile storage</figcaption></figure>
+              <figure><img src="/art/metal-rolling-cart.jpg" alt="A wood and steel classroom cart on casters" /><figcaption>Rolling cart</figcaption></figure>
+              <figure><img src="/art/metal-round-table.jpg" alt="A small lacquered circular table on hairpin legs" /><figcaption>Lacquered wood</figcaption></figure>
+              <figure><img src="/art/metal-nested-tables.jpg" alt="A pair of nested square steel and wood tables" /><figcaption>Nested tables</figcaption></figure>
+              <figure><img src="/art/metal-classroom-table.jpg" alt="A long wood classroom table on a welded steel frame" /><figcaption>Classroom table</figcaption></figure>
+              <figure><img src="/art/metal-heavy-frame.jpg" alt="A heavy welded equipment frame during fabrication" /><figcaption>Heavy frame</figcaption></figure>
             </div>
           }
         />
@@ -442,7 +475,14 @@ export default function Home() {
         />
 
         <section className="about-panel" id="about">
-          <div><p className="version">About</p><h2>A reader among machines.</h2></div>
+          <div>
+            <p className="version">About</p>
+            <h2>A reader among machines.</h2>
+            <figure className="about-portrait">
+              <img src="/art/portrait-workshop.jpg" alt="Travis Feldman in welding gear in the workshop" />
+              <figcaption>Between materials, 2020.</figcaption>
+            </figure>
+          </div>
           <div className="about-copy">
             <p>Travis Feldman is an artist, scholar, educator, designer, and musician working across physical electronics, photography, experimental sound, literature, and shared learning spaces.</p>
             <details>
@@ -461,7 +501,7 @@ export default function Home() {
 
         <footer className="gallery-footer">
           <p>© {new Date().getFullYear()} Travis Feldman</p>
-          <p>Homepage 0.3.2</p>
+          <p>Homepage 0.3.3</p>
           <a href="#gallery">Back to top ↑</a>
         </footer>
       </div>
