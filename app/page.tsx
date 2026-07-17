@@ -1,6 +1,6 @@
 "use client";
 
-import { cloneElement, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const Arrow = () => <span aria-hidden="true">↗</span>;
 
@@ -30,7 +30,6 @@ type ArchiveGridProps = {
   images: ReadonlyArray<ArchiveImage>;
   className?: string;
   shuffle?: boolean;
-  rearrangeSignal?: number;
 };
 
 const hashString = (value: string) => {
@@ -60,7 +59,7 @@ const shuffledImages = (images: ReadonlyArray<ArchiveImage>, seed: number) => {
   return result;
 };
 
-const ArchiveGrid = ({ images, className = "", shuffle = true, rearrangeSignal = 0 }: ArchiveGridProps) => {
+const ArchiveGrid = ({ images, className = "", shuffle = true }: ArchiveGridProps) => {
   const [dailySeed, setDailySeed] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -68,8 +67,8 @@ const ArchiveGrid = ({ images, className = "", shuffle = true, rearrangeSignal =
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const archiveKey = images.map(({ src }) => src).join("|");
   const orderedImages = useMemo(
-    () => shuffle && dailySeed ? shuffledImages(images, dailySeed + rearrangeSignal) : [...images],
-    [dailySeed, images, rearrangeSignal, shuffle],
+    () => shuffle && dailySeed ? shuffledImages(images, dailySeed) : [...images],
+    [dailySeed, images, shuffle],
   );
 
   useEffect(() => {
@@ -174,14 +173,12 @@ const numberedArchive = (prefix: string, count: number, description: string) =>
     alt: `${description} ${index + 1}`,
   }));
 
-const ProjectHeader = ({ title, year, children, links, expanded, onToggle, onRearrange, controlsId }: {
+const ProjectHeader = ({ title, year, links, expanded, onToggle, controlsId }: {
   title: React.ReactNode;
   year?: string;
-  children: React.ReactNode;
   links?: React.ReactNode;
   expanded?: boolean;
   onToggle?: () => void;
-  onRearrange?: () => void;
   controlsId?: string;
 }) => (
   <header className="project-header">
@@ -195,49 +192,33 @@ const ProjectHeader = ({ title, year, children, links, expanded, onToggle, onRea
             <button
               aria-controls={controlsId}
               aria-expanded={expanded}
+              aria-label={expanded ? "Close image gallery" : "Open image gallery"}
               className="project-toggle-button"
               onClick={onToggle}
               type="button"
             >
-              {expanded ? "[−] close" : "[+] more images"}
+              {expanded ? "[−]" : "[+]"}
             </button>
-            {onRearrange ? (
-              <button
-                aria-label="Rearrange this image gallery"
-                className="project-rearrange-button"
-                onClick={onRearrange}
-                type="button"
-              >
-                [rearrange]
-              </button>
-            ) : null}
           </div>
         </div>
       ) : <h2>{title}</h2>}
       {year ? <time>{year}</time> : null}
     </div>
-    <div className="project-summary">
-      <p>{children}</p>
-      {links ? <div className="project-links">{links}</div> : null}
-    </div>
+    {links ? <div className="project-links">{links}</div> : null}
   </header>
 );
 
-const ExpandableProject = ({ id, className, title, year, summary, links, preview, more }: {
+const ExpandableProject = ({ id, className, title, year, links, preview, more }: {
   id: string;
   className: string;
   title: React.ReactNode;
   year?: string;
-  summary: React.ReactNode;
   links?: React.ReactNode;
   preview: React.ReactNode;
   more?: React.ReactElement<ArchiveGridProps>;
 }) => {
   const [expanded, setExpanded] = useState(false);
-  const [rearrangeSignal, setRearrangeSignal] = useState(0);
   const controlsId = `${id}-more`;
-  const canRearrange = Boolean(more && more.props.shuffle !== false);
-  const expandedGallery = more ? cloneElement(more, { rearrangeSignal }) : null;
 
   return (
     <section className={`gallery-project ${className}`} id={id}>
@@ -247,17 +228,11 @@ const ExpandableProject = ({ id, className, title, year, summary, links, preview
         links={links}
         expanded={expanded}
         onToggle={more ? () => setExpanded((value) => !value) : undefined}
-        onRearrange={canRearrange ? () => {
-          setExpanded(true);
-          setRearrangeSignal((signal) => signal + 1);
-        } : undefined}
         controlsId={more ? controlsId : undefined}
-      >
-        {summary}
-      </ProjectHeader>
+      />
       {more ? (
         <div className="expanded-view" hidden={!expanded} id={controlsId}>
-          {expandedGallery}
+          {more}
         </div>
       ) : null}
       {preview}
@@ -357,7 +332,10 @@ export default function Home() {
       <aside className="index-panel">
         <div className="identity">
           <h1>Travis Feldman</h1>
-          <p>Objects, images, signals, language, and ways of learning together.</p>
+          <div className="identity-ledger">
+            <p>Selected works, exhibitions, recordings, and writing</p>
+            <p>2001—present</p>
+          </div>
         </div>
 
         <nav className="work-index" aria-label="Work index">
@@ -419,7 +397,6 @@ export default function Home() {
           className="project-micro"
           title="Micrographia"
           year="2025"
-          summary="Specimens, actors, contact, reversal, scale, dimension, portrait, strange council."
           preview={
             <div className="micro-stream">
               <figure className="micro-a"><img src="/art/micro-cicadas.jpg" alt="Three cicada specimens arranged on white" /></figure>
@@ -436,7 +413,6 @@ export default function Home() {
           className="project-night"
           title="Night Shift"
           year="2025"
-          summary="Vacant, empty, exposed, insomniac, undead."
           preview={
             <div className="night-stream">
               <figure className="night-a"><img src="/art/night-void-color.jpg" alt="A brightly illuminated office building at night" /></figure>
@@ -452,7 +428,6 @@ export default function Home() {
           className="project-trees"
           title="100 Trees"
           year="2024"
-          summary="The One Tree and the Many Trees, Sleeping Giant Park, CT."
           preview={
             <div className="trees-stream" aria-label="100 Trees seasonal sequence">
               <figure><img src="/art/trees-01.jpg" alt="The tree at a rocky overlook in late autumn" /><figcaption>01</figcaption></figure>
@@ -471,7 +446,6 @@ export default function Home() {
           className="project-selva"
           title={<><em>Selva</em> Oscura</>}
           year="2022–2023"
-          summary="Midway in the journey, slow exposure, digital night, creatures moving to hiding places at the edge of the visible."
           preview={
             <div className="selva-stream">
               <figure className="selva-a"><img src="/art/selva-moon-trees.jpg" alt="Moonlight caught in the branches of old trees" /></figure>
@@ -490,7 +464,6 @@ export default function Home() {
           className="project-metalworks"
           title="Metalworks & Design"
           year="2020–2021"
-          summary="Experiments mixing handcraft, welding, textiles, woodwork and digital fabrication."
           preview={
             <div className="metalworks-stream">
               <figure className="metal-a"><img src="/art/metal-speakers-pair.jpg" alt="A pair of handmade wooden speakers with exposed drivers" /></figure>
@@ -509,7 +482,6 @@ export default function Home() {
           className="project-gantoons"
           title="GANtoons"
           year="Berlin · 2018"
-          summary="Trained on 5000 golden- and silver-age comic-book covers: what can a machine know, and what new image of a comic-book cover can it generate?"
           links={<><ExternalLink href="https://youtu.be/BNb0xTEe69I">30-minute loop</ExternalLink><ExternalLink href="https://youtu.be/Ct37TbZJlrk">Comic covers</ExternalLink></>}
           preview={
             <div className="gan-stream gan-stream-two">
@@ -525,7 +497,6 @@ export default function Home() {
           className="project-movieposter"
           title="MoviePosterGAN"
           year="Berlin · 2018"
-          summary="A machine trained on thousands of movie posters asks how visual media might articulate emotion back to the humans who made it."
           links={<ExternalLink href="https://youtu.be/lmEL5HyCGRE">Play MoviePosterGAN</ExternalLink>}
           preview={
             <a className="movieposter-hero" href="https://youtu.be/lmEL5HyCGRE" target="_blank" rel="noreferrer">
@@ -541,7 +512,6 @@ export default function Home() {
           className="project-consumerisms"
           title="Consumerisms"
           year="2001–2002"
-          summary="A mess hall of myths and mass culture."
           preview={
             <div className="consumerisms-stream">
               <figure className="consumer-a"><img src="/art/consumer-more-new-04.jpg" alt="Quad-eyed Uranus painted in earth tones" /></figure>
@@ -558,7 +528,6 @@ export default function Home() {
           className="project-tarot"
           title="Tarot TV"
           year="2001"
-          summary="Video noise, found gestures, and technological divination."
           preview={<div className="tarot-stream">{tarotFrames.map(([src, alt]) => <figure key={src}><img src={src} alt={alt} /></figure>)}</div>}
           more={<ArchiveGrid images={tarotArchive} />}
         />
@@ -568,7 +537,6 @@ export default function Home() {
           className="project-shrink"
           title="Shrink Circuits Nomad Lab"
           year="2013–2018"
-          summary="Transportable DIY-electronics workshops imagined as democratic, shared learning infrastructure: tools and circuits brought to people instead of waiting for people to find the lab."
           links={<><ExternalLink href="http://shrinkcircuits.org/">Project site</ExternalLink><ExternalLink href="https://www.awesomefoundation.org/en/projects/30742-shrink-circuits-nomad-lab">Project record</ExternalLink></>}
           preview={
             <div className="shrink-stream">
@@ -585,7 +553,6 @@ export default function Home() {
           className="project-molecule"
           title="Molecule Synth"
           year="2012–2018"
-          summary="A musical instrument broken into its elements and handed back to the player as rearrangeable, color-coded hexagons."
           links={<><ExternalLink href="https://www.kickstarter.com/projects/travisfeldman/molecule-synth">Kickstarter</ExternalLink><ExternalLink href="https://moleculesynth.com">Project site</ExternalLink></>}
           preview={
             <div className="molecule-stream">
@@ -602,7 +569,6 @@ export default function Home() {
           className="project-prototypes"
           title="Playable prototypes"
           year="2013–2017"
-          summary="Tiles become a race. Circuits grow legs. A board becomes a behavior."
           preview={
             <div className="prototype-stream">
               <figure><img src="/art/prototype-swarmbots.jpg" alt="Experimental swarm robots assembled from batteries and circuit boards" /></figure>
@@ -618,7 +584,6 @@ export default function Home() {
           className="project-pijin"
           title="PIJIN"
           year="2013"
-          summary="A spelling game of the spoken word, built from the sounds people actually make rather than the letters they inherit."
           links={<><ExternalLink href="https://www.kickstarter.com/projects/travisfeldman/pijin-the-spelling-game-of-the-spoken-word">Kickstarter</ExternalLink><ExternalLink href="https://www.behance.net/gallery/14485693/Pijin">Visual archive</ExternalLink></>}
           preview={<figure className="single-image"><img src="/images/pijin.jpg" alt="People arranging letter-sound tiles in a game of PIJIN" /></figure>}
         />
@@ -628,7 +593,6 @@ export default function Home() {
           className="project-bpow"
           title="BPOW!!!"
           year="2013"
-          summary="A festival, workshop, and public electronic orchestra built around DIY electronics as a medium of self-expression."
           links={<><ExternalLink href="https://www.kickstarter.com/projects/travisfeldman/bpow-battery-powered-orchestra-workshop">Kickstarter</ExternalLink><ExternalLink href="https://makezine.com/article/craft/music/bpow-festival-celebrates-the-art-of-salvaged-sound/">Festival story</ExternalLink></>}
           preview={
             <div className="bpow-stream">
@@ -646,7 +610,6 @@ export default function Home() {
           className="project-sound"
           title="Nerve Maps"
           year="2025–present"
-          summary="Phase, percussion, emergent timbre, modulated texture, and liminal pulse."
           links={<ExternalLink href="https://nervemaps.bandcamp.com">Listen on Bandcamp</ExternalLink>}
           preview={
             <div className="sound-stream">
@@ -661,7 +624,6 @@ export default function Home() {
           className="project-many"
           title="The Many Mansions"
           year="2012–2014"
-          summary="Experimental sound gathered around pulse, repetition, saturation, and collective drift."
           links={<ExternalLink href="https://themanymansions.bandcamp.com/">Listen on Bandcamp</ExternalLink>}
           preview={
             <a className="many-mansions-cover" href="https://themanymansions.bandcamp.com/" target="_blank" rel="noreferrer">

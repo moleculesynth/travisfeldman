@@ -14,25 +14,22 @@ async function render() {
   );
 }
 
-test("server-renders the 1.0.2 Braun-inspired work index", async () => {
+test("server-renders the 1.0.3 restrained exhibition index", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
   assert.match(html, /<title>Travis Feldman — Objects, Signals, Images, Language<\/title>/i);
-  assert.doesNotMatch(html, /Homepage 0\.3\.5|Homepage 0\.3\.6|Homepage 1\.0\.1|Homepage 1\.0\.2/);
-  assert.match(html, /Objects, images, signals, language/);
+  assert.doesNotMatch(html, /Homepage 0\.3\.5|Homepage 0\.3\.6|Homepage 1\.0\.1|Homepage 1\.0\.2|Homepage 1\.0\.3/);
+  assert.match(html, /Selected works, exhibitions, recordings, and writing/);
+  assert.match(html, /2001—present/);
   assert.match(html, /100 Trees/);
-  assert.match(html, /The One Tree and the Many Trees/);
-  assert.match(html, /Sleeping Giant Park, CT/);
   assert.match(html, /Selva[\s\S]*Oscura/);
-  assert.match(html, /Midway in the journey, slow exposure, digital night/);
   assert.match(html, /Micrographia/);
   assert.match(html, /Night Shift/);
   assert.match(html, /Metalworks (?:&amp;|&) Design/);
   assert.match(html, /2020–2021/);
-  assert.match(html, /Experiments mixing handcraft, welding, textiles, woodwork and digital fabrication/);
   assert.match(html, /ShopBot CNC machine mounted on a heavy-duty welded frame/);
   assert.match(html, /Molecule Synth/);
   assert.match(html, /GANtoons/);
@@ -50,8 +47,8 @@ test("server-renders the 1.0.2 Braun-inspired work index", async () => {
   assert.equal((html.match(/id="pijin"/g) ?? []).length, 1);
   assert.equal((html.match(/id="shrink-circuits"/g) ?? []).length, 1);
   assert.equal((html.match(/id="metalworks"/g) ?? []).length, 1);
-  assert.ok((html.match(/\[\+\] more images/g) ?? []).length >= 11);
-  assert.ok((html.match(/\[rearrange\]/g) ?? []).length >= 10);
+  assert.ok((html.match(/>\[\+\]</g) ?? []).length >= 11);
+  assert.doesNotMatch(html, /more images|\[rearrange\]/i);
   assert.ok((html.match(/archive-image-button/g) ?? []).length >= 100);
   assert.match(html, /aria-controls="micrographia-more"/);
   assert.match(html, /id="micrographia-more"/);
@@ -60,9 +57,6 @@ test("server-renders the 1.0.2 Braun-inspired work index", async () => {
   assert.match(html, /<h2>Sounds \+ signals<\/h2>[\s\S]*<h2>Writing \+ research<\/h2>/);
   assert.match(html, /Learning in makerspaces/);
   assert.match(html, /Makerspaces as social systems[\s\S]*2023[\s\S]*Learning in makerspaces[\s\S]*2022[\s\S]*Controversial Crabbe[\s\S]*2012[\s\S]*William Blake \/ The Four Zoas[\s\S]*2005[\s\S]*English Literature and Ancient Languages[\s\S]*2004[\s\S]*Sappho: Poems and Fragments[\s\S]*2002/);
-  assert.match(html, /Specimens, actors, contact, reversal, scale, dimension, portrait, strange council/);
-  assert.match(html, /Vacant, empty, exposed, insomniac, undead/);
-  assert.match(html, /A mess hall of myths and mass culture/);
   assert.match(html, /DISCO!! Extended Play circular Shrink Circuits board design/);
   assert.match(html, /many-mansions-album\.jpg/);
   assert.match(html, /consumerisms-stream[\s\S]*consumer-more-new-04\.jpg[\s\S]*consumerisms-cosmos\.jpg[\s\S]*consumerisms-ikarus\.jpg[\s\S]*consumerisms-sungod\.jpg/);
@@ -146,13 +140,15 @@ test("ships the restrained design system and deep archives without the source li
   assert.match(page, /hashString\(`\$\{day\}\|\$\{archiveKey\}`\)/);
   assert.match(page, /className="archive-trees" shuffle=\{false\}/);
   assert.match(page, /className="project-control-row"/);
-  assert.match(page, /className="project-rearrange-button"/);
-  assert.match(page, /setExpanded\(true\)/);
+  assert.doesNotMatch(page, /project-rearrange-button|rearrangeSignal|summary=/);
   assert.ok(page.indexOf('className="expanded-view"') < page.indexOf("{preview}"));
   assert.doesNotMatch(page, /archive-toolbar|shuffleStep/);
   assert.doesNotMatch(layout, /codex-preview|Starter Project/);
   assert.match(styles, /--mono:/);
+  assert.match(styles, /--sans:/);
   assert.match(styles, /--accent: #e6532f/);
+  assert.match(styles, /content: "# "/);
+  assert.doesNotMatch(styles, /content: "## "/);
   assert.doesNotMatch(styles, /\.version::before|\.about-panel|\.metalworks-stream figcaption/);
   assert.doesNotMatch(styles, /--serif:|--acid:|--blue:|--violet:/);
   assert.match(gitignore, /\/source-assets\//);
