@@ -197,7 +197,7 @@ const ArchiveGrid = ({ images, className = "", shuffle = true }: ArchiveGridProp
           <button aria-label="Previous image" className="lightbox-previous" onClick={() => moveSelection(-1)} type="button">[←]</button>
           <figure>
             <ArtworkImage src={activeImage.src} alt={activeImage.alt} />
-            <figcaption>{selected + 1} / {orderedImages.length} · {activeImage.alt}</figcaption>
+            <figcaption>{selected! + 1} / {orderedImages.length} · {activeImage.alt}</figcaption>
           </figure>
           <button aria-label="Next image" className="lightbox-next" onClick={() => moveSelection(1)} type="button">[→]</button>
         </div>
