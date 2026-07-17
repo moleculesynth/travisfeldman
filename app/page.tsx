@@ -325,11 +325,15 @@ const ExpandableProject = ({ id, className, title, year, links, thumbnail, previ
 
 const microArchive = [
   ...numberedArchive("micro-more", 9, "Micrographia study"),
-  ...numberedArchive("micro-extra", 7, "Additional Micrographia study"),
+  ...numberedArchive("micro-extra", 7, "Additional Micrographia study", [1, 2, 3, 4, 5, 7]),
 ];
 const nightArchive = [
   ...numberedArchive("night-more", 6, "Night Shift photograph", [4, 5, 6]),
   ...numberedArchive("night-extra", 12, "Additional Night Shift photograph"),
+  ...[7, 1, 4, 2, 3, 5].map((number) => ({
+    src: `/art/micro-extra-${String(number).padStart(2, "0")}.jpg`,
+    alt: `Night Shift photograph ${number}`,
+  })),
 ];
 const treeArchive = [
   ...[13, 19, 25, 43, 58, 82].map((number) => ({ src: `/art/trees-${number}.jpg`, alt: `100 Trees sequence, position ${number}` })),
