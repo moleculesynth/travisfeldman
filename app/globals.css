@@ -239,12 +239,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .crop-left img { object-position: 25% center; }
 .crop-center img { object-position: center; }
 .crop-right img { object-position: 75% center; }
-.poster-crop-1 img { object-position: 15% 15%; transform: scale(2.2); }
-.poster-crop-2 img { object-position: 50% 15%; transform: scale(2.2); }
-.poster-crop-3 img { object-position: 85% 15%; transform: scale(2.2); }
-.poster-crop-4 img { object-position: 15% 85%; transform: scale(2.2); }
-.poster-crop-5 img { object-position: 50% 85%; transform: scale(2.2); }
-.poster-crop-6 img { object-position: 85% 85%; transform: scale(2.2); }
 
 .archive-lightbox {
   background: rgba(15, 15, 13, .97);
@@ -349,8 +343,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .metal-b { grid-column: 7 / 13; }
 .metal-c { grid-column: 1 / 5; }
 .metal-d { grid-column: 5 / 13; }
-.metal-e { grid-column: 1 / 7; }
-.metal-f { grid-column: 7 / 13; }
+.metal-e { grid-column: 1 / 13; }
 
 .night-stream, .molecule-stream, .prototype-stream, .bpow-stream, .gan-stream {
   display: grid;
@@ -488,8 +481,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   .metal-b { grid-column: 1 / 13; grid-row: 2; }
   .metal-c { grid-column: 1 / 6; grid-row: 3; }
   .metal-d { grid-column: 6 / 13; grid-row: 3; }
-  .metal-e { grid-column: 1 / 7; grid-row: 4; }
-  .metal-f { grid-column: 7 / 13; grid-row: 4; }
+  .metal-e { grid-column: 1 / 13; grid-row: 4; }
   .night-stream { grid-template-columns: 1fr 1fr; height: auto; }
   .night-stream figure { height: 78vw; }
   .night-stream .night-a { grid-column: 1 / 3; }

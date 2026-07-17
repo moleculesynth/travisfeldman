@@ -144,10 +144,10 @@ test("ships the restrained design system and deep archives without the source li
     readFile(new URL("../public/og-visual.png", import.meta.url)),
     readFile(new URL("../public/art/trees-35.jpg", import.meta.url)),
     readFile(new URL("../public/art/selva-moon-trees.jpg", import.meta.url)),
-    readFile(new URL("../public/art/gantoons-movie-posters.jpg", import.meta.url)),
+    readFile(new URL("../public/art/gantoons-comic-loop.jpg", import.meta.url)),
     readFile(new URL("../public/art/consumerisms-view-1.jpg", import.meta.url)),
     readFile(new URL("../public/art/metal-shopbot.jpg", import.meta.url)),
-    readFile(new URL("../public/art/metal-more-30.jpg", import.meta.url)),
+    readFile(new URL("../public/art/metal-more-29.jpg", import.meta.url)),
     readFile(new URL("../public/art/many-mansions-album.jpg", import.meta.url)),
     readFile(new URL("../public/art/shrink-workshop.jpg", import.meta.url)),
     readFile(new URL("../public/art/prototype-extra-04.jpg", import.meta.url)),
@@ -165,6 +165,34 @@ test("ships the restrained design system and deep archives without the source li
   assert.match(page, /className="archive-trees" shuffle=\{false\}/);
   assert.match(page, /className="project-control-row"/);
   assert.match(page, /target\.scrollIntoView/);
+  for (const removedGallerySource of [
+    "/art/metal-fur-table.jpg",
+    "/art/shrink-lab.jpg",
+    "/images/photo-1.jpg",
+    "/images/photo-2.jpg",
+    "/images/photo-4.jpg",
+    "/images/work-6.jpg",
+    "/images/work-7.jpg",
+    "/art/consumerisms-garden.jpg",
+    "/art/consumerisms-view-5.jpg",
+    "/art/consumerisms-view-6.jpg",
+    "/art/consumer-more-new-01.jpg",
+    "/art/consumer-more-new-02.jpg",
+    "/art/consumer-more-new-04.jpg",
+    "/artworks/fernandos-panel.jpg",
+    "/artworks/cheyenes-poster.jpg",
+    "/art/gantoons-movie-posters.jpg",
+  ]) {
+    assert.ok(!page.includes(removedGallerySource), `removed gallery source remains: ${removedGallerySource}`);
+  }
+  assert.match(page, /numberedArchive\("night-more", 6, "Night Shift photograph", \[4, 5, 6\]\)/);
+  assert.match(page, /numberedArchive\("selva-more-new", 8, "Additional Selva Oscura photograph", \[8\]\)/);
+  assert.match(page, /numberedArchive\("selva-extra", 24, "Additional Selva Oscura photograph", \[1, 3, 11, 16, 17, 18, 23, 24\]\)/);
+  assert.match(page, /numberedArchive\("metal-more", 30, "Metalworks and Design study", \[4, 18, 24, 30\]\)/);
+  assert.match(page, /numberedArchive\("metal-extra", 13, "Additional Metalworks and Design study", \[4, 8\]\)/);
+  assert.match(page, /numberedArchive\("tarot-archive", 18, "Tarot TV still", \[18\]\)/);
+  assert.match(page, /numberedArchive\("tarot-extra", 5, "Additional Tarot TV still", \[1, 3\]\)/);
+  assert.match(page, /numberedArchive\("bpow-archive", 12, "BPOW workshop and performance photograph", \[1\]\)/);
   assert.match(page, /\{expanded \? more : null\}/);
   assert.doesNotMatch(page, /project-rearrange-button|rearrangeSignal|summary=/);
   assert.ok(page.indexOf('className="expanded-view"') < page.indexOf("{preview}"));

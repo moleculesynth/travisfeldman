@@ -206,11 +206,13 @@ const ArchiveGrid = ({ images, className = "", shuffle = true }: ArchiveGridProp
   );
 };
 
-const numberedArchive = (prefix: string, count: number, description: string) =>
-  Array.from({ length: count }, (_, index) => ({
-    src: `/art/${prefix}-${String(index + 1).padStart(2, "0")}.jpg`,
-    alt: `${description} ${index + 1}`,
-  }));
+const numberedArchive = (prefix: string, count: number, description: string, excluded: ReadonlyArray<number> = []) =>
+  Array.from({ length: count }, (_, index) => index + 1)
+    .filter((number) => !excluded.includes(number))
+    .map((number) => ({
+      src: `/art/${prefix}-${String(number).padStart(2, "0")}.jpg`,
+      alt: `${description} ${number}`,
+    }));
 
 const ProjectThumbnail = ({ thumbnail, expanded, onToggle, controlsId }: {
   thumbnail: ProjectThumbnailData;
@@ -326,7 +328,7 @@ const microArchive = [
   ...numberedArchive("micro-extra", 7, "Additional Micrographia study"),
 ];
 const nightArchive = [
-  ...numberedArchive("night-more", 6, "Night Shift photograph"),
+  ...numberedArchive("night-more", 6, "Night Shift photograph", [4, 5, 6]),
   ...numberedArchive("night-extra", 12, "Additional Night Shift photograph"),
 ];
 const treeArchive = [
@@ -336,30 +338,24 @@ const treeArchive = [
 ];
 const selvaArchive = [
   ...[2184, 2317, 2398, 2700].map((number) => ({ src: `/art/selva-${number}.jpg`, alt: `Selva Oscura night study ${number}` })),
-  ...numberedArchive("selva-more-new", 8, "Additional Selva Oscura photograph"),
-  ...numberedArchive("selva-extra", 24, "Additional Selva Oscura photograph"),
+  ...numberedArchive("selva-more-new", 8, "Additional Selva Oscura photograph", [8]),
+  ...numberedArchive("selva-extra", 24, "Additional Selva Oscura photograph", [1, 3, 11, 16, 17, 18, 23, 24]),
 ];
 const metalArchive = [
-  ...numberedArchive("metal-more", 30, "Metalworks and Design study"),
-  ...numberedArchive("metal-extra", 13, "Additional Metalworks and Design study"),
+  ...numberedArchive("metal-more", 30, "Metalworks and Design study", [4, 18, 24, 30]),
+  ...numberedArchive("metal-extra", 13, "Additional Metalworks and Design study", [4, 8]),
 ];
 const tarotArchive = [
-  ...numberedArchive("tarot-archive", 18, "Tarot TV still"),
-  ...numberedArchive("tarot-extra", 5, "Additional Tarot TV still"),
+  ...numberedArchive("tarot-archive", 18, "Tarot TV still", [18]),
+  ...numberedArchive("tarot-extra", 5, "Additional Tarot TV still", [1, 3]),
 ];
-const bpowArchive = numberedArchive("bpow-archive", 12, "BPOW workshop and performance photograph");
+const bpowArchive = numberedArchive("bpow-archive", 12, "BPOW workshop and performance photograph", [1]);
 const consumerArchive = [
-  { src: "/art/consumer-more-new-04.jpg", alt: "Quad-eyed Uranus painting" },
   { src: "/art/consumerisms-sungod.jpg", alt: "Four-eyed figure painted in muted earth tones" },
   { src: "/art/consumerisms-cosmos.jpg", alt: "New Cosmos painting" },
   { src: "/art/consumerisms-ikarus.jpg", alt: "Ikarus painting" },
   { src: "/art/consumer-more-new-03.jpg", alt: "Dark garden painting" },
   { src: "/art/consumer-more-new-05.jpg", alt: "Dark celestial landscape painting" },
-  { src: "/art/consumerisms-garden.jpg", alt: "Garden work" },
-  { src: "/art/consumer-more-new-01.jpg", alt: "Consumerismos sculpture view" },
-  { src: "/art/consumer-more-new-02.jpg", alt: "Consumerismos sculpture study" },
-  { src: "/art/consumerisms-view-5.jpg", alt: "Consumerismos installation view" },
-  { src: "/art/consumerisms-view-6.jpg", alt: "Consumerismos sculpture view" },
   { src: "/art/consumerisms-view-1.jpg", alt: "Detail of a Consumerismos figure" },
 ];
 const gantoonsArchive = [
@@ -371,23 +367,16 @@ const gantoonsArchive = [
 ];
 const moviePosterArchive = [
   ...[1, 2, 3].map((number) => ({ src: `/art/movieposter-still-${number}.jpg`, alt: `MoviePosterGAN still ${number}` })),
-  ...Array.from({ length: 6 }, (_, index) => ({
-    src: "/art/gantoons-movie-posters.jpg",
-    alt: `MoviePosterGAN poster detail ${index + 1}`,
-    className: `archive-crop poster-crop-${index + 1}`,
-  })),
 ];
 const moleculeArchive = [
-  ...[1, 4, 6, 7].map((number) => ({ src: `/images/work-${number}.jpg`, alt: `Molecule Synth view ${number}` })),
-  ...[1, 2, 3, 4].map((number) => ({ src: `/images/photo-${number}.jpg`, alt: `Molecule Synth photograph ${number}` })),
+  ...[1, 4].map((number) => ({ src: `/images/work-${number}.jpg`, alt: `Molecule Synth view ${number}` })),
+  { src: "/images/photo-3.jpg", alt: "Molecule Synth photograph 3" },
   { src: "/images/work-3.jpg", alt: "Illuminated Molecule Synth detail", className: "archive-crop crop-center" },
   { src: "/images/portrait-cover.jpg", alt: "Translucent Molecule Synth detail", className: "archive-crop crop-right" },
-  { src: "/images/work-7.jpg", alt: "Molecule Synth assembly detail", className: "archive-crop crop-center" },
 ];
 const shrinkArchive = [
   { src: "/art/shrink-forms.jpg", alt: "Colorful laser-cut forms assembled during a Shrink Circuits workshop" },
   { src: "/art/shrink-form-detail.jpg", alt: "Illuminated translucent form built during a Shrink Circuits workshop" },
-  { src: "/art/shrink-lab.jpg", alt: "Shrink Circuits portable electronics lab" },
   { src: "/art/shrink-soldering.jpg", alt: "Soldering a circuit in the Shrink Circuits Nomad Lab" },
   { src: "/art/shrink-kit.jpg", alt: "Shrink Circuits workshop kit" },
   { src: "/art/shrink-event.jpg", alt: "Participants at a Shrink Circuits event" },
@@ -401,8 +390,6 @@ const artworksArchive = [
   { src: "/artworks/carol.jpg", alt: "Artworks participant Carol painting a panel" },
   { src: "/artworks/carols-panel.jpg", alt: "Carol's completed Artworks panel" },
   { src: "/artworks/fernando-scratches-his-head-what-next.jpg", alt: "Fernando considering the next step in his panel" },
-  { src: "/artworks/fernandos-panel.jpg", alt: "Fernando's completed Artworks panel" },
-  { src: "/artworks/cheyenes-poster.jpg", alt: "Cheyene's Artworks poster" },
   { src: "/artworks/fish.jpg", alt: "Fish mural panel from the Artworks program" },
   { src: "/artworks/snake.jpg", alt: "Snake mural panel from the Artworks program" },
   { src: "/artworks/zacs-bird.jpg", alt: "Zac's bird mural panel" },
@@ -575,7 +562,7 @@ export default function Home() {
           title="MoviePosterGAN"
           year="Berlin · 2018"
           links={<ExternalLink href="https://youtu.be/lmEL5HyCGRE">Play MoviePosterGAN</ExternalLink>}
-          thumbnail={{ src: "/art/gantoons-movie-posters.jpg", alt: "MoviePosterGAN generated poster grid" }}
+          thumbnail={{ src: "/art/movieposter-still-1.jpg", alt: "MoviePosterGAN generated poster still" }}
           more={<ArchiveGrid images={moviePosterArchive} />}
         />
 
@@ -591,7 +578,6 @@ export default function Home() {
               <figure className="metal-c"><ArtworkImage src="/art/metal-whiteboard.jpg" alt="A large classroom whiteboard on a welded rolling base" /></figure>
               <figure className="metal-d"><ArtworkImage src="/art/metal-hex-tables.jpg" alt="Circular and hexagonal tables in fur, metal, unfinished wood, and lacquered wood" /></figure>
               <figure className="metal-e"><ArtworkImage src="/art/metal-speaker-wood.jpg" alt="A handmade wooden speaker enclosure" /></figure>
-              <figure className="metal-f"><ArtworkImage src="/art/metal-fur-table.jpg" alt="A small circular table with a white furry surface" /></figure>
             </div>
           }
           more={<ArchiveGrid images={metalArchive} className="archive-metal" />}
@@ -671,7 +657,7 @@ export default function Home() {
           className="project-consumerisms"
           title="Consumerismos"
           year="2001–2002"
-          thumbnail={{ src: "/art/consumer-more-new-04.jpg", alt: "Consumerismos quad-eyed Uranus painting" }}
+          thumbnail={{ src: "/art/consumerisms-sungod.jpg", alt: "Consumerismos four-eyed figure painting" }}
           more={<ArchiveGrid images={consumerArchive} />}
         />
 
