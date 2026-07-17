@@ -14,14 +14,14 @@ async function render() {
   );
 }
 
-test("server-renders the 1.0.1 Braun-inspired work index", async () => {
+test("server-renders the 1.0.2 Braun-inspired work index", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
   assert.match(html, /<title>Travis Feldman — Objects, Signals, Images, Language<\/title>/i);
-  assert.doesNotMatch(html, /Homepage 0\.3\.5|Homepage 0\.3\.6|Homepage 1\.0\.1/);
+  assert.doesNotMatch(html, /Homepage 0\.3\.5|Homepage 0\.3\.6|Homepage 1\.0\.1|Homepage 1\.0\.2/);
   assert.match(html, /Objects, images, signals, language/);
   assert.match(html, /100 Trees/);
   assert.match(html, /The One Tree and the Many Trees/);
@@ -145,6 +145,11 @@ test("ships the restrained design system and deep archives without the source li
   assert.match(page, /ArrowRight/);
   assert.match(page, /hashString\(`\$\{day\}\|\$\{archiveKey\}`\)/);
   assert.match(page, /className="archive-trees" shuffle=\{false\}/);
+  assert.match(page, /className="project-control-row"/);
+  assert.match(page, /className="project-rearrange-button"/);
+  assert.match(page, /setExpanded\(true\)/);
+  assert.ok(page.indexOf('className="expanded-view"') < page.indexOf("{preview}"));
+  assert.doesNotMatch(page, /archive-toolbar|shuffleStep/);
   assert.doesNotMatch(layout, /codex-preview|Starter Project/);
   assert.match(styles, /--mono:/);
   assert.match(styles, /--accent: #e6532f/);

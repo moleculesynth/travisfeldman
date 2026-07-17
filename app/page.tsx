@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { cloneElement, useEffect, useMemo, useRef, useState } from "react";
 
 const Arrow = () => <span aria-hidden="true">↗</span>;
 
@@ -26,6 +26,12 @@ const IndexLink = ({ href, children, year }: {
 );
 
 type ArchiveImage = { src: string; alt: string; className?: string };
+type ArchiveGridProps = {
+  images: ReadonlyArray<ArchiveImage>;
+  className?: string;
+  shuffle?: boolean;
+  rearrangeSignal?: number;
+};
 
 const hashString = (value: string) => {
   let hash = 2166136261;
@@ -54,21 +60,16 @@ const shuffledImages = (images: ReadonlyArray<ArchiveImage>, seed: number) => {
   return result;
 };
 
-const ArchiveGrid = ({ images, className = "", shuffle = true }: {
-  images: ReadonlyArray<ArchiveImage>;
-  className?: string;
-  shuffle?: boolean;
-}) => {
+const ArchiveGrid = ({ images, className = "", shuffle = true, rearrangeSignal = 0 }: ArchiveGridProps) => {
   const [dailySeed, setDailySeed] = useState(0);
-  const [shuffleStep, setShuffleStep] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const archiveKey = images.map(({ src }) => src).join("|");
   const orderedImages = useMemo(
-    () => shuffle && dailySeed ? shuffledImages(images, dailySeed + shuffleStep) : [...images],
-    [dailySeed, images, shuffle, shuffleStep],
+    () => shuffle && dailySeed ? shuffledImages(images, dailySeed + rearrangeSignal) : [...images],
+    [dailySeed, images, rearrangeSignal, shuffle],
   );
 
   useEffect(() => {
@@ -124,20 +125,6 @@ const ArchiveGrid = ({ images, className = "", shuffle = true }: {
 
   return (
     <div className="archive-shell">
-      {shuffle ? (
-        <div className="archive-toolbar">
-          <button
-            aria-label="Rearrange this image gallery"
-            onClick={() => {
-              setSelected(null);
-              setShuffleStep((step) => step + 1);
-            }}
-            type="button"
-          >
-            [rearrange]
-          </button>
-        </div>
-      ) : null}
       <div className={`archive-grid ${className}`.trim()}>
         {orderedImages.map(({ src, alt, className: imageClass }, index) => (
           <figure className={imageClass} key={src}>
@@ -187,28 +174,45 @@ const numberedArchive = (prefix: string, count: number, description: string) =>
     alt: `${description} ${index + 1}`,
   }));
 
-const ProjectHeader = ({ title, year, children, links, expanded, onToggle, controlsId }: {
+const ProjectHeader = ({ title, year, children, links, expanded, onToggle, onRearrange, controlsId }: {
   title: React.ReactNode;
   year?: string;
   children: React.ReactNode;
   links?: React.ReactNode;
   expanded?: boolean;
   onToggle?: () => void;
+  onRearrange?: () => void;
   controlsId?: string;
 }) => (
   <header className="project-header">
     <div className="project-title-row">
       {onToggle ? (
-        <button
-          aria-controls={controlsId}
-          aria-expanded={expanded}
-          className="project-title-button"
-          onClick={onToggle}
-          type="button"
-        >
-          <h2>{title}</h2>
-          <span>{expanded ? "[−] close" : "[+] more images"}</span>
-        </button>
+        <div className="project-title-actions">
+          <button className="project-title-button" onClick={onToggle} type="button">
+            <h2>{title}</h2>
+          </button>
+          <div className="project-control-row">
+            <button
+              aria-controls={controlsId}
+              aria-expanded={expanded}
+              className="project-toggle-button"
+              onClick={onToggle}
+              type="button"
+            >
+              {expanded ? "[−] close" : "[+] more images"}
+            </button>
+            {onRearrange ? (
+              <button
+                aria-label="Rearrange this image gallery"
+                className="project-rearrange-button"
+                onClick={onRearrange}
+                type="button"
+              >
+                [rearrange]
+              </button>
+            ) : null}
+          </div>
+        </div>
       ) : <h2>{title}</h2>}
       {year ? <time>{year}</time> : null}
     </div>
@@ -227,10 +231,13 @@ const ExpandableProject = ({ id, className, title, year, summary, links, preview
   summary: React.ReactNode;
   links?: React.ReactNode;
   preview: React.ReactNode;
-  more?: React.ReactNode;
+  more?: React.ReactElement<ArchiveGridProps>;
 }) => {
   const [expanded, setExpanded] = useState(false);
+  const [rearrangeSignal, setRearrangeSignal] = useState(0);
   const controlsId = `${id}-more`;
+  const canRearrange = Boolean(more && more.props.shuffle !== false);
+  const expandedGallery = more ? cloneElement(more, { rearrangeSignal }) : null;
 
   return (
     <section className={`gallery-project ${className}`} id={id}>
@@ -240,16 +247,20 @@ const ExpandableProject = ({ id, className, title, year, summary, links, preview
         links={links}
         expanded={expanded}
         onToggle={more ? () => setExpanded((value) => !value) : undefined}
+        onRearrange={canRearrange ? () => {
+          setExpanded(true);
+          setRearrangeSignal((signal) => signal + 1);
+        } : undefined}
         controlsId={more ? controlsId : undefined}
       >
         {summary}
       </ProjectHeader>
-      {preview}
       {more ? (
         <div className="expanded-view" hidden={!expanded} id={controlsId}>
-          {more}
+          {expandedGallery}
         </div>
       ) : null}
+      {preview}
     </section>
   );
 };
