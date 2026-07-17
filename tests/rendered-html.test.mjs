@@ -28,7 +28,8 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.match(html, /Selva[\s\S]*Oscura/);
   assert.match(html, /Micrographia/);
   assert.match(html, /Night Shift/);
-  assert.match(html, /Metalworks (?:&amp;|&) Design/);
+  assert.match(html, /Welding \+ Woodwork/);
+  assert.doesNotMatch(html, /Metalworks (?:&amp;|&) Design/);
   assert.match(html, /2016–2023/);
   assert.match(html, /ShopBot CNC machine mounted on a heavy-duty welded frame/);
   assert.match(html, /Molecule Synth/);
@@ -48,7 +49,9 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.doesNotMatch(html, /A reader among machines|id="about"|>About</);
   assert.equal((html.match(/id="pijin"/g) ?? []).length, 1);
   assert.equal((html.match(/id="shrink-circuits"/g) ?? []).length, 1);
-  assert.equal((html.match(/id="metalworks"/g) ?? []).length, 1);
+  assert.equal((html.match(/id="welding-woodwork"/g) ?? []).length, 1);
+  assert.equal((html.match(/id="gan-art"/g) ?? []).length, 1);
+  assert.equal((html.match(/id="gantoons"|id="movieposter-gan"/g) ?? []).length, 0);
   assert.equal((html.match(/id="artworks"/g) ?? []).length, 1);
   const chronologicalProjects = [
     "nerve-maps",
@@ -56,9 +59,8 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
     "night-shift",
     "hundred-trees",
     "selva-oscura",
-    "gantoons",
-    "movieposter-gan",
-    "metalworks",
+    "gan-art",
+    "welding-woodwork",
     "shrink-circuits",
     "pijin",
     "bpow",
@@ -82,16 +84,16 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.doesNotMatch(html, /(?:src|srcset)="\/(?:art|artworks|images)\//);
   assert.match(html, /aria-controls="micrographia-more"/);
   assert.match(html, /id="micrographia-more"/);
-  assert.match(html, /<h2>Design \/ image<\/h2>[\s\S]*Micrographia[\s\S]*Night Shift[\s\S]*100 Trees[\s\S]*Selva Oscura[\s\S]*Metalworks (?:&amp;|&) Design[\s\S]*GANtoons[\s\S]*MoviePosterGAN[\s\S]*Consumerismos[\s\S]*Tarot TV/);
+  assert.match(html, /<h2>Design \/ image<\/h2>[\s\S]*Micrographia[\s\S]*Night Shift[\s\S]*100 Trees[\s\S]*Selva Oscura[\s\S]*GAN-Art[\s\S]*Consumerismos[\s\S]*Tarot TV/);
   assert.match(html, /<h2>Instrument \/ system<\/h2>/);
-  assert.match(html, /<h2>Instrument \/ system<\/h2>[\s\S]*Shrink Circuits[\s\S]*Molecule Synth[\s\S]*PIJIN[\s\S]*BPOW!!![\s\S]*Playable prototypes[\s\S]*Artworks/);
+  assert.match(html, /<h2>Instrument \/ system<\/h2>[\s\S]*Welding \+ Woodwork[\s\S]*Shrink Circuits[\s\S]*Molecule Synth[\s\S]*PIJIN[\s\S]*BPOW!!![\s\S]*Playable prototypes[\s\S]*Artworks/);
   assert.match(html, /<h2>Sound \/ signal<\/h2>/);
   assert.match(html, /<h2>Sound \/ signal<\/h2>[\s\S]*<h2>Writing \/ research<\/h2>/);
   assert.match(html, /Learning in makerspaces/);
   assert.match(html, /Makerspaces as social systems[\s\S]*2023[\s\S]*Learning in makerspaces[\s\S]*2022[\s\S]*Controversial Crabbe[\s\S]*2012[\s\S]*William Blake \/ The Four Zoas[\s\S]*2005[\s\S]*English Literature and Ancient Languages[\s\S]*2004[\s\S]*Sappho: Poems and Fragments[\s\S]*2002/);
   assert.match(html, /DISCO!! Extended Play circular Shrink Circuits board design/);
   assert.match(html, /many-mansions-album\.jpg/);
-  assert.equal((html.match(/project-header-thumbnail/g) ?? []).length, 10);
+  assert.equal((html.match(/project-header-thumbnail/g) ?? []).length, 9);
   assert.match(html, /\/optimized\/thumb\/artworks\/view-of-the-walkway\.jpg/);
   assert.doesNotMatch(html, /consumerisms-stream|tarot-stream|gan-stream|bpow-stream|prototype-stream|sound-stream|many-mansions-cover|movieposter-hero/);
   assert.doesNotMatch(html, /<figcaption>Speakers|<figcaption>ShopBot frame|<figcaption>Rolling classroom system|<figcaption>Material studies|<figcaption>Wood \+ sound|<figcaption>Fur \+ steel/);
@@ -190,8 +192,8 @@ test("ships the restrained design system and deep archives without the source li
   assert.match(page, /\[7, 1, 4, 2, 3, 5\]\.map\(\(number\) => \(\{/);
   assert.match(page, /numberedArchive\("selva-more-new", 8, "Additional Selva Oscura photograph", \[8\]\)/);
   assert.match(page, /numberedArchive\("selva-extra", 24, "Additional Selva Oscura photograph", \[1, 3, 11, 16, 17, 18, 23, 24\]\)/);
-  assert.match(page, /numberedArchive\("metal-more", 30, "Metalworks and Design study", \[4, 18, 24, 30\]\)/);
-  assert.match(page, /numberedArchive\("metal-extra", 13, "Additional Metalworks and Design study", \[4, 8\]\)/);
+  assert.match(page, /numberedArchive\("metal-more", 30, "Welding and Woodwork study", \[4, 18, 24, 30\]\)/);
+  assert.match(page, /numberedArchive\("metal-extra", 13, "Additional Welding and Woodwork study", \[4, 8\]\)/);
   assert.match(page, /numberedArchive\("tarot-archive", 18, "Tarot TV still", \[18\]\)/);
   assert.match(page, /numberedArchive\("tarot-extra", 5, "Additional Tarot TV still", \[1, 3\]\)/);
   assert.match(page, /numberedArchive\("bpow-archive", 12, "BPOW workshop and performance photograph", \[1\]\)/);

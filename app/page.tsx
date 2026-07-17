@@ -346,8 +346,8 @@ const selvaArchive = [
   ...numberedArchive("selva-extra", 24, "Additional Selva Oscura photograph", [1, 3, 11, 16, 17, 18, 23, 24]),
 ];
 const metalArchive = [
-  ...numberedArchive("metal-more", 30, "Metalworks and Design study", [4, 18, 24, 30]),
-  ...numberedArchive("metal-extra", 13, "Additional Metalworks and Design study", [4, 8]),
+  ...numberedArchive("metal-more", 30, "Welding and Woodwork study", [4, 18, 24, 30]),
+  ...numberedArchive("metal-extra", 13, "Additional Welding and Woodwork study", [4, 8]),
 ];
 const tarotArchive = [
   ...numberedArchive("tarot-archive", 18, "Tarot TV still", [18]),
@@ -372,6 +372,7 @@ const gantoonsArchive = [
 const moviePosterArchive = [
   ...[1, 2, 3].map((number) => ({ src: `/art/movieposter-still-${number}.jpg`, alt: `MoviePosterGAN still ${number}` })),
 ];
+const ganArtArchive = [...gantoonsArchive, ...moviePosterArchive];
 const moleculeArchive = [
   ...[1, 4].map((number) => ({ src: `/images/work-${number}.jpg`, alt: `Molecule Synth view ${number}` })),
   { src: "/images/photo-3.jpg", alt: "Molecule Synth photograph 3" },
@@ -430,15 +431,14 @@ export default function Home() {
             <IndexLink href="#night-shift" year="2025">Night Shift</IndexLink>
             <IndexLink href="#hundred-trees" year="2024">100 Trees</IndexLink>
             <IndexLink href="#selva-oscura" year="2022–23">Selva Oscura</IndexLink>
-            <IndexLink href="#metalworks" year="2016–23">Metalworks &amp; Design</IndexLink>
-            <IndexLink href="#gantoons" year="2018">GANtoons</IndexLink>
-            <IndexLink href="#movieposter-gan" year="2018">MoviePosterGAN</IndexLink>
+            <IndexLink href="#gan-art" year="2018">GAN-Art</IndexLink>
             <IndexLink href="#consumerisms" year="2001–02">Consumerismos</IndexLink>
             <IndexLink href="#tarot-tv" year="2001">Tarot TV</IndexLink>
           </section>
 
           <section>
             <h2>Instrument / system</h2>
+            <IndexLink href="#welding-woodwork" year="2016–23">Welding + Woodwork</IndexLink>
             <IndexLink href="#shrink-circuits" year="2013–18">Shrink Circuits</IndexLink>
             <IndexLink href="#molecule-synth" year="2012–18">Molecule Synth</IndexLink>
             <IndexLink href="#pijin" year="2013">PIJIN</IndexLink>
@@ -551,29 +551,19 @@ export default function Home() {
         />
 
         <ExpandableProject
-          id="gantoons"
+          id="gan-art"
           className="project-gantoons"
-          title="GANtoons"
+          title="GAN-Art"
           year="Berlin · 2018"
-          links={<><ExternalLink href="https://youtu.be/BNb0xTEe69I">30-minute loop</ExternalLink><ExternalLink href="https://youtu.be/Ct37TbZJlrk">Comic covers</ExternalLink></>}
-          thumbnail={{ src: "/art/gantoons-comic-loop.jpg", alt: "GANtoons generated image sequence" }}
-          more={<ArchiveGrid images={gantoonsArchive} />}
+          links={<><ExternalLink href="https://youtu.be/BNb0xTEe69I">GANtoons loop</ExternalLink><ExternalLink href="https://youtu.be/Ct37TbZJlrk">Comic Book Covers</ExternalLink><ExternalLink href="https://youtu.be/lmEL5HyCGRE">MoviePosterGAN</ExternalLink></>}
+          thumbnail={{ src: "/art/gantoons-comic-loop.jpg", alt: "GAN-Art generated image sequence" }}
+          more={<ArchiveGrid images={ganArtArchive} />}
         />
 
         <ExpandableProject
-          id="movieposter-gan"
-          className="project-movieposter"
-          title="MoviePosterGAN"
-          year="Berlin · 2018"
-          links={<ExternalLink href="https://youtu.be/lmEL5HyCGRE">Play MoviePosterGAN</ExternalLink>}
-          thumbnail={{ src: "/art/movieposter-still-1.jpg", alt: "MoviePosterGAN generated poster still" }}
-          more={<ArchiveGrid images={moviePosterArchive} />}
-        />
-
-        <ExpandableProject
-          id="metalworks"
+          id="welding-woodwork"
           className="project-metalworks"
-          title="Metalworks & Design"
+          title="Welding + Woodwork"
           year="2016–2023"
           preview={
             <div className="metalworks-stream">
