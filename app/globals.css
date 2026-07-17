@@ -146,13 +146,13 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   padding: clamp(1.25rem, 2.5vw, 2.4rem);
 }
 .project-title-row { min-width: 0; }
-.project-header h2, .shrink-copy h2, .about-panel h2 {
+.project-header h2, .about-panel h2 {
   font-size: clamp(1.25rem, 2.3vw, 1.85rem);
   font-weight: 600;
   letter-spacing: -.045em;
   line-height: 1.1;
 }
-.project-header h2::before, .shrink-copy h2::before, .about-panel h2::before { color: var(--accent); content: "# "; }
+.project-header h2::before, .about-panel h2::before { color: var(--accent); content: "# "; }
 .project-title-button {
   background: transparent;
   border: 0;
@@ -213,7 +213,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .poster-crop-5 img { object-position: 50% 85%; transform: scale(2.2); }
 .poster-crop-6 img { object-position: 85% 85%; transform: scale(2.2); }
 
-.project-micro, .project-trees, .project-movieposter, .project-tarot,
+.project-micro, .project-trees, .project-movieposter, .project-tarot, .project-shrink,
 .project-molecule, .project-pijin, .project-sound { background: var(--paper); }
 .project-night, .project-metalworks, .project-consumerisms, .project-bpow,
 .project-many { background: var(--surface); }
@@ -301,42 +301,16 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .movieposter-hero img, .single-image img { height: 100%; object-fit: cover; width: 100%; }
 .single-image { max-height: 75vw; overflow: hidden; }
 
-.project-shrink {
-  background: var(--paper);
+.shrink-stream {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 62svh;
+  gap: 2px;
+  grid-template-columns: 1.25fr .75fr;
+  grid-template-rows: 28vw 28vw;
+  padding: 2px;
 }
-.shrink-copy { align-self: center; padding: clamp(2rem, 4vw, 4rem); }
-.shrink-copy > p:first-child { color: var(--muted); font-size: .62rem; }
-.shrink-copy h2 { margin: .9rem 0 1.2rem; }
-.shrink-copy > p:nth-of-type(2) { font-size: .78rem; line-height: 1.6; margin-bottom: 1.2rem; }
-.nomad-diagram { background: var(--surface); min-height: 480px; overflow: hidden; position: relative; }
-.nomad-diagram::before, .nomad-diagram::after {
-  border: 1px solid var(--ink);
-  border-radius: 50%;
-  content: "";
-  height: 68%;
-  left: 16%;
-  position: absolute;
-  top: 16%;
-  width: 68%;
-}
-.nomad-diagram::after { height: 42%; left: 29%; top: 29%; width: 42%; }
-.nomad-diagram span {
-  background: var(--accent);
-  border: 6px solid var(--paper);
-  border-radius: 50%;
-  height: clamp(42px, 5vw, 72px);
-  position: absolute;
-  width: clamp(42px, 5vw, 72px);
-}
-.nomad-diagram span:nth-child(1) { left: 11%; top: 12%; }
-.nomad-diagram span:nth-child(2) { right: 12%; top: 18%; }
-.nomad-diagram span:nth-child(3) { left: 44%; top: 42%; }
-.nomad-diagram span:nth-child(4) { bottom: 13%; left: 18%; }
-.nomad-diagram span:nth-child(5) { bottom: 10%; right: 17%; }
-.nomad-diagram span:nth-child(6) { right: -2%; top: 52%; }
+.shrink-stream figure { overflow: hidden; }
+.shrink-stream img { height: 100%; object-fit: cover; width: 100%; }
+.shrink-a { grid-row: 1 / 3; }
 
 .sound-stream { min-height: 58vw; overflow: hidden; position: relative; }
 .sound-stream > img { height: 100%; object-fit: cover; position: absolute; width: 100%; }
@@ -350,18 +324,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .tarot-stream { display: grid; grid-template-columns: repeat(3, 1fr); }
 .tarot-stream figure { aspect-ratio: 4 / 3; overflow: hidden; }
 .tarot-stream img { height: 100%; object-fit: cover; width: 100%; }
-.many-mansions-visual {
-  background: var(--ink);
-  display: grid;
-  gap: 2px;
-  grid-template-columns: repeat(16, 1fr);
-  height: 42vw;
-  overflow: hidden;
-  padding: 2px;
-}
-.many-mansions-visual span { background: var(--paper); transform: skewY(-12deg); }
-.many-mansions-visual span:nth-child(3n + 1) { background: var(--accent); transform: skewY(19deg) translateY(12%); }
-.many-mansions-visual span:nth-child(4n + 2) { background: var(--surface-dark); transform: skewY(-27deg) translateY(-9%); }
+.many-mansions-cover { background: var(--ink); display: block; max-height: 68vw; overflow: hidden; position: relative; }
+.many-mansions-cover img { display: block; height: 100%; object-fit: contain; width: 100%; }
 
 .about-panel {
   background: var(--paper);
@@ -378,7 +342,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   color: var(--paper);
   display: grid;
   font-size: .6rem;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr 1fr;
   padding: .9rem 1rem;
 }
 .gallery-footer a { justify-self: end; }
@@ -404,7 +368,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   .identity h1 { font-size: 1.45rem; }
   .work-index { grid-template-columns: 1fr; }
   .project-header { grid-template-columns: 1fr; padding: 1.4rem 1.1rem; }
-  .project-header h2, .shrink-copy h2, .about-panel h2 { font-size: 1.35rem; }
+  .project-header h2, .about-panel h2 { font-size: 1.35rem; }
   .archive-grid, .archive-metal { grid-template-columns: repeat(2, 1fr); }
   .archive-grid figure, .archive-metal figure { aspect-ratio: 4 / 3; }
   .archive-trees figure { aspect-ratio: 3 / 4; }
@@ -441,16 +405,14 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   .gan-stream { grid-template-columns: 1fr; }
   .bpow-stream { grid-template-columns: 1fr 1fr; height: auto; }
   .bpow-stream figure { height: 62vw; }
-  .project-shrink { grid-template-columns: 1fr; }
-  .nomad-diagram { min-height: 75vw; }
+  .shrink-stream { grid-template-columns: 1fr 1fr; grid-template-rows: 90vw 58vw; }
+  .shrink-a { grid-column: 1 / 3; grid-row: 1; }
   .prototype-stream { grid-template-columns: 1fr 1fr; grid-template-rows: 92vw 58vw; }
   .prototype-stream figure:first-child { grid-column: 1 / 3; grid-row: 1; }
   .sound-stream { min-height: 110vw; }
   .tarot-stream { grid-template-columns: repeat(2, 1fr); }
-  .many-mansions-visual { grid-template-columns: repeat(8, 1fr); height: 100vw; }
   .about-panel { grid-template-columns: 1fr; padding-left: 1.1rem; padding-right: 1.1rem; }
   .gallery-footer { grid-template-columns: 1fr auto; }
-  .gallery-footer p:nth-child(2) { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

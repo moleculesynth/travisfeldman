@@ -120,18 +120,32 @@ const tarotFrames = [
   ["/art/tarot-ceiling.jpg", "An arched ceiling blurred by video motion"],
 ] as const;
 
-const microArchive = numberedArchive("micro-more", 9, "Micrographia study");
-const nightArchive = numberedArchive("night-more", 6, "Night Shift photograph");
+const microArchive = [
+  ...numberedArchive("micro-more", 9, "Micrographia study"),
+  ...numberedArchive("micro-extra", 7, "Additional Micrographia study"),
+];
+const nightArchive = [
+  ...numberedArchive("night-more", 6, "Night Shift photograph"),
+  ...numberedArchive("night-extra", 12, "Additional Night Shift photograph"),
+];
 const treeArchive = [
   ...[13, 19, 25, 43, 58, 82].map((number) => ({ src: `/art/trees-${number}.jpg`, alt: `100 Trees sequence, position ${number}` })),
   ...numberedArchive("trees-more-new", 12, "Additional 100 Trees photograph"),
+  ...numberedArchive("trees-extra", 24, "Additional 100 Trees photograph"),
 ];
 const selvaArchive = [
   ...[2184, 2317, 2398, 2700].map((number) => ({ src: `/art/selva-${number}.jpg`, alt: `Selva Oscura night study ${number}` })),
   ...numberedArchive("selva-more-new", 8, "Additional Selva Oscura photograph"),
+  ...numberedArchive("selva-extra", 24, "Additional Selva Oscura photograph"),
 ];
-const metalArchive = numberedArchive("metal-more", 30, "Metalworks and Design study");
-const tarotArchive = numberedArchive("tarot-archive", 18, "Tarot TV still");
+const metalArchive = [
+  ...numberedArchive("metal-more", 30, "Metalworks and Design study"),
+  ...numberedArchive("metal-extra", 13, "Additional Metalworks and Design study"),
+];
+const tarotArchive = [
+  ...numberedArchive("tarot-archive", 18, "Tarot TV still"),
+  ...numberedArchive("tarot-extra", 5, "Additional Tarot TV still"),
+];
 const bpowArchive = numberedArchive("bpow-archive", 12, "BPOW workshop and performance photograph");
 const consumerArchive = [
   ...numberedArchive("consumer-more-new", 5, "Consumerisms work"),
@@ -161,11 +175,21 @@ const moviePosterArchive = [
 const moleculeArchive = [
   ...[1, 4, 6, 7].map((number) => ({ src: `/images/work-${number}.jpg`, alt: `Molecule Synth view ${number}` })),
   ...[1, 2, 3, 4].map((number) => ({ src: `/images/photo-${number}.jpg`, alt: `Molecule Synth photograph ${number}` })),
-  { src: "/images/work-2.jpg", alt: "Molecule Synth module detail", className: "archive-crop crop-left" },
   { src: "/images/work-3.jpg", alt: "Illuminated Molecule Synth detail", className: "archive-crop crop-center" },
   { src: "/images/portrait-cover.jpg", alt: "Translucent Molecule Synth detail", className: "archive-crop crop-right" },
   { src: "/images/work-7.jpg", alt: "Molecule Synth assembly detail", className: "archive-crop crop-center" },
 ];
+const shrinkArchive = [
+  { src: "/art/shrink-forms.jpg", alt: "Colorful laser-cut forms assembled during a Shrink Circuits workshop" },
+  { src: "/art/shrink-form-detail.jpg", alt: "Illuminated translucent form built during a Shrink Circuits workshop" },
+  { src: "/art/shrink-lab.jpg", alt: "Shrink Circuits portable electronics lab" },
+  { src: "/art/shrink-soldering.jpg", alt: "Soldering a circuit in the Shrink Circuits Nomad Lab" },
+  { src: "/art/shrink-kit.jpg", alt: "Shrink Circuits workshop kit" },
+  { src: "/art/shrink-event.jpg", alt: "Participants at a Shrink Circuits event" },
+  { src: "/art/shrink-board.jpg", alt: "Circular Shrink Circuits circuit board" },
+  { src: "/art/shrink-circuits.jpg", alt: "A collection of Shrink Circuits boards" },
+];
+const prototypeArchive = numberedArchive("prototype-extra", 4, "Playable prototype development photograph");
 
 export default function Home() {
   return (
@@ -174,7 +198,7 @@ export default function Home() {
 
       <aside className="index-panel">
         <div className="identity">
-          <p className="version">Homepage 0.3.4</p>
+          <p className="version">Homepage 0.3.5</p>
           <h1>Travis Feldman</h1>
           <p>Objects, images, signals, language, and ways of learning together.</p>
         </div>
@@ -210,11 +234,12 @@ export default function Home() {
 
           <section>
             <h2>Writing + research</h2>
-            <ExternalLink href="https://ijamm.pubpub.org/pub/o9n1tv3t?readingCollection=7726e307">Learning in makerspaces</ExternalLink>
-            <ExternalLink href="https://educ-met-site.sites.olt.ubc.ca/files/2023/05/Feldman_MET_25MAY2023.pdf">Makerspaces as social systems</ExternalLink>
-            <ExternalLink href="https://cinema.washington.edu/people/travis-feldman">William Blake / The Four Zoas</ExternalLink>
-            <ExternalLink href="https://www.jstor.org/stable/24247222">Controversial Crabbe</ExternalLink>
-            <ExternalLink href="https://bmcr.brynmawr.edu/2002/2002.09.37">Sappho: Poems and Fragments</ExternalLink>
+            <IndexLink href="https://educ-met-site.sites.olt.ubc.ca/files/2023/05/Feldman_MET_25MAY2023.pdf" year="2023">Makerspaces as social systems</IndexLink>
+            <IndexLink href="https://ijamm.pubpub.org/pub/o9n1tv3t?readingCollection=7726e307" year="2022">Learning in makerspaces</IndexLink>
+            <IndexLink href="https://www.jstor.org/stable/24247222" year="2012">Controversial Crabbe</IndexLink>
+            <IndexLink href="https://cinema.washington.edu/people/travis-feldman" year="2005">William Blake / The Four Zoas</IndexLink>
+            <IndexLink href="https://bmcr.brynmawr.edu/2004/2004.08.11/" year="2004">English Literature and Ancient Languages</IndexLink>
+            <IndexLink href="https://bmcr.brynmawr.edu/2002/2002.09.37" year="2002">Sappho: Poems and Fragments</IndexLink>
           </section>
         </nav>
 
@@ -237,7 +262,7 @@ export default function Home() {
           className="project-micro"
           title="Micrographia"
           year="2025"
-          summary="Specimens become actors. Contact, reversal, and scale turn small remains into portraits and strange councils."
+          summary="Specimens, actors, contact, reversal, scale, dimension, portrait, strange council."
           preview={
             <div className="micro-stream">
               <figure className="micro-a"><img src="/art/micro-cicadas.jpg" alt="Three cicada specimens arranged on white" /></figure>
@@ -254,7 +279,7 @@ export default function Home() {
           className="project-night"
           title="Night Shift"
           year="2025"
-          summary="After-hours architecture: occupied, empty, overexposed, awake."
+          summary="Vacant, empty, exposed, insomniac, undead."
           preview={
             <div className="night-stream">
               <figure className="night-a"><img src="/art/night-void-color.jpg" alt="A brightly illuminated office building at night" /></figure>
@@ -270,7 +295,7 @@ export default function Home() {
           className="project-trees"
           title="100 Trees"
           year="2024"
-          summary="A Hegelian meditation on the one and the many: the same tree, from the same position, over the course of a year at Sleeping Giant State Park in Connecticut."
+          summary="The One Tree and the Many Trees, Sleeping Giant Park, CT."
           preview={
             <div className="trees-stream" aria-label="100 Trees seasonal sequence">
               <figure><img src="/art/trees-01.jpg" alt="The tree at a rocky overlook in late autumn" /><figcaption>01</figcaption></figure>
@@ -289,7 +314,7 @@ export default function Home() {
           className="project-selva"
           title={<><em>Selva</em> Oscura</>}
           year="2022–2023"
-          summary="A Dantean exploration of slow exposure and digital night photography: ordinary woods becoming strange at the edge of what the camera can see."
+          summary="Midway in the journey, slow exposure, digital night, creatures moving to hiding places at the edge of the visible."
           preview={
             <div className="selva-stream">
               <figure className="selva-a"><img src="/art/selva-moon-trees.jpg" alt="Moonlight caught in the branches of old trees" /></figure>
@@ -308,7 +333,7 @@ export default function Home() {
           className="project-metalworks"
           title="Metalworks & Design"
           year="2020–2021"
-          summary="Speakers, furniture, and classroom infrastructure built through welding and fabrication—an extended experiment in metal, unfinished and lacquered wood, fur, and laser-cut acrylic."
+          summary="Experiments mixing handcraft, welding, textiles, woodwork and digital fabrication."
           preview={
             <div className="metalworks-stream">
               <figure className="metal-a"><img src="/art/metal-speakers-pair.jpg" alt="A pair of handmade wooden speakers with exposed drivers" /><figcaption>Speakers</figcaption></figure>
@@ -327,7 +352,7 @@ export default function Home() {
           className="project-gantoons"
           title="GANtoons"
           year="Berlin · 2018"
-          summary="GANs trained on thousands of New Yorker cartoons and comic-book covers, then left to dream new human situations of their own."
+          summary="Trained on 5000 golden- and silver-age comic-book covers: what can a machine know, and what new image of a comic-book cover can it generate?"
           links={<><ExternalLink href="https://youtu.be/BNb0xTEe69I">30-minute loop</ExternalLink><ExternalLink href="https://youtu.be/Ct37TbZJlrk">Comic covers</ExternalLink></>}
           preview={
             <div className="gan-stream gan-stream-two">
@@ -359,7 +384,7 @@ export default function Home() {
           className="project-consumerisms"
           title="Consumerisms"
           year="2001–2002"
-          summary="A sequence of sculptures, images, and installation views in which handmade figures meet private mythologies and mass culture."
+          summary="A mess hall of myths and mass culture."
           preview={
             <div className="consumerisms-stream">
               <figure className="consumer-a"><img src="/art/consumerisms-view-1.jpg" alt="A green handmade figure seated with a vessel" /></figure>
@@ -381,15 +406,22 @@ export default function Home() {
           more={<ArchiveGrid images={tarotArchive} />}
         />
 
-        <section className="gallery-project project-shrink" id="shrink-circuits">
-          <div className="shrink-copy">
-            <p>2013–2018</p>
-            <h2>Shrink Circuits Nomad Lab</h2>
-            <p>Transportable DIY-electronics workshops imagined as democratic, shared learning infrastructure: tools and circuits brought to people instead of waiting for people to find the lab.</p>
-            <ExternalLink href="https://www.awesomefoundation.org/en/projects/30742-shrink-circuits-nomad-lab">Project record</ExternalLink>
-          </div>
-          <div className="nomad-diagram" aria-hidden="true"><span /><span /><span /><span /><span /><span /></div>
-        </section>
+        <ExpandableProject
+          id="shrink-circuits"
+          className="project-shrink"
+          title="Shrink Circuits Nomad Lab"
+          year="2013–2018"
+          summary="Transportable DIY-electronics workshops imagined as democratic, shared learning infrastructure: tools and circuits brought to people instead of waiting for people to find the lab."
+          links={<><ExternalLink href="http://shrinkcircuits.org/">Project site</ExternalLink><ExternalLink href="https://www.awesomefoundation.org/en/projects/30742-shrink-circuits-nomad-lab">Project record</ExternalLink></>}
+          preview={
+            <div className="shrink-stream">
+              <figure className="shrink-a"><img src="/art/shrink-workshop.jpg" alt="A Shrink Circuits workshop gathered around a soldering station" /></figure>
+              <figure><img src="/art/shrink-lights.jpg" alt="Small illuminated circuits built in a Shrink Circuits workshop" /></figure>
+              <figure><img src="/images/work-2.jpg" alt="DISCO!! Extended Play circular Shrink Circuits board design" /></figure>
+            </div>
+          }
+          more={<ArchiveGrid images={shrinkArchive} />}
+        />
 
         <ExpandableProject
           id="molecule-synth"
@@ -402,7 +434,7 @@ export default function Home() {
             <div className="molecule-stream">
               <figure className="molecule-a"><img src="/images/portrait-cover.jpg" alt="A field of translucent green Molecule Synth modules" /></figure>
               <figure className="molecule-b"><img src="/images/work-3.jpg" alt="An illuminated Molecule Synth assembled from hexagonal pieces" /></figure>
-              <figure className="molecule-c"><img src="/images/work-2.jpg" alt="Hands arranging Molecule Synth modules" /></figure>
+              <figure className="molecule-c"><img src="/images/work-1.jpg" alt="Wooden controllers arranged across the Molecule Synth surface" /></figure>
             </div>
           }
           more={<ArchiveGrid images={moleculeArchive} />}
@@ -421,6 +453,7 @@ export default function Home() {
               <figure><img src="/art/prototype-swarmboard.jpg" alt="Copper circuit boards beside a small wheeled robot" /></figure>
             </div>
           }
+          more={<ArchiveGrid images={prototypeArchive} />}
         />
 
         <ExpandableProject
@@ -473,7 +506,12 @@ export default function Home() {
           year="2012–2014"
           summary="Experimental sound gathered around pulse, repetition, saturation, and collective drift."
           links={<ExternalLink href="https://themanymansions.bandcamp.com/">Listen on Bandcamp</ExternalLink>}
-          preview={<div className="many-mansions-visual" aria-hidden="true">{Array.from({ length: 16 }, (_, i) => <span key={i} />)}</div>}
+          preview={
+            <a className="many-mansions-cover" href="https://themanymansions.bandcamp.com/" target="_blank" rel="noreferrer">
+              <img src="/art/many-mansions-album.jpg" alt="The Many Mansions — Early Retirement album artwork" />
+              <span className="play-badge">Listen on Bandcamp ↗</span>
+            </a>
+          }
         />
 
         <section className="about-panel" id="about">
@@ -489,7 +527,6 @@ export default function Home() {
 
         <footer className="gallery-footer">
           <p>© {new Date().getFullYear()} Travis Feldman</p>
-          <p>Homepage 0.3.4</p>
           <a href="#gallery">Back to top ↑</a>
         </footer>
       </div>
