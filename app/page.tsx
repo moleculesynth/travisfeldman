@@ -148,14 +148,18 @@ const tarotArchive = [
 ];
 const bpowArchive = numberedArchive("bpow-archive", 12, "BPOW workshop and performance photograph");
 const consumerArchive = [
-  ...numberedArchive("consumer-more-new", 5, "Consumerisms work"),
+  { src: "/art/consumer-more-new-04.jpg", alt: "Quad-eyed Uranus painting" },
+  { src: "/art/consumerisms-sungod.jpg", alt: "Four-eyed figure painted in muted earth tones" },
+  { src: "/art/consumerisms-cosmos.jpg", alt: "New Cosmos painting" },
+  { src: "/art/consumerisms-ikarus.jpg", alt: "Ikarus painting" },
+  { src: "/art/consumer-more-new-03.jpg", alt: "Dark garden painting" },
+  { src: "/art/consumer-more-new-05.jpg", alt: "Dark celestial landscape painting" },
+  { src: "/art/consumerisms-garden.jpg", alt: "Garden work" },
+  { src: "/art/consumer-more-new-01.jpg", alt: "Consumerisms sculpture view" },
+  { src: "/art/consumer-more-new-02.jpg", alt: "Consumerisms sculpture study" },
   { src: "/art/consumerisms-view-5.jpg", alt: "Consumerisms installation view" },
   { src: "/art/consumerisms-view-6.jpg", alt: "Consumerisms sculpture view" },
-  { src: "/art/consumerisms-garden.jpg", alt: "Consumerisms garden work" },
-  { src: "/art/consumerisms-ikarus.jpg", alt: "Ikarus from Consumerisms" },
-  { src: "/art/consumerisms-view-1.jpg", alt: "Detail of a Consumerisms figure", className: "archive-crop crop-left" },
-  { src: "/art/consumerisms-sungod.jpg", alt: "Detail of Sungod", className: "archive-crop crop-center" },
-  { src: "/art/consumerisms-cosmos.jpg", alt: "Detail of New Cosmos", className: "archive-crop crop-right" },
+  { src: "/art/consumerisms-view-1.jpg", alt: "Detail of a Consumerisms figure" },
 ];
 const gantoonsArchive = [
   ...[1, 2, 3].map((number) => ({ src: `/art/gantoons-still-${number}.jpg`, alt: `GANtoons loop still ${number}` })),
@@ -198,7 +202,6 @@ export default function Home() {
 
       <aside className="index-panel">
         <div className="identity">
-          <p className="version">Homepage 0.3.5</p>
           <h1>Travis Feldman</h1>
           <p>Objects, images, signals, language, and ways of learning together.</p>
         </div>
@@ -244,17 +247,17 @@ export default function Home() {
         </nav>
 
         <div className="index-footer">
-          <a href="#about">About</a>
           <a href="mailto:moleculesynth@gmail.com">Email</a>
           <ExternalLink href="https://www.kickstarter.com/profile/travisfeldman">Kickstarter</ExternalLink>
-          <ExternalLink href="https://github.com/moleculesynth">GitHub</ExternalLink>
+          <ExternalLink href="https://github.com/moleculesynth">Github</ExternalLink>
+          <ExternalLink href="https://www.behance.net/molecule">Behance</ExternalLink>
+          <ExternalLink href="https://nervemaps.bandcamp.com">Bandcamp</ExternalLink>
         </div>
       </aside>
 
       <div className="gallery-panel" id="gallery">
         <header className="gallery-banner">
           <p>Selected work</p>
-          <a href="#about">Info ↓</a>
         </header>
 
         <ExpandableProject
@@ -336,12 +339,12 @@ export default function Home() {
           summary="Experiments mixing handcraft, welding, textiles, woodwork and digital fabrication."
           preview={
             <div className="metalworks-stream">
-              <figure className="metal-a"><img src="/art/metal-speakers-pair.jpg" alt="A pair of handmade wooden speakers with exposed drivers" /><figcaption>Speakers</figcaption></figure>
-              <figure className="metal-b"><img src="/art/metal-shopbot.jpg" alt="A ShopBot CNC machine mounted on a heavy-duty welded frame" /><figcaption>ShopBot frame</figcaption></figure>
-              <figure className="metal-c"><img src="/art/metal-whiteboard.jpg" alt="A large classroom whiteboard on a welded rolling base" /><figcaption>Rolling classroom system</figcaption></figure>
-              <figure className="metal-d"><img src="/art/metal-hex-tables.jpg" alt="Circular and hexagonal tables in fur, metal, unfinished wood, and lacquered wood" /><figcaption>Material studies</figcaption></figure>
-              <figure className="metal-e"><img src="/art/metal-speaker-wood.jpg" alt="A handmade wooden speaker enclosure" /><figcaption>Wood + sound</figcaption></figure>
-              <figure className="metal-f"><img src="/art/metal-fur-table.jpg" alt="A small circular table with a white furry surface" /><figcaption>Fur + steel</figcaption></figure>
+              <figure className="metal-a"><img src="/art/metal-speakers-pair.jpg" alt="A pair of handmade wooden speakers with exposed drivers" /></figure>
+              <figure className="metal-b"><img src="/art/metal-shopbot.jpg" alt="A ShopBot CNC machine mounted on a heavy-duty welded frame" /></figure>
+              <figure className="metal-c"><img src="/art/metal-whiteboard.jpg" alt="A large classroom whiteboard on a welded rolling base" /></figure>
+              <figure className="metal-d"><img src="/art/metal-hex-tables.jpg" alt="Circular and hexagonal tables in fur, metal, unfinished wood, and lacquered wood" /></figure>
+              <figure className="metal-e"><img src="/art/metal-speaker-wood.jpg" alt="A handmade wooden speaker enclosure" /></figure>
+              <figure className="metal-f"><img src="/art/metal-fur-table.jpg" alt="A small circular table with a white furry surface" /></figure>
             </div>
           }
           more={<ArchiveGrid images={metalArchive} className="archive-metal" />}
@@ -387,10 +390,10 @@ export default function Home() {
           summary="A mess hall of myths and mass culture."
           preview={
             <div className="consumerisms-stream">
-              <figure className="consumer-a"><img src="/art/consumerisms-view-1.jpg" alt="A green handmade figure seated with a vessel" /></figure>
-              <figure className="consumer-b"><img src="/art/consumerisms-sungod.jpg" alt="A many-eyed figure painted in muted earth tones" /></figure>
-              <figure className="consumer-c"><img src="/art/consumerisms-view-3.jpg" alt="A side view of the green sculptural figure" /></figure>
-              <figure className="consumer-d"><img src="/art/consumerisms-cosmos.jpg" alt="A black-and-white cosmological figure" /></figure>
+              <figure className="consumer-a"><img src="/art/consumer-more-new-04.jpg" alt="Quad-eyed Uranus painted in earth tones" /></figure>
+              <figure className="consumer-b"><img src="/art/consumerisms-cosmos.jpg" alt="A black-and-white cosmological figure" /></figure>
+              <figure className="consumer-c"><img src="/art/consumerisms-ikarus.jpg" alt="Ikarus, a painted figure carrying an axe" /></figure>
+              <figure className="consumer-d"><img src="/art/consumerisms-sungod.jpg" alt="A four-eyed figure painted in muted earth tones" /></figure>
             </div>
           }
           more={<ArchiveGrid images={consumerArchive} />}
@@ -513,17 +516,6 @@ export default function Home() {
             </a>
           }
         />
-
-        <section className="about-panel" id="about">
-          <div>
-            <p className="version">About</p>
-            <h2>A reader among machines.</h2>
-          </div>
-          <div className="about-copy">
-            <p>Travis Feldman is an artist, scholar, educator, designer, and musician working across physical electronics, photography, experimental sound, literature, and shared learning spaces.</p>
-            <a className="email-link" href="mailto:moleculesynth@gmail.com">moleculesynth@gmail.com <Arrow /></a>
-          </div>
-        </section>
 
         <footer className="gallery-footer">
           <p>© {new Date().getFullYear()} Travis Feldman</p>

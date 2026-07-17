@@ -14,15 +14,14 @@ async function render() {
   );
 }
 
-test("server-renders the 0.3.5 Braun-inspired work index", async () => {
+test("server-renders the 0.3.6 Braun-inspired work index", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
   assert.match(html, /<title>Travis Feldman — Objects, Signals, Images, Language<\/title>/i);
-  assert.match(html, /Homepage 0\.3\.5/);
-  assert.equal((html.match(/Homepage 0\.3\.5/g) ?? []).length, 1);
+  assert.doesNotMatch(html, /Homepage 0\.3\.5|Homepage 0\.3\.6/);
   assert.match(html, /Objects, images, signals, language/);
   assert.match(html, /100 Trees/);
   assert.match(html, /The One Tree and the Many Trees/);
@@ -34,9 +33,7 @@ test("server-renders the 0.3.5 Braun-inspired work index", async () => {
   assert.match(html, /Metalworks (?:&amp;|&) Design/);
   assert.match(html, /2020–2021/);
   assert.match(html, /Experiments mixing handcraft, welding, textiles, woodwork and digital fabrication/);
-  assert.match(html, /ShopBot frame/);
-  assert.match(html, /Rolling classroom system/);
-  assert.match(html, /Fur \+ steel/);
+  assert.match(html, /ShopBot CNC machine mounted on a heavy-duty welded frame/);
   assert.match(html, /Molecule Synth/);
   assert.match(html, /GANtoons/);
   assert.match(html, /MoviePosterGAN/);
@@ -49,7 +46,7 @@ test("server-renders the 0.3.5 Braun-inspired work index", async () => {
   assert.match(html, /Nerve Maps/);
   assert.match(html, /The Many Mansions/);
   assert.match(html, /Tarot TV/);
-  assert.match(html, /A reader among machines/);
+  assert.doesNotMatch(html, /A reader among machines|id="about"|>About</);
   assert.equal((html.match(/id="pijin"/g) ?? []).length, 1);
   assert.equal((html.match(/id="shrink-circuits"/g) ?? []).length, 1);
   assert.equal((html.match(/id="metalworks"/g) ?? []).length, 1);
@@ -66,6 +63,9 @@ test("server-renders the 0.3.5 Braun-inspired work index", async () => {
   assert.match(html, /A mess hall of myths and mass culture/);
   assert.match(html, /DISCO!! Extended Play circular Shrink Circuits board design/);
   assert.match(html, /many-mansions-album\.jpg/);
+  assert.match(html, /consumerisms-stream[\s\S]*consumer-more-new-04\.jpg[\s\S]*consumerisms-cosmos\.jpg[\s\S]*consumerisms-ikarus\.jpg[\s\S]*consumerisms-sungod\.jpg/);
+  assert.doesNotMatch(html, /<figcaption>Speakers|<figcaption>ShopBot frame|<figcaption>Rolling classroom system|<figcaption>Material studies|<figcaption>Wood \+ sound|<figcaption>Fur \+ steel/);
+  assert.match(html, />Email<\/a>[\s\S]*Kickstarter[\s\S]*Github[\s\S]*Behance[\s\S]*Bandcamp/);
   assert.doesNotMatch(html, /portrait-workshop|Between materials/);
   assert.doesNotMatch(html, /<details>/);
   assert.ok((html.match(/micro-more-/g) ?? []).length >= 9);
@@ -97,6 +97,8 @@ test("keeps video, Kickstarter, audio, writing, and project links direct", async
     "https://youtu.be/Ct37TbZJlrk",
     "https://youtu.be/lmEL5HyCGRE",
     "https://www.kickstarter.com/profile/travisfeldman",
+    "https://github.com/moleculesynth",
+    "https://www.behance.net/molecule",
     "https://www.kickstarter.com/projects/travisfeldman/molecule-synth",
     "https://www.kickstarter.com/projects/travisfeldman/pijin-the-spelling-game-of-the-spoken-word",
     "https://www.kickstarter.com/projects/travisfeldman/bpow-battery-powered-orchestra-workshop",
@@ -138,6 +140,7 @@ test("ships the restrained design system and deep archives without the source li
   assert.doesNotMatch(layout, /codex-preview|Starter Project/);
   assert.match(styles, /--mono:/);
   assert.match(styles, /--accent: #e6532f/);
+  assert.doesNotMatch(styles, /\.version::before|\.about-panel|\.metalworks-stream figcaption/);
   assert.doesNotMatch(styles, /--serif:|--acid:|--blue:|--violet:/);
   assert.match(gitignore, /\/source-assets\//);
   assert.ok(ogImage.byteLength > 100_000);
