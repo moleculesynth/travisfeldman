@@ -420,13 +420,13 @@ export default function Home() {
         <div className="identity">
           <h1>Travis Feldman</h1>
           <div className="identity-ledger">
-            <p>Selected works, exhibitions, recordings, and writing</p>
+            <p>works, exhibitions, recordings, writing</p>
           </div>
         </div>
 
         <nav className="work-index" aria-label="Work index">
           <section>
-            <h2>Design / image</h2>
+            <h2>IMAGE</h2>
             <IndexLink href="#micrographia" year="2025">Micrographia</IndexLink>
             <IndexLink href="#night-shift" year="2025">Night Shift</IndexLink>
             <IndexLink href="#hundred-trees" year="2024">100 Trees</IndexLink>
@@ -437,7 +437,7 @@ export default function Home() {
           </section>
 
           <section>
-            <h2>Instrument / system</h2>
+            <h2>SYSTEM</h2>
             <IndexLink href="#welding-woodwork" year="2016–23">Welding + Woodwork</IndexLink>
             <IndexLink href="#shrink-circuits" year="2013–18">Shrink Circuits</IndexLink>
             <IndexLink href="#molecule-synth" year="2012–18">Molecule Synth</IndexLink>
@@ -448,13 +448,13 @@ export default function Home() {
           </section>
 
           <section>
-            <h2>Sound / signal</h2>
+            <h2>SOUND</h2>
             <IndexLink href="#nerve-maps" year="2025–present">Nerve Maps</IndexLink>
             <IndexLink href="#many-mansions" year="2012–14">The Many Mansions</IndexLink>
           </section>
 
           <section>
-            <h2>Writing / research</h2>
+            <h2>WRITING</h2>
             <IndexLink href="https://educ-met-site.sites.olt.ubc.ca/files/2023/05/Feldman_MET_25MAY2023.pdf" year="2023">Makerspaces as social systems</IndexLink>
             <IndexLink href="https://ijamm.pubpub.org/pub/o9n1tv3t?readingCollection=7726e307" year="2022">Learning in makerspaces</IndexLink>
             <IndexLink href="https://www.jstor.org/stable/24247222" year="2012">Controversial Crabbe</IndexLink>
@@ -465,11 +465,8 @@ export default function Home() {
         </nav>
 
         <div className="index-footer">
-          <a href="mailto:moleculesynth@gmail.com">Email</a>
-          <ExternalLink href="https://www.kickstarter.com/profile/travisfeldman">Kickstarter</ExternalLink>
-          <ExternalLink href="https://github.com/moleculesynth">Github</ExternalLink>
-          <ExternalLink href="https://www.behance.net/molecule">Behance</ExternalLink>
-          <ExternalLink href="https://nervemaps.bandcamp.com">Bandcamp</ExternalLink>
+          <a href="mailto:moleculesynth@gmail.com">email</a>
+          <ExternalLink href="https://github.com/moleculesynth">github</ExternalLink>
         </div>
       </aside>
 

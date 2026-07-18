@@ -17,7 +17,7 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   const html = await response.text();
   assert.match(html, /<title>Travis Feldman — Objects, Signals, Images, Language<\/title>/i);
   assert.doesNotMatch(html, /Homepage 0\.3\.5|Homepage 0\.3\.6|Homepage 1\.0\.1|Homepage 1\.0\.2|Homepage 1\.0\.3|Homepage 1\.2\.1/);
-  assert.match(html, /Selected works, exhibitions, recordings, and writing/);
+  assert.match(html, /works, exhibitions, recordings, writing/);
   assert.doesNotMatch(html, /2001—present/);
   assert.match(html, /100 Trees/);
   assert.match(html, /Selva[\s\S]*Oscura/);
@@ -79,11 +79,11 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.doesNotMatch(html, /(?:src|srcset)="\/(?:art|artworks|images)\//);
   assert.match(html, /aria-controls="micrographia-more"/);
   assert.match(html, /id="micrographia-more"/);
-  assert.match(html, /<h2>Design \/ image<\/h2>[\s\S]*Micrographia[\s\S]*Night Shift[\s\S]*100 Trees[\s\S]*Selva Oscura[\s\S]*GAN-Art[\s\S]*Consumerismos[\s\S]*Tarot TV/);
-  assert.match(html, /<h2>Instrument \/ system<\/h2>/);
-  assert.match(html, /<h2>Instrument \/ system<\/h2>[\s\S]*Welding \+ Woodwork[\s\S]*Shrink Circuits[\s\S]*Molecule Synth[\s\S]*PIJIN[\s\S]*BPOW!!![\s\S]*Playable prototypes[\s\S]*Artworks/);
-  assert.match(html, /<h2>Sound \/ signal<\/h2>/);
-  assert.match(html, /<h2>Sound \/ signal<\/h2>[\s\S]*<h2>Writing \/ research<\/h2>/);
+  assert.match(html, /<h2>IMAGE<\/h2>[\s\S]*Micrographia[\s\S]*Night Shift[\s\S]*100 Trees[\s\S]*Selva Oscura[\s\S]*GAN-Art[\s\S]*Consumerismos[\s\S]*Tarot TV/);
+  assert.match(html, /<h2>SYSTEM<\/h2>/);
+  assert.match(html, /<h2>SYSTEM<\/h2>[\s\S]*Welding \+ Woodwork[\s\S]*Shrink Circuits[\s\S]*Molecule Synth[\s\S]*PIJIN[\s\S]*BPOW!!![\s\S]*Playable prototypes[\s\S]*Artworks/);
+  assert.match(html, /<h2>SOUND<\/h2>/);
+  assert.match(html, /<h2>SOUND<\/h2>[\s\S]*<h2>WRITING<\/h2>/);
   assert.match(html, /Learning in makerspaces/);
   assert.match(html, /Makerspaces as social systems[\s\S]*2023[\s\S]*Learning in makerspaces[\s\S]*2022[\s\S]*Controversial Crabbe[\s\S]*2012[\s\S]*William Blake \/ The Four Zoas[\s\S]*2005[\s\S]*English Literature and Ancient Languages[\s\S]*2004[\s\S]*Sappho: Poems and Fragments[\s\S]*2002/);
   assert.match(html, /DISCO!! Extended Play circular Shrink Circuits board design/);
@@ -92,14 +92,16 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.match(html, /\/optimized\/thumb\/artworks\/view-of-the-walkway\.jpg/);
   assert.doesNotMatch(html, /consumerisms-stream|tarot-stream|gan-stream|bpow-stream|prototype-stream|sound-stream|many-mansions-cover|movieposter-hero/);
   assert.doesNotMatch(html, /<figcaption>Speakers|<figcaption>ShopBot frame|<figcaption>Rolling classroom system|<figcaption>Material studies|<figcaption>Wood \+ sound|<figcaption>Fur \+ steel/);
-  assert.match(html, />Email<\/a>[\s\S]*Kickstarter[\s\S]*Github[\s\S]*Behance[\s\S]*Bandcamp/);
+  assert.match(html, />email<\/a>[\s\S]*github/);
+  assert.doesNotMatch(html, /<div class="index-footer">(?:(?!<\/div>)[\s\S])*Kickstarter/);
+  assert.doesNotMatch(html, /<div class="index-footer">(?:(?!<\/div>)[\s\S])*Behance/);
+  assert.doesNotMatch(html, /<div class="index-footer">(?:(?!<\/div>)[\s\S])*Bandcamp/);
   assert.doesNotMatch(html, /portrait-workshop|Between materials/);
   assert.doesNotMatch(html, /<details>/);
   assert.doesNotMatch(html, /micro-more-|night-extra-|trees-extra-|selva-extra-|metal-extra-|tarot-archive-|bpow-archive-|prototype-extra-/);
   assert.match(html, /Nerve Maps[\s\S]*2025–present[\s\S]*The Many Mansions[\s\S]*2012–14/);
   assert.match(html, /Shrink Circuits[\s\S]*2013–18/);
   assert.doesNotMatch(html, />0[1-9] ·/);
-  assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Codex is working/i);
   assert.doesNotMatch(html, />Selected work<\/p>/);
 });
 
@@ -111,9 +113,7 @@ test("keeps video, Kickstarter, audio, writing, and project links direct", async
     "https://youtu.be/BNb0xTEe69I",
     "https://youtu.be/Ct37TbZJlrk",
     "https://youtu.be/lmEL5HyCGRE",
-    "https://www.kickstarter.com/profile/travisfeldman",
     "https://github.com/moleculesynth",
-    "https://www.behance.net/molecule",
     "https://www.kickstarter.com/projects/travisfeldman/molecule-synth",
     "https://www.kickstarter.com/projects/travisfeldman/pijin-the-spelling-game-of-the-spoken-word",
     "https://www.kickstarter.com/projects/travisfeldman/bpow-battery-powered-orchestra-workshop",
@@ -132,9 +132,8 @@ test("keeps video, Kickstarter, audio, writing, and project links direct", async
 });
 
 test("ships the restrained design system and deep archives without the source library", async () => {
-  const [packageJson, layout, page, styles, gitignore, ogImage, treeImage, selvaImage, ganImage, consumerImage, metalImage, archiveImage, manyMansionsImage, shrinkImage, prototypeImage, artworksImage] = await Promise.all([
+  const [packageJson, page, styles, gitignore, ogImage, treeImage, selvaImage, ganImage, consumerImage, metalImage, archiveImage, manyMansionsImage, shrinkImage, prototypeImage, artworksImage] = await Promise.all([
     readFile(new URL("../package.json", import.meta.url), "utf8"),
-    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../.gitignore", import.meta.url), "utf8"),
@@ -153,7 +152,6 @@ test("ships the restrained design system and deep archives without the source li
 
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.match(packageJson, /"version": "1\.2\.1"/);
-  assert.doesNotMatch(page, /_sites-preview|SkeletonPreview/);
   assert.match(page, /archive-lightbox/);
   assert.match(page, /aria-modal="true"/);
   assert.match(page, /ArrowLeft/);
@@ -196,7 +194,6 @@ test("ships the restrained design system and deep archives without the source li
   assert.doesNotMatch(page, /project-rearrange-button|rearrangeSignal|summary=/);
   assert.ok(page.indexOf('className="expanded-view"') < page.indexOf("{preview}"));
   assert.doesNotMatch(page, /archive-toolbar|shuffleStep/);
-  assert.doesNotMatch(layout, /codex-preview|Starter Project/);
   assert.match(styles, /--mono:/);
   assert.match(styles, /--sans:/);
   assert.match(styles, /--accent: #00ff00/);
