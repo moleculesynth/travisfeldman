@@ -329,7 +329,7 @@ const microArchive = [
 ];
 const nightArchive = [
   ...numberedArchive("night-more", 6, "Night Shift photograph", [4, 5, 6]),
-  ...numberedArchive("night-extra", 12, "Additional Night Shift photograph"),
+  ...numberedArchive("night-extra", 12, "Additional Night Shift photograph", [1, 4]),
   ...[7, 1, 4, 2, 3, 5].map((number) => ({
     src: `/art/micro-extra-${String(number).padStart(2, "0")}.jpg`,
     alt: `Night Shift photograph ${number}`,
@@ -342,12 +342,12 @@ const treeArchive = [
 ];
 const selvaArchive = [
   ...[2184, 2317, 2398, 2700].map((number) => ({ src: `/art/selva-${number}.jpg`, alt: `Selva Oscura night study ${number}` })),
-  ...numberedArchive("selva-more-new", 8, "Additional Selva Oscura photograph", [8]),
-  ...numberedArchive("selva-extra", 24, "Additional Selva Oscura photograph", [1, 3, 11, 16, 17, 18, 23, 24]),
+  ...numberedArchive("selva-more-new", 8, "Additional Selva Oscura photograph", [2, 5, 8]),
+  ...numberedArchive("selva-extra", 24, "Additional Selva Oscura photograph", [1, 3, 5, 7, 8, 11, 12, 13, 16, 17, 18, 23, 24]),
 ];
 const metalArchive = [
-  ...numberedArchive("metal-more", 30, "Welding and Woodwork study", [4, 18, 24, 30]),
-  ...numberedArchive("metal-extra", 13, "Additional Welding and Woodwork study", [4, 8]),
+  ...numberedArchive("metal-more", 30, "Welding and Woodwork study", [3, 4, 6, 11, 18, 24, 30]),
+  ...numberedArchive("metal-extra", 13, "Additional Welding and Woodwork study", [1, 4, 7, 8]),
 ];
 const tarotArchive = [
   ...numberedArchive("tarot-archive", 18, "Tarot TV still", [18]),
@@ -394,12 +394,10 @@ const artworksArchive = [
   { src: "/artworks/new-signs-for-our-entrance.jpg", alt: "Hand-painted Artworks entrance signs drying in the studio" },
   { src: "/artworks/carol.jpg", alt: "Artworks participant Carol painting a panel" },
   { src: "/artworks/carols-panel.jpg", alt: "Carol's completed Artworks panel" },
-  { src: "/artworks/fernando-scratches-his-head-what-next.jpg", alt: "Fernando considering the next step in his panel" },
   { src: "/artworks/fish.jpg", alt: "Fish mural panel from the Artworks program" },
   { src: "/artworks/snake.jpg", alt: "Snake mural panel from the Artworks program" },
   { src: "/artworks/zacs-bird.jpg", alt: "Zac's bird mural panel" },
   { src: "/artworks/the-jungle.jpg", alt: "Jungle mural panel from the Artworks program" },
-  { src: "/artworks/circle.jpg", alt: "Painted circle created during the Artworks program" },
   { src: "/artworks/we-painted-a-ritual-circle.jpg", alt: "Participants painting a ritual circle" },
   { src: "/artworks/fearless.jpg", alt: "Fearless mural panel from the Artworks program" },
   { src: "/artworks/jester-1.jpg", alt: "Jester mural panel in progress" },
@@ -490,7 +488,6 @@ export default function Home() {
               <figure className="micro-a"><ArtworkImage priority src="/art/micro-cicadas.jpg" alt="Three cicada specimens arranged on white" /></figure>
               <figure className="micro-b"><ArtworkImage src="/art/micro-spore.jpg" alt="A thorny seed pod photographed as a specimen" /></figure>
               <figure className="micro-c"><ArtworkImage src="/art/micro-butterfly-ray.jpg" alt="Rayogram of a butterfly on a deep gray field" /></figure>
-              <figure className="micro-d"><ArtworkImage src="/art/micro-town-council.jpg" alt="Three translucent insect forms facing one another" /></figure>
             </div>
           }
           more={<ArchiveGrid images={microArchive} />}
@@ -505,7 +502,6 @@ export default function Home() {
             <div className="night-stream">
               <figure className="night-a"><ArtworkImage src="/art/night-void-color.jpg" alt="A brightly illuminated office building at night" /></figure>
               <figure className="night-b"><ArtworkImage src="/art/night-skyward.jpg" alt="A night building stretched into vertical trails of light" /></figure>
-              <figure className="night-c"><ArtworkImage src="/art/night-skyward-2.jpg" alt="A high-key building dissolving into vertical streaks" /></figure>
             </div>
           }
           more={<ArchiveGrid images={nightArchive} />}
@@ -537,8 +533,6 @@ export default function Home() {
           preview={
             <div className="selva-stream">
               <figure className="selva-a"><ArtworkImage src="/art/selva-moon-trees.jpg" alt="Moonlight caught in the branches of old trees" /></figure>
-              <figure className="selva-b"><ArtworkImage src="/art/selva-dusk-forest.jpg" alt="Dark tree trunks against the last evening light" /></figure>
-              <figure className="selva-c"><ArtworkImage src="/art/selva-moon-sky.jpg" alt="The moon above a dark horizon in a long exposure" /></figure>
               <figure className="selva-d"><ArtworkImage src="/art/selva-vertical-woods.jpg" alt="A vertical view through a dim forest canopy" /></figure>
               <figure className="selva-e"><ArtworkImage src="/art/selva-lit-woods.jpg" alt="Dense woodland glowing with gathered evening light" /></figure>
               <figure className="selva-f"><ArtworkImage src="/art/selva-stars.jpg" alt="Stars recorded in a deep blue night sky" /></figure>
@@ -565,10 +559,7 @@ export default function Home() {
           preview={
             <div className="metalworks-stream">
               <figure className="metal-a"><ArtworkImage src="/art/metal-speakers-pair.jpg" alt="A pair of handmade wooden speakers with exposed drivers" /></figure>
-              <figure className="metal-b"><ArtworkImage src="/art/metal-shopbot.jpg" alt="A ShopBot CNC machine mounted on a heavy-duty welded frame" /></figure>
-              <figure className="metal-c"><ArtworkImage src="/art/metal-whiteboard.jpg" alt="A large classroom whiteboard on a welded rolling base" /></figure>
               <figure className="metal-d"><ArtworkImage src="/art/metal-hex-tables.jpg" alt="Circular and hexagonal tables in fur, metal, unfinished wood, and lacquered wood" /></figure>
-              <figure className="metal-e"><ArtworkImage src="/art/metal-speaker-wood.jpg" alt="A handmade wooden speaker enclosure" /></figure>
             </div>
           }
           more={<ArchiveGrid images={metalArchive} className="archive-metal" />}
