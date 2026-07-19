@@ -26,7 +26,7 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.match(html, /Welding \+ Woodwork/);
   assert.doesNotMatch(html, /Metalworks (?:&amp;|&) Design/);
   assert.match(html, /2016–2023/);
-  assert.match(html, /ShopBot CNC machine mounted on a heavy-duty welded frame/);
+  assert.doesNotMatch(html, /ShopBot CNC machine mounted on a heavy-duty welded frame/);
   assert.match(html, /Molecule Synth/);
   assert.match(html, /GANtoons/);
   assert.match(html, /MoviePosterGAN/);
@@ -177,16 +177,40 @@ test("ships the restrained design system and deep archives without the source li
     "/artworks/fernandos-panel.jpg",
     "/artworks/cheyenes-poster.jpg",
     "/art/gantoons-movie-posters.jpg",
+    "/art/metal-more-03.jpg",
+    "/art/metal-extra-07.jpg",
+    "/art/metal-more-11.jpg",
+    "/art/metal-extra-01.jpg",
+    "/art/metal-more-06.jpg",
+    "/art/metal-shopbot.jpg",
+    "/art/metal-whiteboard.jpg",
+    "/art/metal-speaker-wood.jpg",
+    "/artworks/fernando-scratches-his-head-what-next.jpg",
+    "/artworks/circle.jpg",
+    "/art/selva-extra-13.jpg",
+    "/art/selva-more-new-05.jpg",
+    "/art/selva-extra-08.jpg",
+    "/art/selva-extra-07.jpg",
+    "/art/selva-extra-05.jpg",
+    "/art/selva-more-new-02.jpg",
+    "/art/selva-extra-12.jpg",
+    "/art/selva-moon-sky.jpg",
+    "/art/selva-dusk-forest.jpg",
+    "/art/night-extra-04.jpg",
+    "/art/night-extra-01.jpg",
+    "/art/night-skyward-2.jpg",
+    "/art/micro-town-council.jpg",
   ]) {
     assert.ok(!page.includes(removedGallerySource), `removed gallery source remains: ${removedGallerySource}`);
   }
   assert.match(page, /numberedArchive\("night-more", 6, "Night Shift photograph", \[4, 5, 6\]\)/);
   assert.match(page, /numberedArchive\("micro-extra", 7, "Additional Micrographia study", \[1, 2, 3, 4, 5, 7\]\)/);
   assert.match(page, /\[7, 1, 4, 2, 3, 5\]\.map\(\(number\) => \(\{/);
-  assert.match(page, /numberedArchive\("selva-more-new", 8, "Additional Selva Oscura photograph", \[8\]\)/);
-  assert.match(page, /numberedArchive\("selva-extra", 24, "Additional Selva Oscura photograph", \[1, 3, 11, 16, 17, 18, 23, 24\]\)/);
-  assert.match(page, /numberedArchive\("metal-more", 30, "Welding and Woodwork study", \[4, 18, 24, 30\]\)/);
-  assert.match(page, /numberedArchive\("metal-extra", 13, "Additional Welding and Woodwork study", \[4, 8\]\)/);
+  assert.match(page, /numberedArchive\("night-extra", 12, "Additional Night Shift photograph", \[1, 4\]\)/);
+  assert.match(page, /numberedArchive\("selva-more-new", 8, "Additional Selva Oscura photograph", \[2, 5, 8\]\)/);
+  assert.match(page, /numberedArchive\("selva-extra", 24, "Additional Selva Oscura photograph", \[1, 3, 5, 7, 8, 11, 12, 13, 16, 17, 18, 23, 24\]\)/);
+  assert.match(page, /numberedArchive\("metal-more", 30, "Welding and Woodwork study", \[3, 4, 6, 11, 18, 24, 30\]\)/);
+  assert.match(page, /numberedArchive\("metal-extra", 13, "Additional Welding and Woodwork study", \[1, 4, 7, 8\]\)/);
   assert.match(page, /numberedArchive\("tarot-archive", 18, "Tarot TV still", \[18\]\)/);
   assert.match(page, /numberedArchive\("tarot-extra", 5, "Additional Tarot TV still", \[1, 3\]\)/);
   assert.match(page, /numberedArchive\("bpow-archive", 12, "BPOW workshop and performance photograph", \[1\]\)/);
