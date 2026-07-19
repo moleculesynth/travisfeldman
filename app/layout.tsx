@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://travisfeldman.org"),
-  title: "Travis Feldman — Objects, Signals, Images, Language",
+  title: "Travis Feldman",
   description:
     "Travis Feldman: physical electronics, photography, experimental sound, games, moving images, and shared learning spaces.",
   openGraph: {
