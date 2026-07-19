@@ -289,14 +289,13 @@ const ProjectHeader = ({ title, year, links, thumbnail, expanded, onToggle, cont
   </header>
 );
 
-const ExpandableProject = ({ id, className, title, year, links, thumbnail, preview, more }: {
+const ExpandableProject = ({ id, className, title, year, links, thumbnail, more }: {
   id: string;
   className: string;
   title: React.ReactNode;
   year?: string;
   links?: React.ReactNode;
   thumbnail?: ProjectThumbnailData;
-  preview?: React.ReactNode;
   more?: React.ReactElement<ArchiveGridProps>;
 }) => {
   const [expanded, setExpanded] = useState(false);
@@ -318,16 +317,20 @@ const ExpandableProject = ({ id, className, title, year, links, thumbnail, previ
           {expanded ? more : null}
         </div>
       ) : null}
-      {preview ? <div className="project-preview">{preview}</div> : null}
     </section>
   );
 };
 
 const microArchive = [
+  { src: "/art/micro-cicadas.jpg", alt: "Three cicada specimens arranged on white" },
+  { src: "/art/micro-spore.jpg", alt: "A thorny seed pod photographed as a specimen" },
+  { src: "/art/micro-butterfly-ray.jpg", alt: "Rayogram of a butterfly on a deep gray field" },
   ...numberedArchive("micro-more", 9, "Micrographia study"),
   ...numberedArchive("micro-extra", 7, "Additional Micrographia study", [1, 2, 3, 4, 5, 7]),
 ];
 const nightArchive = [
+  { src: "/art/night-void-color.jpg", alt: "A brightly illuminated office building at night" },
+  { src: "/art/night-skyward.jpg", alt: "A night building stretched into vertical trails of light" },
   ...numberedArchive("night-more", 6, "Night Shift photograph", [4, 5, 6]),
   ...numberedArchive("night-extra", 12, "Additional Night Shift photograph", [1, 4]),
   ...[7, 1, 4, 2, 3, 5].map((number) => ({
@@ -336,24 +339,35 @@ const nightArchive = [
   })),
 ];
 const treeArchive = [
+  ...[1, 7, 35, 64, 73, 95].map((number) => ({ src: `/art/trees-${String(number).padStart(2, "0")}.jpg`, alt: `100 Trees sequence, position ${number}` })),
   ...[13, 19, 25, 43, 58, 82].map((number) => ({ src: `/art/trees-${number}.jpg`, alt: `100 Trees sequence, position ${number}` })),
   ...numberedArchive("trees-more-new", 12, "Additional 100 Trees photograph"),
   ...numberedArchive("trees-extra", 24, "Additional 100 Trees photograph"),
 ];
 const selvaArchive = [
+  { src: "/art/selva-moon-trees.jpg", alt: "Moonlight caught in the branches of old trees" },
+  { src: "/art/selva-vertical-woods.jpg", alt: "A vertical view through a dim forest canopy" },
+  { src: "/art/selva-lit-woods.jpg", alt: "Dense woodland glowing with gathered evening light" },
+  { src: "/art/selva-stars.jpg", alt: "Stars recorded in a deep blue night sky" },
   ...[2184, 2317, 2398, 2700].map((number) => ({ src: `/art/selva-${number}.jpg`, alt: `Selva Oscura night study ${number}` })),
   ...numberedArchive("selva-more-new", 8, "Additional Selva Oscura photograph", [2, 5, 8]),
   ...numberedArchive("selva-extra", 24, "Additional Selva Oscura photograph", [1, 3, 5, 7, 8, 11, 12, 13, 16, 17, 18, 23, 24]),
 ];
 const metalArchive = [
+  { src: "/art/metal-speakers-pair.jpg", alt: "A pair of handmade wooden speakers with exposed drivers" },
+  { src: "/art/metal-hex-tables.jpg", alt: "Circular and hexagonal tables in fur, metal, unfinished wood, and lacquered wood" },
   ...numberedArchive("metal-more", 30, "Welding and Woodwork study", [3, 4, 6, 11, 18, 24, 30]),
   ...numberedArchive("metal-extra", 13, "Additional Welding and Woodwork study", [1, 4, 7, 8]),
 ];
 const tarotArchive = [
+  { src: "/art/tarot-conversation.jpg", alt: "Tarot TV video still" },
   ...numberedArchive("tarot-archive", 18, "Tarot TV still", [18]),
   ...numberedArchive("tarot-extra", 5, "Additional Tarot TV still", [1, 3]),
 ];
-const bpowArchive = numberedArchive("bpow-archive", 12, "BPOW workshop and performance photograph", [1]);
+const bpowArchive = [
+  { src: "/art/bpow-stage.jpg", alt: "BPOW performance" },
+  ...numberedArchive("bpow-archive", 12, "BPOW workshop and performance photograph", [1]),
+];
 const consumerArchive = [
   { src: "/art/consumerisms-sungod.jpg", alt: "Four-eyed figure painted in muted earth tones" },
   { src: "/art/consumerisms-cosmos.jpg", alt: "New Cosmos painting" },
@@ -372,7 +386,11 @@ const gantoonsArchive = [
 const moviePosterArchive = [
   ...[1, 2, 3].map((number) => ({ src: `/art/movieposter-still-${number}.jpg`, alt: `MoviePosterGAN still ${number}` })),
 ];
-const ganArtArchive = [...gantoonsArchive, ...moviePosterArchive];
+const ganArtArchive = [
+  { src: "/art/gantoons-comic-loop.jpg", alt: "GAN-Art generated image sequence" },
+  ...gantoonsArchive,
+  ...moviePosterArchive,
+];
 const moleculeArchive = [
   ...[1, 4].map((number) => ({ src: `/images/work-${number}.jpg`, alt: `Molecule Synth view ${number}` })),
   { src: "/images/photo-3.jpg", alt: "Molecule Synth photograph 3" },
@@ -380,6 +398,9 @@ const moleculeArchive = [
   { src: "/images/portrait-cover.jpg", alt: "Translucent Molecule Synth detail", className: "archive-crop crop-right" },
 ];
 const shrinkArchive = [
+  { src: "/art/shrink-workshop.jpg", alt: "A Shrink Circuits workshop gathered around a soldering station" },
+  { src: "/art/shrink-lights.jpg", alt: "Small illuminated circuits built in a Shrink Circuits workshop" },
+  { src: "/images/work-2.jpg", alt: "DISCO!! Extended Play circular Shrink Circuits board design" },
   { src: "/art/shrink-forms.jpg", alt: "Colorful laser-cut forms assembled during a Shrink Circuits workshop" },
   { src: "/art/shrink-form-detail.jpg", alt: "Illuminated translucent form built during a Shrink Circuits workshop" },
   { src: "/art/shrink-soldering.jpg", alt: "Soldering a circuit in the Shrink Circuits Nomad Lab" },
@@ -388,7 +409,10 @@ const shrinkArchive = [
   { src: "/art/shrink-board.jpg", alt: "Circular Shrink Circuits circuit board" },
   { src: "/art/shrink-circuits.jpg", alt: "A collection of Shrink Circuits boards" },
 ];
-const prototypeArchive = numberedArchive("prototype-extra", 4, "Playable prototype development photograph");
+const prototypeArchive = [
+  { src: "/art/prototype-swarmbots.jpg", alt: "Playable prototype swarm robots" },
+  ...numberedArchive("prototype-extra", 4, "Playable prototype development photograph"),
+];
 const artworksArchive = [
   { src: "/artworks/creating-a-class-room.jpg", alt: "Preparing the Artworks summer youth program classroom" },
   { src: "/artworks/new-signs-for-our-entrance.jpg", alt: "Hand-painted Artworks entrance signs drying in the studio" },
@@ -483,13 +507,7 @@ export default function Home() {
           className="project-micro"
           title="Micrographia"
           year="2025"
-          preview={
-            <div className="micro-stream">
-              <figure className="micro-a"><ArtworkImage priority src="/art/micro-cicadas.jpg" alt="Three cicada specimens arranged on white" /></figure>
-              <figure className="micro-b"><ArtworkImage src="/art/micro-spore.jpg" alt="A thorny seed pod photographed as a specimen" /></figure>
-              <figure className="micro-c"><ArtworkImage src="/art/micro-butterfly-ray.jpg" alt="Rayogram of a butterfly on a deep gray field" /></figure>
-            </div>
-          }
+          thumbnail={{ src: "/art/micro-cicadas.jpg", alt: "Three cicada specimens arranged on white" }}
           more={<ArchiveGrid images={microArchive} />}
         />
 
@@ -498,12 +516,7 @@ export default function Home() {
           className="project-night"
           title="Night Shift"
           year="2025"
-          preview={
-            <div className="night-stream">
-              <figure className="night-a"><ArtworkImage src="/art/night-void-color.jpg" alt="A brightly illuminated office building at night" /></figure>
-              <figure className="night-b"><ArtworkImage src="/art/night-skyward.jpg" alt="A night building stretched into vertical trails of light" /></figure>
-            </div>
-          }
+          thumbnail={{ src: "/art/night-void-color.jpg", alt: "A brightly illuminated office building at night" }}
           more={<ArchiveGrid images={nightArchive} />}
         />
 
@@ -512,16 +525,7 @@ export default function Home() {
           className="project-trees"
           title="100 Trees"
           year="2024"
-          preview={
-            <div className="trees-stream" aria-label="100 Trees seasonal sequence">
-              <figure><ArtworkImage src="/art/trees-01.jpg" alt="The tree at a rocky overlook in late autumn" /><figcaption>01</figcaption></figure>
-              <figure><ArtworkImage src="/art/trees-07.jpg" alt="The same tree against a darkening autumn sky" /><figcaption>07</figcaption></figure>
-              <figure><ArtworkImage src="/art/trees-35.jpg" alt="The same tree and overlook covered in snow" /><figcaption>35</figcaption></figure>
-              <figure><ArtworkImage src="/art/trees-64.jpg" alt="The same tree as green returns to the hillside" /><figcaption>64</figcaption></figure>
-              <figure><ArtworkImage src="/art/trees-73.jpg" alt="The same tree illuminated by warm seasonal light" /><figcaption>73</figcaption></figure>
-              <figure><ArtworkImage src="/art/trees-95.jpg" alt="The same tree overlooking a fully green landscape" /><figcaption>95</figcaption></figure>
-            </div>
-          }
+          thumbnail={{ src: "/art/trees-01.jpg", alt: "The tree at a rocky overlook in late autumn" }}
           more={<ArchiveGrid images={treeArchive} className="archive-trees" shuffle={false} />}
         />
 
@@ -530,14 +534,7 @@ export default function Home() {
           className="project-selva"
           title={<><em>Selva</em> Oscura</>}
           year="2022–2023"
-          preview={
-            <div className="selva-stream">
-              <figure className="selva-a"><ArtworkImage src="/art/selva-moon-trees.jpg" alt="Moonlight caught in the branches of old trees" /></figure>
-              <figure className="selva-d"><ArtworkImage src="/art/selva-vertical-woods.jpg" alt="A vertical view through a dim forest canopy" /></figure>
-              <figure className="selva-e"><ArtworkImage src="/art/selva-lit-woods.jpg" alt="Dense woodland glowing with gathered evening light" /></figure>
-              <figure className="selva-f"><ArtworkImage src="/art/selva-stars.jpg" alt="Stars recorded in a deep blue night sky" /></figure>
-            </div>
-          }
+          thumbnail={{ src: "/art/selva-moon-trees.jpg", alt: "Moonlight caught in the branches of old trees" }}
           more={<ArchiveGrid images={selvaArchive} />}
         />
 
@@ -556,12 +553,7 @@ export default function Home() {
           className="project-metalworks"
           title="Welding + Woodwork"
           year="2016–2023"
-          preview={
-            <div className="metalworks-stream">
-              <figure className="metal-a"><ArtworkImage src="/art/metal-speakers-pair.jpg" alt="A pair of handmade wooden speakers with exposed drivers" /></figure>
-              <figure className="metal-d"><ArtworkImage src="/art/metal-hex-tables.jpg" alt="Circular and hexagonal tables in fur, metal, unfinished wood, and lacquered wood" /></figure>
-            </div>
-          }
+          thumbnail={{ src: "/art/metal-speakers-pair.jpg", alt: "A pair of handmade wooden speakers with exposed drivers" }}
           more={<ArchiveGrid images={metalArchive} className="archive-metal" />}
         />
 
@@ -571,13 +563,7 @@ export default function Home() {
           title="Shrink Circuits Nomad Lab"
           year="2013–2018"
           links={<><ExternalLink href="http://shrinkcircuits.org/">Project site</ExternalLink><ExternalLink href="https://www.awesomefoundation.org/en/projects/30742-shrink-circuits-nomad-lab">Project record</ExternalLink></>}
-          preview={
-            <div className="shrink-stream">
-              <figure className="shrink-a"><ArtworkImage src="/art/shrink-workshop.jpg" alt="A Shrink Circuits workshop gathered around a soldering station" /></figure>
-              <figure><ArtworkImage src="/art/shrink-lights.jpg" alt="Small illuminated circuits built in a Shrink Circuits workshop" /></figure>
-              <figure><ArtworkImage src="/images/work-2.jpg" alt="DISCO!! Extended Play circular Shrink Circuits board design" /></figure>
-            </div>
-          }
+          thumbnail={{ src: "/art/shrink-workshop.jpg", alt: "A Shrink Circuits workshop gathered around a soldering station" }}
           more={<ArchiveGrid images={shrinkArchive} />}
         />
 
@@ -606,13 +592,7 @@ export default function Home() {
           title="Molecule Synth"
           year="2012–2018"
           links={<><ExternalLink href="https://www.kickstarter.com/projects/travisfeldman/molecule-synth">Kickstarter</ExternalLink><ExternalLink href="https://moleculesynth.com">Project site</ExternalLink></>}
-          preview={
-            <div className="molecule-stream">
-              <figure className="molecule-a"><ArtworkImage src="/images/portrait-cover.jpg" alt="A field of translucent green Molecule Synth modules" /></figure>
-              <figure className="molecule-b"><ArtworkImage src="/images/work-3.jpg" alt="An illuminated Molecule Synth assembled from hexagonal pieces" /></figure>
-              <figure className="molecule-c"><ArtworkImage src="/images/work-1.jpg" alt="Wooden controllers arranged across the Molecule Synth surface" /></figure>
-            </div>
-          }
+          thumbnail={{ src: "/images/portrait-cover.jpg", alt: "A field of translucent green Molecule Synth modules" }}
           more={<ArchiveGrid images={moleculeArchive} />}
         />
 

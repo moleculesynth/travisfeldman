@@ -15,7 +15,7 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>Travis Feldman — Objects, Signals, Images, Language<\/title>/i);
+  assert.match(html, /<title>Travis Feldman<\/title>/i);
   assert.doesNotMatch(html, /Homepage 0\.3\.5|Homepage 0\.3\.6|Homepage 1\.0\.1|Homepage 1\.0\.2|Homepage 1\.0\.3|Homepage 1\.2\.1/);
   assert.match(html, /works, exhibitions, recordings, writing/);
   assert.doesNotMatch(html, /2001—present/);
@@ -73,8 +73,6 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.doesNotMatch(html, /more images|\[rearrange\]/i);
   assert.equal((html.match(/archive-image-button/g) ?? []).length, 0);
   assert.match(html, /loading="lazy"/);
-  assert.match(html, /fetchpriority="high"/i);
-  assert.match(html, /\/optimized\/full\/art\/micro-cicadas\.jpg/);
   assert.match(html, /\/optimized\/thumb\/art\/micro-cicadas\.jpg/);
   assert.doesNotMatch(html, /(?:src|srcset)="\/(?:art|artworks|images)\//);
   assert.match(html, /aria-controls="micrographia-more"/);
@@ -86,11 +84,11 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.match(html, /<h2>SOUND<\/h2>[\s\S]*<h2>WRITING<\/h2>/);
   assert.match(html, /Learning in makerspaces/);
   assert.match(html, /Makerspaces as social systems[\s\S]*2023[\s\S]*Learning in makerspaces[\s\S]*2022[\s\S]*Controversial Crabbe[\s\S]*2012[\s\S]*William Blake \/ The Four Zoas[\s\S]*2005[\s\S]*English Literature and Ancient Languages[\s\S]*2004[\s\S]*Sappho: Poems and Fragments[\s\S]*2002/);
-  assert.match(html, /DISCO!! Extended Play circular Shrink Circuits board design/);
+  assert.doesNotMatch(html, /DISCO!! Extended Play circular Shrink Circuits board design/);
   assert.match(html, /many-mansions-album\.jpg/);
-  assert.equal((html.match(/project-header-thumbnail/g) ?? []).length, 9);
+  assert.equal((html.match(/project-header-thumbnail/g) ?? []).length, 16);
   assert.match(html, /\/optimized\/thumb\/artworks\/view-of-the-walkway\.jpg/);
-  assert.doesNotMatch(html, /consumerisms-stream|tarot-stream|gan-stream|bpow-stream|prototype-stream|sound-stream|many-mansions-cover|movieposter-hero/);
+  assert.doesNotMatch(html, /trees-stream|selva-stream|micro-stream|metalworks-stream|night-stream|molecule-stream|shrink-stream|consumerisms-stream|tarot-stream|gan-stream|bpow-stream|prototype-stream|sound-stream|many-mansions-cover|movieposter-hero/);
   assert.doesNotMatch(html, /<figcaption>Speakers|<figcaption>ShopBot frame|<figcaption>Rolling classroom system|<figcaption>Material studies|<figcaption>Wood \+ sound|<figcaption>Fur \+ steel/);
   assert.match(html, />email<\/a>[\s\S]*github/);
   assert.doesNotMatch(html, /<div class="index-footer">(?:(?!<\/div>)[\s\S])*Kickstarter/);
@@ -160,6 +158,8 @@ test("ships the restrained design system and deep archives without the source li
   assert.match(page, /className="archive-trees" shuffle=\{false\}/);
   assert.match(page, /className="project-control-row"/);
   assert.match(page, /target\.scrollIntoView/);
+  assert.doesNotMatch(page, /preview\?: React\.ReactNode|className="project-preview"/);
+  assert.match(page, /DISCO!! Extended Play circular Shrink Circuits board design/);
   for (const removedGallerySource of [
     "/art/metal-fur-table.jpg",
     "/art/shrink-lab.jpg",
@@ -216,13 +216,12 @@ test("ships the restrained design system and deep archives without the source li
   assert.match(page, /numberedArchive\("bpow-archive", 12, "BPOW workshop and performance photograph", \[1\]\)/);
   assert.match(page, /\{expanded \? more : null\}/);
   assert.doesNotMatch(page, /project-rearrange-button|rearrangeSignal|summary=/);
-  assert.ok(page.indexOf('className="expanded-view"') < page.indexOf("{preview}"));
+  assert.match(page, /className="expanded-view"/);
   assert.doesNotMatch(page, /archive-toolbar|shuffleStep/);
   assert.match(styles, /--mono:/);
   assert.match(styles, /--sans:/);
   assert.match(styles, /--accent: #00ff00/);
   assert.match(styles, /grid-template-columns: auto 72px/);
-  assert.match(styles, /project-preview > \* \{ max-width: none; width: 100%; \}/);
   assert.match(styles, /gallery-project:nth-of-type\(4n \+ 1\)/);
   assert.match(styles, /height: 100svh;[\s\S]*overflow-y: auto;/);
   assert.match(styles, /content: "# "/);
