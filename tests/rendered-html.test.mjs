@@ -203,6 +203,7 @@ test("ships the restrained design system and deep archives without the source li
   ]) {
     assert.ok(!page.includes(removedGallerySource), `removed gallery source remains: ${removedGallerySource}`);
   }
+  assert.match(page, /numberedArchive\("micro-more", 9, "Micrographia study", \[2\]\)/);
   assert.match(page, /numberedArchive\("night-more", 6, "Night Shift photograph", \[4, 5, 6\]\)/);
   assert.match(page, /numberedArchive\("micro-extra", 7, "Additional Micrographia study", \[1, 2, 3, 4, 5, 7\]\)/);
   assert.match(page, /\[7, 1, 4, 2, 3, 5\]\.map\(\(number\) => \(\{/);

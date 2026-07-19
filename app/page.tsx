@@ -325,7 +325,7 @@ const microArchive = [
   { src: "/art/micro-cicadas.jpg", alt: "Three cicada specimens arranged on white" },
   { src: "/art/micro-spore.jpg", alt: "A thorny seed pod photographed as a specimen" },
   { src: "/art/micro-butterfly-ray.jpg", alt: "Rayogram of a butterfly on a deep gray field" },
-  ...numberedArchive("micro-more", 9, "Micrographia study"),
+  ...numberedArchive("micro-more", 9, "Micrographia study", [2]),
   ...numberedArchive("micro-extra", 7, "Additional Micrographia study", [1, 2, 3, 4, 5, 7]),
 ];
 const nightArchive = [
