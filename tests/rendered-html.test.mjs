@@ -29,11 +29,13 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.doesNotMatch(html, /ShopBot CNC machine mounted on a heavy-duty welded frame/);
   assert.match(html, /Molecule Synth/);
   assert.match(html, /GANtoons/);
+  assert.doesNotMatch(html, />GAN-Art</);
   assert.match(html, /MoviePosterGAN/);
   assert.match(html, /Consumerismos/);
   assert.match(html, /2001–2002/);
   assert.match(html, /PIJIN/);
   assert.match(html, /BPOW!!!/);
+  assert.match(html, /Battery Powered Orchestra Workshop \(BPOW!!!\)/);
   assert.match(html, /Shrink Circuits Nomad Lab/);
   assert.match(html, /Playable prototypes/);
   assert.match(html, /Artworks Summer Youth Program/);
@@ -53,7 +55,9 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
     "micrographia",
     "night-shift",
     "hundred-trees",
+    "writing-inclusive-makerspaces",
     "selva-oscura",
+    "writing-learning-makerspaces",
     "gan-art",
     "welding-woodwork",
     "shrink-circuits",
@@ -62,6 +66,10 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
     "molecule-synth",
     "prototypes",
     "many-mansions",
+    "writing-controversial-crabbe",
+    "writing-four-zoas",
+    "writing-ancient-languages",
+    "writing-sappho",
     "consumerisms",
     "tarot-tv",
     "artworks",
@@ -77,16 +85,18 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.doesNotMatch(html, /(?:src|srcset)="\/(?:art|artworks|images)\//);
   assert.match(html, /aria-controls="micrographia-more"/);
   assert.match(html, /id="micrographia-more"/);
-  assert.match(html, /<h2>IMAGE<\/h2>[\s\S]*Micrographia[\s\S]*Night Shift[\s\S]*100 Trees[\s\S]*Selva Oscura[\s\S]*GAN-Art[\s\S]*Consumerismos[\s\S]*Tarot TV/);
+  assert.match(html, /<h2>IMAGE<\/h2>[\s\S]*Micrographia[\s\S]*Night Shift[\s\S]*100 Trees[\s\S]*Selva Oscura[\s\S]*GANtoons[\s\S]*Consumerismos[\s\S]*Tarot TV/);
   assert.match(html, /<h2>SYSTEM<\/h2>/);
   assert.match(html, /<h2>SYSTEM<\/h2>[\s\S]*Welding \+ Woodwork[\s\S]*Shrink Circuits[\s\S]*Molecule Synth[\s\S]*PIJIN[\s\S]*BPOW!!![\s\S]*Playable prototypes[\s\S]*Artworks/);
   assert.match(html, /<h2>SOUND<\/h2>/);
   assert.match(html, /<h2>SOUND<\/h2>[\s\S]*<h2>WRITING<\/h2>/);
   assert.match(html, /Learning in makerspaces/);
   assert.match(html, /Makerspaces as social systems[\s\S]*2023[\s\S]*Learning in makerspaces[\s\S]*2022[\s\S]*Controversial Crabbe[\s\S]*2012[\s\S]*William Blake \/ The Four Zoas[\s\S]*2005[\s\S]*English Literature and Ancient Languages[\s\S]*2004[\s\S]*Sappho: Poems and Fragments[\s\S]*2002/);
+  assert.match(html, /<h2><em>Selva Oscura<\/em><\/h2>/);
+  assert.match(html, /\/optimized\/thumb\/images\/writing-inclusive-makerspaces\.jpg/);
   assert.doesNotMatch(html, /DISCO!! Extended Play circular Shrink Circuits board design/);
   assert.match(html, /many-mansions-album\.jpg/);
-  assert.equal((html.match(/project-header-thumbnail/g) ?? []).length, 16);
+  assert.equal((html.match(/project-header-thumbnail/g) ?? []).length, 22);
   assert.match(html, /\/optimized\/thumb\/artworks\/view-of-the-walkway\.jpg/);
   assert.doesNotMatch(html, /trees-stream|selva-stream|micro-stream|metalworks-stream|night-stream|molecule-stream|shrink-stream|consumerisms-stream|tarot-stream|gan-stream|bpow-stream|prototype-stream|sound-stream|many-mansions-cover|movieposter-hero/);
   assert.doesNotMatch(html, /<figcaption>Speakers|<figcaption>ShopBot frame|<figcaption>Rolling classroom system|<figcaption>Material studies|<figcaption>Wood \+ sound|<figcaption>Fur \+ steel/);
@@ -121,6 +131,7 @@ test("keeps video, Kickstarter, audio, writing, and project links direct", async
     "https://www.awesomefoundation.org/en/projects/30742-shrink-circuits-nomad-lab",
     "http://shrinkcircuits.org/",
     "https://ijamm.pubpub.org/pub/o9n1tv3t",
+    "https://commons.wikimedia.org/wiki/File:Aldborough,_Suffolk_c.1826.jpg",
     "https://bmcr.brynmawr.edu/2004/2004.08.11/",
     "mailto:moleculesynth@gmail.com",
   ]) {
@@ -130,7 +141,7 @@ test("keeps video, Kickstarter, audio, writing, and project links direct", async
 });
 
 test("ships the restrained design system and deep archives without the source library", async () => {
-  const [packageJson, page, styles, gitignore, ogImage, treeImage, selvaImage, ganImage, consumerImage, metalImage, archiveImage, manyMansionsImage, shrinkImage, prototypeImage, artworksImage] = await Promise.all([
+  const [packageJson, page, styles, gitignore, ogImage, treeImage, selvaImage, ganImage, consumerImage, writingImage, metalImage, archiveImage, manyMansionsImage, shrinkImage, prototypeImage, artworksImage] = await Promise.all([
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
@@ -139,7 +150,8 @@ test("ships the restrained design system and deep archives without the source li
     readFile(new URL("../public/art/trees-35.jpg", import.meta.url)),
     readFile(new URL("../public/art/selva-moon-trees.jpg", import.meta.url)),
     readFile(new URL("../public/art/gantoons-comic-loop.jpg", import.meta.url)),
-    readFile(new URL("../public/art/consumerisms-view-1.jpg", import.meta.url)),
+    readFile(new URL("../public/art/consumerisms-sage.jpg", import.meta.url)),
+    readFile(new URL("../public/optimized/thumb/images/writing-sappho.jpg", import.meta.url)),
     readFile(new URL("../public/art/metal-shopbot.jpg", import.meta.url)),
     readFile(new URL("../public/art/metal-more-29.jpg", import.meta.url)),
     readFile(new URL("../public/art/many-mansions-album.jpg", import.meta.url)),
@@ -174,6 +186,7 @@ test("ships the restrained design system and deep archives without the source li
     "/art/consumer-more-new-01.jpg",
     "/art/consumer-more-new-02.jpg",
     "/art/consumer-more-new-04.jpg",
+    "/art/consumerisms-view-1.jpg",
     "/artworks/fernandos-panel.jpg",
     "/artworks/cheyenes-poster.jpg",
     "/art/gantoons-movie-posters.jpg",
@@ -215,6 +228,8 @@ test("ships the restrained design system and deep archives without the source li
   assert.match(page, /numberedArchive\("tarot-archive", 18, "Tarot TV still", \[18\]\)/);
   assert.match(page, /numberedArchive\("tarot-extra", 5, "Additional Tarot TV still", \[1, 3\]\)/);
   assert.match(page, /numberedArchive\("bpow-archive", 12, "BPOW workshop and performance photograph", \[1\]\)/);
+  assert.match(page, /\/art\/consumerisms-sage\.jpg/);
+  assert.match(page, /\/images\/writing-sappho\.jpg/);
   assert.match(page, /\{expanded \? more : null\}/);
   assert.doesNotMatch(page, /project-rearrange-button|rearrangeSignal|summary=/);
   assert.match(page, /className="expanded-view"/);
@@ -222,7 +237,8 @@ test("ships the restrained design system and deep archives without the source li
   assert.match(styles, /--mono:/);
   assert.match(styles, /--sans:/);
   assert.match(styles, /--accent: #00ff00/);
-  assert.match(styles, /grid-template-columns: auto 72px/);
+  assert.match(styles, /grid-template-columns: minmax\(0, 1fr\) clamp\(190px, 25vw, 320px\)/);
+  assert.match(styles, /\.project-header-thumbnail \{[\s\S]*height: 100%;[\s\S]*width: 100%;/);
   assert.match(styles, /gallery-project:nth-of-type\(4n \+ 1\)/);
   assert.match(styles, /height: 100svh;[\s\S]*overflow-y: auto;/);
   assert.match(styles, /content: "# "/);
@@ -235,6 +251,7 @@ test("ships the restrained design system and deep archives without the source li
   assert.ok(selvaImage.byteLength > 100_000);
   assert.ok(ganImage.byteLength > 10_000);
   assert.ok(consumerImage.byteLength > 100_000);
+  assert.ok(writingImage.byteLength > 50_000);
   assert.ok(metalImage.byteLength > 100_000);
   assert.ok(archiveImage.byteLength > 50_000);
   assert.ok(manyMansionsImage.byteLength > 50_000);

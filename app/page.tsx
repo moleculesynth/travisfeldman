@@ -374,7 +374,7 @@ const consumerArchive = [
   { src: "/art/consumerisms-ikarus.jpg", alt: "Ikarus painting" },
   { src: "/art/consumer-more-new-03.jpg", alt: "Dark garden painting" },
   { src: "/art/consumer-more-new-05.jpg", alt: "Dark celestial landscape painting" },
-  { src: "/art/consumerisms-view-1.jpg", alt: "Detail of a Consumerismos figure" },
+  { src: "/art/consumerisms-sage.jpg", alt: "Tall ink and wash Consumerismos figure on brown paper", className: "sage-thumbnail" },
 ];
 const gantoonsArchive = [
   ...[1, 2, 3].map((number) => ({ src: `/art/gantoons-still-${number}.jpg`, alt: `GANtoons loop still ${number}` })),
@@ -387,7 +387,7 @@ const moviePosterArchive = [
   ...[1, 2, 3].map((number) => ({ src: `/art/movieposter-still-${number}.jpg`, alt: `MoviePosterGAN still ${number}` })),
 ];
 const ganArtArchive = [
-  { src: "/art/gantoons-comic-loop.jpg", alt: "GAN-Art generated image sequence" },
+  { src: "/art/gantoons-comic-loop.jpg", alt: "GANtoons generated image sequence" },
   ...gantoonsArchive,
   ...moviePosterArchive,
 ];
@@ -452,8 +452,8 @@ export default function Home() {
             <IndexLink href="#micrographia" year="2025">Micrographia</IndexLink>
             <IndexLink href="#night-shift" year="2025">Night Shift</IndexLink>
             <IndexLink href="#hundred-trees" year="2024">100 Trees</IndexLink>
-            <IndexLink href="#selva-oscura" year="2022–23">Selva Oscura</IndexLink>
-            <IndexLink href="#gan-art" year="2018">GAN-Art</IndexLink>
+            <IndexLink href="#selva-oscura" year="2022–23"><em>Selva Oscura</em></IndexLink>
+            <IndexLink href="#gan-art" year="2018">GANtoons</IndexLink>
             <IndexLink href="#consumerisms" year="2001–02">Consumerismos</IndexLink>
             <IndexLink href="#tarot-tv" year="2001">Tarot TV</IndexLink>
           </section>
@@ -530,21 +530,47 @@ export default function Home() {
         />
 
         <ExpandableProject
+          id="writing-inclusive-makerspaces"
+          className="project-writing"
+          title="Makerspaces as social systems"
+          year="2023"
+          links={<ExternalLink href="https://educ-met-site.sites.olt.ubc.ca/files/2023/05/Feldman_MET_25MAY2023.pdf">View presentation</ExternalLink>}
+          thumbnail={{
+            src: "/images/writing-inclusive-makerspaces.jpg",
+            alt: "Hands arranging wood, metal, wire, and green acrylic into an open collaborative circle",
+            href: "https://educ-met-site.sites.olt.ubc.ca/files/2023/05/Feldman_MET_25MAY2023.pdf",
+          }}
+        />
+
+        <ExpandableProject
           id="selva-oscura"
           className="project-selva"
-          title={<><em>Selva</em> Oscura</>}
+          title={<em>Selva Oscura</em>}
           year="2022–2023"
           thumbnail={{ src: "/art/selva-moon-trees.jpg", alt: "Moonlight caught in the branches of old trees" }}
           more={<ArchiveGrid images={selvaArchive} />}
         />
 
         <ExpandableProject
+          id="writing-learning-makerspaces"
+          className="project-writing"
+          title="Learning in makerspaces"
+          year="2022"
+          links={<ExternalLink href="https://ijamm.pubpub.org/pub/o9n1tv3t?readingCollection=7726e307">Read article</ExternalLink>}
+          thumbnail={{
+            src: "/images/writing-learning-makerspaces.jpg",
+            alt: "Hands testing a wood, metal, and electronic prototype beside a sketchbook",
+            href: "https://ijamm.pubpub.org/pub/o9n1tv3t?readingCollection=7726e307",
+          }}
+        />
+
+        <ExpandableProject
           id="gan-art"
           className="project-gantoons"
-          title="GAN-Art"
+          title="GANtoons"
           year="Berlin · 2018"
           links={<><ExternalLink href="https://youtu.be/BNb0xTEe69I">GANtoons loop</ExternalLink><ExternalLink href="https://youtu.be/Ct37TbZJlrk">Comic Book Covers</ExternalLink><ExternalLink href="https://youtu.be/lmEL5HyCGRE">MoviePosterGAN</ExternalLink></>}
-          thumbnail={{ src: "/art/gantoons-comic-loop.jpg", alt: "GAN-Art generated image sequence" }}
+          thumbnail={{ src: "/art/gantoons-comic-loop.jpg", alt: "GANtoons generated image sequence" }}
           more={<ArchiveGrid images={ganArtArchive} />}
         />
 
@@ -579,7 +605,7 @@ export default function Home() {
         <ExpandableProject
           id="bpow"
           className="project-bpow"
-          title="BPOW!!!"
+          title="Battery Powered Orchestra Workshop (BPOW!!!)"
           year="2013"
           links={<><ExternalLink href="https://www.kickstarter.com/projects/travisfeldman/bpow-battery-powered-orchestra-workshop">Kickstarter</ExternalLink><ExternalLink href="https://makezine.com/article/craft/music/bpow-festival-celebrates-the-art-of-salvaged-sound/">Festival story</ExternalLink></>}
           thumbnail={{ src: "/art/bpow-stage.jpg", alt: "BPOW performance" }}
@@ -612,6 +638,58 @@ export default function Home() {
           year="2012–2014"
           links={<ExternalLink href="https://themanymansions.bandcamp.com/">Listen on Bandcamp</ExternalLink>}
           thumbnail={{ src: "/art/many-mansions-album.jpg", alt: "The Many Mansions — Early Retirement album artwork", href: "https://themanymansions.bandcamp.com/" }}
+        />
+
+        <ExpandableProject
+          id="writing-controversial-crabbe"
+          className="project-writing"
+          title="Controversial Crabbe"
+          year="2012"
+          links={<><ExternalLink href="https://www.jstor.org/stable/24247222">Read on JSTOR</ExternalLink><ExternalLink href="https://commons.wikimedia.org/wiki/File:Aldborough,_Suffolk_c.1826.jpg">Image: J.M.W. Turner, 1826 · CC BY-SA 3.0</ExternalLink></>}
+          thumbnail={{
+            src: "/images/writing-crabbe.jpg",
+            alt: "J.M.W. Turner's 1826 watercolor of boats and working people at Aldeburgh, Suffolk",
+            href: "https://www.jstor.org/stable/24247222",
+          }}
+        />
+
+        <ExpandableProject
+          id="writing-four-zoas"
+          className="project-writing"
+          title="William Blake / The Four Zoas"
+          year="2005"
+          links={<ExternalLink href="https://cinema.washington.edu/people/travis-feldman">View research record</ExternalLink>}
+          thumbnail={{
+            src: "/images/writing-four-zoas.jpg",
+            alt: "Four robed forms layered across a stitched and revised illuminated manuscript",
+            href: "https://cinema.washington.edu/people/travis-feldman",
+          }}
+        />
+
+        <ExpandableProject
+          id="writing-ancient-languages"
+          className="project-writing"
+          title="English Literature and Ancient Languages"
+          year="2004"
+          links={<ExternalLink href="https://bmcr.brynmawr.edu/2004/2004.08.11/">Read review</ExternalLink>}
+          thumbnail={{
+            src: "/images/writing-ancient-languages.jpg",
+            alt: "Roman and Greek letterforms interwoven across layers of old paper and tracing film",
+            href: "https://bmcr.brynmawr.edu/2004/2004.08.11/",
+          }}
+        />
+
+        <ExpandableProject
+          id="writing-sappho"
+          className="project-writing"
+          title="Sappho: Poems and Fragments"
+          year="2002"
+          links={<ExternalLink href="https://bmcr.brynmawr.edu/2002/2002.09.37">Read review</ExternalLink>}
+          thumbnail={{
+            src: "/images/writing-sappho.jpg",
+            alt: "Papyrus fragments, an apple, a hyacinth, and a message bottle on stone beside dark water",
+            href: "https://bmcr.brynmawr.edu/2002/2002.09.37",
+          }}
         />
 
         <ExpandableProject
