@@ -133,6 +133,7 @@ test("keeps video, Kickstarter, audio, writing, and project links direct", async
     "https://ijamm.pubpub.org/pub/o9n1tv3t",
     "https://commons.wikimedia.org/wiki/File:George_Crabbe_by_Henry_William_Pickersgill.jpg",
     "https://commons.wikimedia.org/wiki/File:Bb209.1.3.ms.300.jpg",
+    "https://commons.wikimedia.org/wiki/File:Milton_Dictating_to_His_Daughter,_Henry_Fuseli_1794.jpg",
     "https://commons.wikimedia.org/wiki/File:Malarz_Safony_-_Kalpis_wykonana_technik%C4%85_Six.jpg",
     "https://bmcr.brynmawr.edu/2004/2004.08.11/",
     "mailto:moleculesynth@gmail.com",

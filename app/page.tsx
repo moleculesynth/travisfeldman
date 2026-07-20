@@ -537,7 +537,7 @@ export default function Home() {
           links={<ExternalLink href="https://educ-met-site.sites.olt.ubc.ca/files/2023/05/Feldman_MET_25MAY2023.pdf">View presentation</ExternalLink>}
           thumbnail={{
             src: "/images/writing-inclusive-makerspaces.jpg",
-            alt: "Hands arranging wood, metal, wire, and green acrylic into an open collaborative circle",
+            alt: "Students building projects together around a makerspace worktable",
             href: "https://educ-met-site.sites.olt.ubc.ca/files/2023/05/Feldman_MET_25MAY2023.pdf",
           }}
         />
@@ -671,10 +671,10 @@ export default function Home() {
           className="project-writing"
           title="English Literature and Ancient Languages"
           year="2004"
-          links={<ExternalLink href="https://bmcr.brynmawr.edu/2004/2004.08.11/">Read review</ExternalLink>}
+          links={<><ExternalLink href="https://bmcr.brynmawr.edu/2004/2004.08.11/">Read review</ExternalLink><ExternalLink href="https://commons.wikimedia.org/wiki/File:Milton_Dictating_to_His_Daughter,_Henry_Fuseli_1794.jpg">Image: Henry Fuseli, 1794 · public domain</ExternalLink></>}
           thumbnail={{
             src: "/images/writing-ancient-languages.jpg",
-            alt: "Roman and Greek letterforms interwoven across layers of old paper and tracing film",
+            alt: "Henry Fuseli's painting of Milton dictating Paradise Lost to his daughter",
             href: "https://bmcr.brynmawr.edu/2004/2004.08.11/",
           }}
         />
