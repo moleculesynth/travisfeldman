@@ -559,7 +559,7 @@ export default function Home() {
           links={<ExternalLink href="https://ijamm.pubpub.org/pub/o9n1tv3t?readingCollection=7726e307">Read article</ExternalLink>}
           thumbnail={{
             src: "/images/writing-learning-makerspaces.jpg",
-            alt: "Hands testing a wood, metal, and electronic prototype beside a sketchbook",
+            alt: "Red and green LEDs wired on breadboards to a Raspberry Pi",
             href: "https://ijamm.pubpub.org/pub/o9n1tv3t?readingCollection=7726e307",
           }}
         />
@@ -645,10 +645,10 @@ export default function Home() {
           className="project-writing"
           title="Controversial Crabbe"
           year="2012"
-          links={<><ExternalLink href="https://www.jstor.org/stable/24247222">Read on JSTOR</ExternalLink><ExternalLink href="https://commons.wikimedia.org/wiki/File:Aldborough,_Suffolk_c.1826.jpg">Image: J.M.W. Turner, 1826 · CC BY-SA 3.0</ExternalLink></>}
+          links={<><ExternalLink href="https://www.jstor.org/stable/24247222">Read on JSTOR</ExternalLink><ExternalLink href="https://commons.wikimedia.org/wiki/File:George_Crabbe_by_Henry_William_Pickersgill.jpg">Image: Henry William Pickersgill · public domain</ExternalLink></>}
           thumbnail={{
             src: "/images/writing-crabbe.jpg",
-            alt: "J.M.W. Turner's 1826 watercolor of boats and working people at Aldeburgh, Suffolk",
+            alt: "Henry William Pickersgill's portrait of George Crabbe",
             href: "https://www.jstor.org/stable/24247222",
           }}
         />
@@ -658,10 +658,10 @@ export default function Home() {
           className="project-writing"
           title="William Blake / The Four Zoas"
           year="2005"
-          links={<ExternalLink href="https://cinema.washington.edu/people/travis-feldman">View research record</ExternalLink>}
+          links={<><ExternalLink href="https://cinema.washington.edu/people/travis-feldman">View research record</ExternalLink><ExternalLink href="https://commons.wikimedia.org/wiki/File:Bb209.1.3.ms.300.jpg">Image: William Blake, <em>The Four Zoas</em> · public domain</ExternalLink></>}
           thumbnail={{
             src: "/images/writing-four-zoas.jpg",
-            alt: "Four robed forms layered across a stitched and revised illuminated manuscript",
+            alt: "William Blake's manuscript page for Vala, or The Four Zoas",
             href: "https://cinema.washington.edu/people/travis-feldman",
           }}
         />
@@ -684,10 +684,10 @@ export default function Home() {
           className="project-writing"
           title="Sappho: Poems and Fragments"
           year="2002"
-          links={<ExternalLink href="https://bmcr.brynmawr.edu/2002/2002.09.37">Read review</ExternalLink>}
+          links={<><ExternalLink href="https://bmcr.brynmawr.edu/2002/2002.09.37">Read review</ExternalLink><ExternalLink href="https://commons.wikimedia.org/wiki/File:Malarz_Safony_-_Kalpis_wykonana_technik%C4%85_Six.jpg">Image: Sappho Painter kalpis · public domain</ExternalLink></>}
           thumbnail={{
             src: "/images/writing-sappho.jpg",
-            alt: "Papyrus fragments, an apple, a hyacinth, and a message bottle on stone beside dark water",
+            alt: "Ancient black-glaze kalpis depicting Sappho with a barbitos",
             href: "https://bmcr.brynmawr.edu/2002/2002.09.37",
           }}
         />

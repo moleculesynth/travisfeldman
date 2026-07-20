@@ -131,7 +131,9 @@ test("keeps video, Kickstarter, audio, writing, and project links direct", async
     "https://www.awesomefoundation.org/en/projects/30742-shrink-circuits-nomad-lab",
     "http://shrinkcircuits.org/",
     "https://ijamm.pubpub.org/pub/o9n1tv3t",
-    "https://commons.wikimedia.org/wiki/File:Aldborough,_Suffolk_c.1826.jpg",
+    "https://commons.wikimedia.org/wiki/File:George_Crabbe_by_Henry_William_Pickersgill.jpg",
+    "https://commons.wikimedia.org/wiki/File:Bb209.1.3.ms.300.jpg",
+    "https://commons.wikimedia.org/wiki/File:Malarz_Safony_-_Kalpis_wykonana_technik%C4%85_Six.jpg",
     "https://bmcr.brynmawr.edu/2004/2004.08.11/",
     "mailto:moleculesynth@gmail.com",
   ]) {
@@ -251,7 +253,7 @@ test("ships the restrained design system and deep archives without the source li
   assert.ok(selvaImage.byteLength > 100_000);
   assert.ok(ganImage.byteLength > 10_000);
   assert.ok(consumerImage.byteLength > 100_000);
-  assert.ok(writingImage.byteLength > 50_000);
+  assert.ok(writingImage.byteLength > 25_000);
   assert.ok(metalImage.byteLength > 100_000);
   assert.ok(archiveImage.byteLength > 50_000);
   assert.ok(manyMansionsImage.byteLength > 50_000);
