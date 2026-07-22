@@ -63,7 +63,7 @@ const IndexLink = ({ href, children, year }: {
   );
 };
 
-type ArchiveImage = { src: string; alt: string; className?: string };
+type ArchiveImage = { src: string; alt: string; caption?: string; className?: string };
 type ProjectThumbnailData = { src: string; alt: string; href?: string };
 type ArchiveGridProps = {
   images: ReadonlyArray<ArchiveImage>;
@@ -197,7 +197,7 @@ const ArchiveGrid = ({ images, className = "", shuffle = true }: ArchiveGridProp
           <button aria-label="Previous image" className="lightbox-previous" onClick={() => moveSelection(-1)} type="button">[←]</button>
           <figure>
             <ArtworkImage src={activeImage.src} alt={activeImage.alt} />
-            <figcaption>{selected! + 1} / {orderedImages.length} · {activeImage.alt}</figcaption>
+            <figcaption>{selected! + 1} / {orderedImages.length} · {activeImage.caption ?? activeImage.alt}</figcaption>
           </figure>
           <button aria-label="Next image" className="lightbox-next" onClick={() => moveSelection(1)} type="button">[→]</button>
         </div>
@@ -213,6 +213,9 @@ const numberedArchive = (prefix: string, count: number, description: string, exc
       src: `/art/${prefix}-${String(number).padStart(2, "0")}.jpg`,
       alt: `${description} ${number}`,
     }));
+
+const captionedArchive = (images: ReadonlyArray<readonly [src: string, alt: string, caption: string]>) =>
+  images.map(([src, alt, caption]) => ({ src, alt, caption }));
 
 const ProjectThumbnail = ({ thumbnail, expanded, onToggle, controlsId }: {
   thumbnail: ProjectThumbnailData;
@@ -321,42 +324,57 @@ const ExpandableProject = ({ id, className, title, year, links, thumbnail, more 
   );
 };
 
-const microArchive = [
-  { src: "/art/micro-cicadas.jpg", alt: "Three cicada specimens arranged on white" },
-  { src: "/art/micro-spore.jpg", alt: "A thorny seed pod photographed as a specimen" },
-  { src: "/art/micro-butterfly-ray.jpg", alt: "Rayogram of a butterfly on a deep gray field" },
-  { src: "/art/micro-ya.jpg", alt: "A seed pod resting in iridescent blue and pink light" },
-  { src: "/art/micro-ya-2.jpg", alt: "A dried seed pod photographed as a specimen" },
-  { src: "/art/micro-ya-3.jpg", alt: "A cicada specimen in a shallow white tray" },
-  { src: "/art/micro-ya-4.jpg", alt: "A spherical seed head with its stem and dried leaf" },
-  { src: "/art/micro-ya-5.jpg", alt: "Close view of the patterned surface of a spherical seed head" },
-  { src: "/art/micro-ya-6.jpg", alt: "Two cicada specimens facing one another" },
-  { src: "/art/micro-ya-60.jpg", alt: "An empty acorn cup photographed from above" },
-  { src: "/art/micro-ya-64.jpg", alt: "An acorn photographed at its cut end" },
-  { src: "/art/micro-ya-74.jpg", alt: "A whole acorn photographed as a specimen" },
-  { src: "/art/micro-ya-75.jpg", alt: "A butterfly specimen with blue and yellow wing markings" },
-  ...numberedArchive("micro-more", 9, "Micrographia study", [2]),
-  ...numberedArchive("micro-extra", 7, "Additional Micrographia study", [1, 2, 3, 4, 5, 7]),
-];
-const nightArchive = [
-  { src: "/art/night-void-color.jpg", alt: "A brightly illuminated office building at night" },
-  { src: "/art/night-skyward.jpg", alt: "A night building stretched into vertical trails of light" },
-  { src: "/art/night-shift-1.jpg", alt: "A tall stone entrance with a lit doorway at night" },
-  { src: "/art/night-shift-1-2.jpg", alt: "A bare tree and utility lines silhouetted at dusk" },
-  { src: "/art/night-shift-1-3.jpg", alt: "A low office building illuminated after dark" },
-  { src: "/art/night-shift-1-4.jpg", alt: "An illuminated office tower seen across a road at night" },
-  { src: "/art/night-shift-1-5.jpg", alt: "A brick office building photographed at blue hour" },
-  { src: "/art/night-shift-1-6.jpg", alt: "Distant lights glowing beneath a dark clouded sky" },
-  { src: "/art/night-shift-1-7.jpg", alt: "A squirrel in foliage framed by the edge of medium-format film" },
-  { src: "/art/night-shift-1-8.jpg", alt: "Power lines and utility structures framed by medium-format film" },
-  { src: "/art/night-shift-1-10.jpg", alt: "Tree branches rendered in high-contrast black and white" },
-  ...numberedArchive("night-more", 6, "Night Shift photograph", [4, 5, 6]),
-  ...numberedArchive("night-extra", 12, "Additional Night Shift photograph", [1, 4]),
-  ...[7, 1, 4, 2, 3, 5].map((number) => ({
-    src: `/art/micro-extra-${String(number).padStart(2, "0")}.jpg`,
-    alt: `Night Shift photograph ${number}`,
-  })),
-];
+const microArchive = captionedArchive([
+  ["/art/micro-cicadas.jpg", "Three cicada specimens arranged on white", "Cicadidae"],
+  ["/art/micro-spore.jpg", "A thorny seed pod photographed as a specimen", "Infructescence"],
+  ["/art/micro-butterfly-ray.jpg", "Rayogram of a butterfly on a deep gray field", "Lepidoptera"],
+  ["/art/micro-ya.jpg", "A seed pod resting in iridescent blue and pink light", "Iridescence"],
+  ["/art/micro-ya-2.jpg", "A dried seed pod photographed as a specimen", "Diaspore"],
+  ["/art/micro-ya-3.jpg", "A cicada specimen in a shallow white tray", "Imago"],
+  ["/art/micro-ya-4.jpg", "A spherical seed head with its stem and dried leaf", "Peduncle"],
+  ["/art/micro-ya-5.jpg", "Close view of the patterned surface of a spherical seed head", "Receptacle"],
+  ["/art/micro-ya-6.jpg", "Two cicada shells facing one another", "Exuviae"],
+  ["/art/micro-ya-74.jpg", "A whole acorn photographed as a specimen", "Quercus"],
+  ["/art/micro-ya-75.jpg", "A butterfly specimen with blue and yellow wing markings", "Lepidoptera"],
+  ["/art/micro-more-01.jpg", "An orange Chinese lantern husk on a pale pink field", "Calyx"],
+  ["/art/micro-more-03.jpg", "An empty acorn cup photographed from above", "Cupule"],
+  ["/art/micro-more-04.jpg", "An acorn showing its circular cut surface", "Cotyledon"],
+  ["/art/micro-more-07.jpg", "Radiographic negative of three cicada specimens", "Radiograph"],
+  ["/art/micro-more-08.jpg", "Radiographic negative of three curled cicada specimens", "Ventrad"],
+  ["/art/micro-more-09.jpg", "Radiographic negative of a spiny seed pod", "Dehiscence"],
+  ["/art/micro-extra-06.jpg", "Close view of a translucent membrane and its edge", "Membrane"],
+]);
+const nightArchive = captionedArchive([
+  ["/art/night-void-color.jpg", "A brightly illuminated office building at night", "Fenestration"],
+  ["/art/night-skyward.jpg", "A night building stretched into vertical trails of light", "Ascension"],
+  ["/art/night-shift-1.jpg", "A tall stone entrance with a lit doorway at night", "Portal"],
+  ["/art/night-shift-1-2.jpg", "A bare tree and utility lines silhouetted at dusk", "Transect"],
+  ["/art/night-shift-1-3.jpg", "A low office building illuminated after dark", "Occupancy"],
+  ["/art/night-shift-1-4.jpg", "An illuminated office tower seen across a road at night", "Beacon"],
+  ["/art/night-shift-1-5.jpg", "A brick office building photographed at blue hour", "Crepuscule"],
+  ["/art/night-shift-1-6.jpg", "Distant lights glowing beneath a dark clouded sky", "Skyglow"],
+  ["/art/night-shift-1-7.jpg", "A squirrel in foliage framed by the edge of medium-format film", "Sciuridae"],
+  ["/art/night-shift-1-8.jpg", "Power lines and utility structures framed by medium-format film", "Transmission"],
+  ["/art/night-shift-1-10.jpg", "Tree branches rendered in high-contrast black and white", "Canopy"],
+  ["/art/night-more-01.jpg", "Black-and-white medium-format view of a stop sign at an intersection", "Intersection"],
+  ["/art/night-more-02.jpg", "Black-and-white medium-format view of bare branches", "Dormancy"],
+  ["/art/night-more-03.jpg", "Rows of steel beams stacked along a street", "Stockpile"],
+  ["/art/night-extra-02.jpg", "Black-and-white view of whitewashed street trees and houses", "Whitewash"],
+  ["/art/night-extra-03.jpg", "Black-and-white street view with a passing car and utility lines", "Transit"],
+  ["/art/night-extra-05.jpg", "Illuminated tiled entrance numbered 4926", "Threshold"],
+  ["/art/night-extra-06.jpg", "Green utility enclosure behind a chain-link fence", "Enclosure"],
+  ["/art/night-extra-07.jpg", "Low building illuminated by two streetlights at night", "Sodium"],
+  ["/art/night-extra-08.jpg", "Black-and-white view of a symmetrical brick office entrance", "Symmetry"],
+  ["/art/night-extra-10.jpg", "Overexposed office lawn and streetlights at night", "Bloom"],
+  ["/art/night-extra-11.jpg", "Tall office buildings beneath dark storm clouds", "Front"],
+  ["/art/night-extra-12.jpg", "Red brick facade with a large arched window", "Arch"],
+  ["/art/micro-extra-07.jpg", "Railroad tracks and debris beneath a bridge", "Riparian"],
+  ["/art/micro-extra-01.jpg", "Concrete and steel highway overpass seen from below", "Viaduct"],
+  ["/art/micro-extra-04.jpg", "Bare tree and utility lines against a blue dusk sky", "Pollard"],
+  ["/art/micro-extra-02.jpg", "Parallel bridge spans reflected in water", "Reflection"],
+  ["/art/micro-extra-03.jpg", "Brick office and apartment buildings photographed at night", "Perimeter"],
+  ["/art/micro-extra-05.jpg", "Pale stone office building at blue hour", "Institution"],
+]);
 const treeArchive = [
   ...[1, 7, 35, 64, 73, 95].map((number) => ({ src: `/art/trees-${String(number).padStart(2, "0")}.jpg`, alt: `100 Trees sequence, position ${number}` })),
   ...[13, 19, 25, 43, 58, 82].map((number) => ({ src: `/art/trees-${number}.jpg`, alt: `100 Trees sequence, position ${number}` })),
