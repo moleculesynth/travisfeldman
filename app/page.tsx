@@ -342,7 +342,7 @@ const microArchive = captionedArchive([
   ["/art/micro-more-07.jpg", "Radiographic negative of three cicada specimens", "Radiograph"],
   ["/art/micro-more-08.jpg", "Radiographic negative of three curled cicada specimens", "Ventrad"],
   ["/art/micro-more-09.jpg", "Radiographic negative of a spiny seed pod", "Dehiscence"],
-  ["/art/micro-extra-06.jpg", "Close view of a translucent membrane and its edge", "Membrane"],
+  ["/art/micro-extra-06.jpg", "Close view of a translucent membrane and its edge", "Blockade"],
 ]);
 const nightArchive = captionedArchive([
   ["/art/night-void-color.jpg", "A brightly illuminated office building at night", "Fenestration"],
@@ -544,7 +544,7 @@ export default function Home() {
           className="project-micro"
           title="Micrographia"
           year="2025"
-          thumbnail={{ src: "/art/micro-cicadas.jpg", alt: "Three cicada specimens arranged on white" }}
+          thumbnail={{ src: "/art/micro-extra-06.jpg", alt: "Blockade: close view of a translucent membrane and its edge" }}
           more={<ArchiveGrid images={microArchive} />}
         />
 
