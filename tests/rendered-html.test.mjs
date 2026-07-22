@@ -220,7 +220,34 @@ test("ships the restrained design system and deep archives without the source li
     assert.ok(!page.includes(removedGallerySource), `removed gallery source remains: ${removedGallerySource}`);
   }
   assert.match(page, /numberedArchive\("micro-more", 9, "Micrographia study", \[2\]\)/);
+  for (const newMicrographiaImage of [
+    "micro-ya.jpg",
+    "micro-ya-2.jpg",
+    "micro-ya-3.jpg",
+    "micro-ya-4.jpg",
+    "micro-ya-5.jpg",
+    "micro-ya-6.jpg",
+    "micro-ya-60.jpg",
+    "micro-ya-64.jpg",
+    "micro-ya-74.jpg",
+    "micro-ya-75.jpg",
+  ]) {
+    assert.ok(page.includes(`/art/${newMicrographiaImage}`), `missing Micrographia image: ${newMicrographiaImage}`);
+  }
   assert.match(page, /numberedArchive\("night-more", 6, "Night Shift photograph", \[4, 5, 6\]\)/);
+  for (const newNightShiftImage of [
+    "night-shift-1.jpg",
+    "night-shift-1-2.jpg",
+    "night-shift-1-3.jpg",
+    "night-shift-1-4.jpg",
+    "night-shift-1-5.jpg",
+    "night-shift-1-6.jpg",
+    "night-shift-1-7.jpg",
+    "night-shift-1-8.jpg",
+    "night-shift-1-10.jpg",
+  ]) {
+    assert.ok(page.includes(`/art/${newNightShiftImage}`), `missing Night Shift image: ${newNightShiftImage}`);
+  }
   assert.match(page, /numberedArchive\("micro-extra", 7, "Additional Micrographia study", \[1, 2, 3, 4, 5, 7\]\)/);
   assert.match(page, /\[7, 1, 4, 2, 3, 5\]\.map\(\(number\) => \(\{/);
   assert.match(page, /numberedArchive\("night-extra", 12, "Additional Night Shift photograph", \[1, 4\]\)/);
