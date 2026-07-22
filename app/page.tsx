@@ -602,7 +602,7 @@ export default function Home() {
           className="project-trees"
           title="100 Trees"
           year="2024"
-          thumbnail={{ src: "/art/trees-contact-sheet.jpg", alt: "Contact sheet of the 100 Trees sequence, frames 1 through 98" }}
+          thumbnail={{ src: "/art/trees-extra-24.jpg", alt: "Pine trees on a rain-darkened mountain overlook" }}
           more={<ArchiveGrid images={treeArchive} className="archive-trees" shuffle={false} />}
         />
 

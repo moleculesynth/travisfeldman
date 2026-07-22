@@ -83,7 +83,8 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.match(html, /loading="lazy"/);
   assert.match(html, /\/optimized\/thumb\/art\/micro-extra-06\.jpg/);
   assert.doesNotMatch(html, /\/optimized\/thumb\/art\/micro-cicadas\.jpg/);
-  assert.match(html, /\/optimized\/thumb\/art\/trees-contact-sheet\.jpg/);
+  assert.match(html, /\/optimized\/thumb\/art\/trees-extra-24\.jpg/);
+  assert.doesNotMatch(html, /\/optimized\/thumb\/art\/trees-contact-sheet\.jpg/);
   assert.doesNotMatch(html, /(?:src|srcset)="\/(?:art|artworks|images)\//);
   assert.match(html, /aria-controls="micrographia-more"/);
   assert.match(html, /id="micrographia-more"/);
@@ -108,7 +109,7 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.doesNotMatch(html, /<div class="index-footer">(?:(?!<\/div>)[\s\S])*Bandcamp/);
   assert.doesNotMatch(html, /portrait-workshop|Between materials/);
   assert.doesNotMatch(html, /<details>/);
-  assert.doesNotMatch(html, /micro-more-|night-extra-|trees-extra-|selva-extra-|metal-extra-|tarot-archive-|bpow-archive-|prototype-extra-/);
+  assert.doesNotMatch(html, /micro-more-|night-extra-|trees-extra-(?!24\.jpg)|selva-extra-|metal-extra-|tarot-archive-|bpow-archive-|prototype-extra-/);
   assert.match(html, /Nerve Maps[\s\S]*2025–present[\s\S]*The Many Mansions[\s\S]*2012–14/);
   assert.match(html, /Shrink Circuits[\s\S]*2013–18/);
   assert.doesNotMatch(html, />0[1-9] ·/);
