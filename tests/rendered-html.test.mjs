@@ -257,10 +257,24 @@ test("ships the restrained design system and deep archives without the source li
     assert.ok(!page.includes(`/art/${removedDuplicate}`), `duplicate gallery image remains: ${removedDuplicate}`);
   }
   assert.equal((page.match(/captionedArchive\(\[/g) ?? []).length, 2);
+  assert.equal((page.match(/captionedImages\(\[/g) ?? []).length, 9);
   assert.match(page, /activeImage\.caption \?\? activeImage\.alt/);
   assert.match(page, /"Cicadidae"/);
   assert.match(page, /"Blockade"/);
   assert.match(page, /"Skyglow"/);
+  for (const galleryCaption of [
+    "Index",
+    "Lunation",
+    "Resonance",
+    "Oracle",
+    "Performance",
+    "Topology",
+    "Luminescence",
+    "Swarm",
+    "Atelier",
+  ]) {
+    assert.ok(page.includes(`"${galleryCaption}"`), `missing gallery caption: ${galleryCaption}`);
+  }
   assert.match(page, /numberedArchive\("selva-more-new", 8, "Additional Selva Oscura photograph", \[2, 5, 8\]\)/);
   assert.match(page, /numberedArchive\("selva-extra", 24, "Additional Selva Oscura photograph", \[1, 3, 5, 7, 8, 11, 12, 13, 16, 17, 18, 23, 24\]\)/);
   assert.match(page, /numberedArchive\("metal-more", 30, "Welding and Woodwork study", \[3, 4, 6, 11, 18, 24, 30\]\)/);

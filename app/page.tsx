@@ -217,6 +217,11 @@ const numberedArchive = (prefix: string, count: number, description: string, exc
 const captionedArchive = (images: ReadonlyArray<readonly [src: string, alt: string, caption: string]>) =>
   images.map(([src, alt, caption]) => ({ src, alt, caption }));
 
+const captionedImages = (images: ReadonlyArray<ArchiveImage>, captions: ReadonlyArray<string>) => {
+  if (images.length !== captions.length) throw new Error("Every gallery image needs one caption");
+  return images.map((image, index) => ({ ...image, caption: captions[index] }));
+};
+
 const ProjectThumbnail = ({ thumbnail, expanded, onToggle, controlsId }: {
   thumbnail: ProjectThumbnailData;
   expanded?: boolean;
@@ -375,14 +380,23 @@ const nightArchive = captionedArchive([
   ["/art/micro-extra-03.jpg", "Brick office and apartment buildings photographed at night", "Perimeter"],
   ["/art/micro-extra-05.jpg", "Pale stone office building at blue hour", "Institution"],
 ]);
-const treeArchive = [
+const treeArchive = captionedImages([
   { src: "/art/trees-contact-sheet.jpg", alt: "Contact sheet of the 100 Trees sequence, frames 1 through 98" },
   ...[1, 7, 35, 64, 73, 95].map((number) => ({ src: `/art/trees-${String(number).padStart(2, "0")}.jpg`, alt: `100 Trees sequence, position ${number}` })),
   ...[13, 19, 25, 43, 58, 82].map((number) => ({ src: `/art/trees-${number}.jpg`, alt: `100 Trees sequence, position ${number}` })),
   ...numberedArchive("trees-more-new", 12, "Additional 100 Trees photograph"),
   ...numberedArchive("trees-extra", 24, "Additional 100 Trees photograph"),
-];
-const selvaArchive = [
+], [
+  "Index", "Sentinel", "Afterglow", "Snowpack", "Crown", "Autumn", "Vernation",
+  "Sunburst", "Twilight", "Zenith", "Prospect", "Ridgeline", "Horizon",
+  "Gloaming", "Overcast", "Haze", "Exposure", "Plateau", "Outlook", "Thaw",
+  "Canopy", "Flush", "Rainfall", "Frondescence", "Saturation", "Weathering",
+  "Lichen", "Scree", "Bedrock", "Needlefall", "Understory", "Outcrop", "Ridge",
+  "Swale", "Xeric", "Montane", "Evergreen", "Rain", "Overstory", "Sunbreak",
+  "Sapling", "Aperture", "Mist", "Succession", "Regrowth", "Budbreak", "Greening",
+  "Vernal", "Runoff",
+]);
+const selvaArchive = captionedImages([
   { src: "/art/selva-moon-trees.jpg", alt: "Moonlight caught in the branches of old trees" },
   { src: "/art/selva-vertical-woods.jpg", alt: "A vertical view through a dim forest canopy" },
   { src: "/art/selva-lit-woods.jpg", alt: "Dense woodland glowing with gathered evening light" },
@@ -390,22 +404,40 @@ const selvaArchive = [
   ...[2184, 2317, 2398, 2700].map((number) => ({ src: `/art/selva-${number}.jpg`, alt: `Selva Oscura night study ${number}` })),
   ...numberedArchive("selva-more-new", 8, "Additional Selva Oscura photograph", [2, 5, 8]),
   ...numberedArchive("selva-extra", 24, "Additional Selva Oscura photograph", [1, 3, 5, 7, 8, 11, 12, 13, 16, 17, 18, 23, 24]),
-];
-const metalArchive = [
+], [
+  "Lunation", "Colonnade", "Afterlight", "Firmament", "Meadow", "Entanglement",
+  "Conjunction", "Thicket", "Nocturne", "Arbor", "Verge", "Lamplight", "Fallow",
+  "Penumbra", "Forage", "Pasture", "Halo", "Silhouette", "Syzygy", "Dew",
+  "Conifers", "Grove", "Ramification", "Constellation",
+]);
+const metalArchive = captionedImages([
   { src: "/art/metal-speakers-pair.jpg", alt: "A pair of handmade wooden speakers with exposed drivers" },
   { src: "/art/metal-hex-tables.jpg", alt: "Circular and hexagonal tables in fur, metal, unfinished wood, and lacquered wood" },
   ...numberedArchive("metal-more", 30, "Welding and Woodwork study", [3, 4, 6, 11, 18, 24, 30]),
   ...numberedArchive("metal-extra", 13, "Additional Welding and Woodwork study", [1, 4, 7, 8]),
-];
-const tarotArchive = [
+], [
+  "Resonance", "Tessellation", "Joinery", "Pedestal", "Enclosure", "Lacquer", "Studies",
+  "Array", "Brace", "Modules", "Chassis", "Scaffold", "Grid", "Assembly", "Rack", "Cart",
+  "Pairing", "Trestle", "Shelving", "Cabinetry", "Console", "Slab", "Worktable", "Partition",
+  "Pegboard", "Nesting", "Upholstery", "Bench", "Amplification", "Lattice", "Sink", "Tooling",
+  "Caddy", "Cobalt",
+]);
+const tarotArchive = captionedImages([
   { src: "/art/tarot-conversation.jpg", alt: "Tarot TV video still" },
   ...numberedArchive("tarot-archive", 18, "Tarot TV still", [18]),
   ...numberedArchive("tarot-extra", 5, "Additional Tarot TV still", [1, 3]),
-];
-const bpowArchive = [
+], [
+  "Oracle", "Assembly", "Procession", "Visage", "Gesture", "Threshold", "Countenance",
+  "Apparition", "Silhouette", "Witness", "Aperture", "Interference", "Facade", "Streetscape",
+  "Arcana", "Seated", "Arcade", "Static", "Phantom", "Profile", "Overlay",
+]);
+const bpowArchive = captionedImages([
   { src: "/art/bpow-stage.jpg", alt: "BPOW performance" },
   ...numberedArchive("bpow-archive", 12, "BPOW workshop and performance photograph", [1]),
-];
+], [
+  "Performance", "Assembly", "Network", "Workshop", "Operator", "Demonstration",
+  "Rehearsal", "Circuitry", "Interface", "Fabrication", "Signal", "Oscillation",
+]);
 const consumerArchive = [
   { src: "/art/consumerisms-sungod.jpg", alt: "Four-eyed figure painted in muted earth tones" },
   { src: "/art/consumerisms-cosmos.jpg", alt: "New Cosmos painting" },
@@ -429,13 +461,13 @@ const ganArtArchive = [
   ...gantoonsArchive,
   ...moviePosterArchive,
 ];
-const moleculeArchive = [
+const moleculeArchive = captionedImages([
   ...[1, 4].map((number) => ({ src: `/images/work-${number}.jpg`, alt: `Molecule Synth view ${number}` })),
   { src: "/images/photo-3.jpg", alt: "Molecule Synth photograph 3" },
   { src: "/images/work-3.jpg", alt: "Illuminated Molecule Synth detail", className: "archive-crop crop-center" },
   { src: "/images/portrait-cover.jpg", alt: "Translucent Molecule Synth detail", className: "archive-crop crop-right" },
-];
-const shrinkArchive = [
+], ["Topology", "Interface", "Dialogue", "Polyphony", "Colony"]);
+const shrinkArchive = captionedImages([
   { src: "/art/shrink-workshop.jpg", alt: "A Shrink Circuits workshop gathered around a soldering station" },
   { src: "/art/shrink-lights.jpg", alt: "Small illuminated circuits built in a Shrink Circuits workshop" },
   { src: "/images/work-2.jpg", alt: "DISCO!! Extended Play circular Shrink Circuits board design" },
@@ -446,12 +478,15 @@ const shrinkArchive = [
   { src: "/art/shrink-event.jpg", alt: "Participants at a Shrink Circuits event" },
   { src: "/art/shrink-board.jpg", alt: "Circular Shrink Circuits circuit board" },
   { src: "/art/shrink-circuits.jpg", alt: "A collection of Shrink Circuits boards" },
-];
-const prototypeArchive = [
+], [
+  "Assembly", "Luminescence", "Schematic", "Morphology", "Diffusion",
+  "Solder", "Transfer", "Substrate", "Chromatics", "Polyhedra",
+]);
+const prototypeArchive = captionedImages([
   { src: "/art/prototype-swarmbots.jpg", alt: "Playable prototype swarm robots" },
   ...numberedArchive("prototype-extra", 4, "Playable prototype development photograph"),
-];
-const artworksArchive = [
+], ["Swarm", "Etching", "Sensor", "Node", "Substrates"]);
+const artworksArchive = captionedImages([
   { src: "/artworks/creating-a-class-room.jpg", alt: "Preparing the Artworks summer youth program classroom" },
   { src: "/artworks/new-signs-for-our-entrance.jpg", alt: "Hand-painted Artworks entrance signs drying in the studio" },
   { src: "/artworks/carol.jpg", alt: "Artworks participant Carol painting a panel" },
@@ -469,7 +504,11 @@ const artworksArchive = [
   { src: "/artworks/new-city-hall-construction-site.jpg", alt: "The new Seattle City Hall construction site in 2001" },
   { src: "/artworks/no-strange-poses-allowed.jpg", alt: "Artworks participants posing outside" },
   { src: "/artworks/view-of-the-walkway.jpg", alt: "Finished youth mural panels installed along the Artworks walkway" },
-];
+], [
+  "Atelier", "Wayfinding", "Preparation", "Triptych", "Ichthyology", "Serpentes",
+  "Aves", "Understory", "Circumference", "Defiance", "Process", "Chimera", "Kinship",
+  "Study", "Excavation", "Installation", "Promenade",
+]);
 
 export default function Home() {
   return (
