@@ -376,6 +376,7 @@ const nightArchive = captionedArchive([
   ["/art/micro-extra-05.jpg", "Pale stone office building at blue hour", "Institution"],
 ]);
 const treeArchive = [
+  { src: "/art/trees-contact-sheet.jpg", alt: "Contact sheet of the 100 Trees sequence, frames 1 through 98" },
   ...[1, 7, 35, 64, 73, 95].map((number) => ({ src: `/art/trees-${String(number).padStart(2, "0")}.jpg`, alt: `100 Trees sequence, position ${number}` })),
   ...[13, 19, 25, 43, 58, 82].map((number) => ({ src: `/art/trees-${number}.jpg`, alt: `100 Trees sequence, position ${number}` })),
   ...numberedArchive("trees-more-new", 12, "Additional 100 Trees photograph"),
@@ -562,7 +563,7 @@ export default function Home() {
           className="project-trees"
           title="100 Trees"
           year="2024"
-          thumbnail={{ src: "/art/trees-01.jpg", alt: "The tree at a rocky overlook in late autumn" }}
+          thumbnail={{ src: "/art/trees-contact-sheet.jpg", alt: "Contact sheet of the 100 Trees sequence, frames 1 through 98" }}
           more={<ArchiveGrid images={treeArchive} className="archive-trees" shuffle={false} />}
         />
 

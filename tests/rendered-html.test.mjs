@@ -83,6 +83,7 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.match(html, /loading="lazy"/);
   assert.match(html, /\/optimized\/thumb\/art\/micro-extra-06\.jpg/);
   assert.doesNotMatch(html, /\/optimized\/thumb\/art\/micro-cicadas\.jpg/);
+  assert.match(html, /\/optimized\/thumb\/art\/trees-contact-sheet\.jpg/);
   assert.doesNotMatch(html, /(?:src|srcset)="\/(?:art|artworks|images)\//);
   assert.match(html, /aria-controls="micrographia-more"/);
   assert.match(html, /id="micrographia-more"/);
@@ -145,7 +146,7 @@ test("keeps video, Kickstarter, audio, writing, and project links direct", async
 });
 
 test("ships the restrained design system and deep archives without the source library", async () => {
-  const [packageJson, page, styles, gitignore, ogImage, treeImage, selvaImage, ganImage, consumerImage, writingImage, metalImage, archiveImage, manyMansionsImage, shrinkImage, prototypeImage, artworksImage] = await Promise.all([
+  const [packageJson, page, styles, gitignore, ogImage, treeImage, selvaImage, ganImage, consumerImage, writingImage, metalImage, archiveImage, manyMansionsImage, shrinkImage, prototypeImage, artworksImage, treeContactSheet] = await Promise.all([
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
@@ -162,6 +163,7 @@ test("ships the restrained design system and deep archives without the source li
     readFile(new URL("../public/art/shrink-workshop.jpg", import.meta.url)),
     readFile(new URL("../public/art/prototype-extra-04.jpg", import.meta.url)),
     readFile(new URL("../public/optimized/full/artworks/view-of-the-walkway.jpg", import.meta.url)),
+    readFile(new URL("../public/optimized/full/art/trees-contact-sheet.jpg", import.meta.url)),
   ]);
 
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
@@ -296,4 +298,5 @@ test("ships the restrained design system and deep archives without the source li
   assert.ok(shrinkImage.byteLength > 50_000);
   assert.ok(prototypeImage.byteLength > 50_000);
   assert.ok(artworksImage.byteLength > 20_000);
+  assert.ok(treeContactSheet.byteLength > 100_000);
 });
