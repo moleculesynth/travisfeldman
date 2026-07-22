@@ -219,7 +219,6 @@ test("ships the restrained design system and deep archives without the source li
   ]) {
     assert.ok(!page.includes(removedGallerySource), `removed gallery source remains: ${removedGallerySource}`);
   }
-  assert.match(page, /numberedArchive\("micro-more", 9, "Micrographia study", \[2\]\)/);
   for (const newMicrographiaImage of [
     "micro-ya.jpg",
     "micro-ya-2.jpg",
@@ -227,14 +226,11 @@ test("ships the restrained design system and deep archives without the source li
     "micro-ya-4.jpg",
     "micro-ya-5.jpg",
     "micro-ya-6.jpg",
-    "micro-ya-60.jpg",
-    "micro-ya-64.jpg",
     "micro-ya-74.jpg",
     "micro-ya-75.jpg",
   ]) {
     assert.ok(page.includes(`/art/${newMicrographiaImage}`), `missing Micrographia image: ${newMicrographiaImage}`);
   }
-  assert.match(page, /numberedArchive\("night-more", 6, "Night Shift photograph", \[4, 5, 6\]\)/);
   for (const newNightShiftImage of [
     "night-shift-1.jpg",
     "night-shift-1-2.jpg",
@@ -248,9 +244,19 @@ test("ships the restrained design system and deep archives without the source li
   ]) {
     assert.ok(page.includes(`/art/${newNightShiftImage}`), `missing Night Shift image: ${newNightShiftImage}`);
   }
-  assert.match(page, /numberedArchive\("micro-extra", 7, "Additional Micrographia study", \[1, 2, 3, 4, 5, 7\]\)/);
-  assert.match(page, /\[7, 1, 4, 2, 3, 5\]\.map\(\(number\) => \(\{/);
-  assert.match(page, /numberedArchive\("night-extra", 12, "Additional Night Shift photograph", \[1, 4\]\)/);
+  for (const removedDuplicate of [
+    "micro-ya-60.jpg",
+    "micro-ya-64.jpg",
+    "micro-more-05.jpg",
+    "micro-more-06.jpg",
+    "night-extra-09.jpg",
+  ]) {
+    assert.ok(!page.includes(`/art/${removedDuplicate}`), `duplicate gallery image remains: ${removedDuplicate}`);
+  }
+  assert.equal((page.match(/captionedArchive\(\[/g) ?? []).length, 2);
+  assert.match(page, /activeImage\.caption \?\? activeImage\.alt/);
+  assert.match(page, /"Cicadidae"/);
+  assert.match(page, /"Skyglow"/);
   assert.match(page, /numberedArchive\("selva-more-new", 8, "Additional Selva Oscura photograph", \[2, 5, 8\]\)/);
   assert.match(page, /numberedArchive\("selva-extra", 24, "Additional Selva Oscura photograph", \[1, 3, 5, 7, 8, 11, 12, 13, 16, 17, 18, 23, 24\]\)/);
   assert.match(page, /numberedArchive\("metal-more", 30, "Welding and Woodwork study", \[3, 4, 6, 11, 18, 24, 30\]\)/);
