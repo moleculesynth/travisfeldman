@@ -64,7 +64,7 @@ const IndexLink = ({ href, children, year }: {
 };
 
 type ArchiveImage = { src: string; alt: string; caption?: string; className?: string };
-type ProjectThumbnailData = { src: string; alt: string; href?: string };
+type ProjectThumbnailData = { src: string; alt: string; href?: string; contain?: boolean };
 type ArchiveGridProps = {
   images: ReadonlyArray<ArchiveImage>;
   className?: string;
@@ -228,7 +228,12 @@ const ProjectThumbnail = ({ thumbnail, expanded, onToggle, controlsId }: {
   onToggle?: () => void;
   controlsId?: string;
 }) => {
-  const image = <ArtworkImage alt={thumbnail.alt} size="thumb" src={thumbnail.src} />;
+  const image = <ArtworkImage
+    alt={thumbnail.alt}
+    className={thumbnail.contain ? "project-thumbnail-contain" : undefined}
+    size="thumb"
+    src={thumbnail.src}
+  />;
 
   if (onToggle) {
     return (
@@ -433,10 +438,10 @@ const tarotArchive = captionedImages([
 ]);
 const bpowArchive = captionedImages([
   { src: "/art/bpow-stage.jpg", alt: "BPOW performance" },
-  ...numberedArchive("bpow-archive", 12, "BPOW workshop and performance photograph", [1]),
+  ...numberedArchive("bpow-archive", 12, "BPOW workshop and performance photograph", [1, 7]),
 ], [
   "Performance", "Assembly", "Network", "Workshop", "Operator", "Demonstration",
-  "Rehearsal", "Circuitry", "Interface", "Fabrication", "Signal", "Oscillation",
+  "Circuitry", "Interface", "Fabrication", "Signal", "Oscillation",
 ]);
 const consumerArchive = [
   { src: "/art/consumerisms-sungod.jpg", alt: "Four-eyed figure painted in muted earth tones" },
@@ -462,11 +467,11 @@ const ganArtArchive = [
   ...moviePosterArchive,
 ];
 const moleculeArchive = captionedImages([
-  ...[1, 4].map((number) => ({ src: `/images/work-${number}.jpg`, alt: `Molecule Synth view ${number}` })),
-  { src: "/images/photo-3.jpg", alt: "Molecule Synth photograph 3" },
+  { src: "/images/molecule-santiago-chile.jpg", alt: "Visitors gather around a Molecule Synth installation in Santiago, Chile" },
+  { src: "/images/work-4.jpg", alt: "Molecule Synth joystick module" },
   { src: "/images/work-3.jpg", alt: "Illuminated Molecule Synth detail", className: "archive-crop crop-center" },
   { src: "/images/portrait-cover.jpg", alt: "Translucent Molecule Synth detail", className: "archive-crop crop-right" },
-], ["Topology", "Interface", "Dialogue", "Polyphony", "Colony"]);
+], ["Demonstration", "Interface", "Polyphony", "Colony"]);
 const shrinkArchive = captionedImages([
   { src: "/art/shrink-workshop.jpg", alt: "A Shrink Circuits workshop gathered around a soldering station" },
   { src: "/art/shrink-lights.jpg", alt: "Small illuminated circuits built in a Shrink Circuits workshop" },
@@ -485,7 +490,18 @@ const shrinkArchive = captionedImages([
 const prototypeArchive = captionedImages([
   { src: "/art/prototype-swarmbots.jpg", alt: "Playable prototype swarm robots" },
   ...numberedArchive("prototype-extra", 4, "Playable prototype development photograph"),
-], ["Swarm", "Etching", "Sensor", "Node", "Substrates"]);
+  { src: "/art/playable-racecar-game.jpg", alt: "Hand-drawn triangular racecar game pieces arranged on a wooden track" },
+  { src: "/art/playable-pijin-prototype.jpg", alt: "Players testing a Pijin word-tile prototype around a table" },
+  { src: "/art/playable-hackathon.jpg", alt: "Breadboards, microcontrollers, and wires assembled during a hackathon" },
+  { src: "/art/playable-hackathon-2.jpg", alt: "HeartSpace Circadian Muse prototype displayed beneath its concept sketch" },
+  { src: "/art/playable-hackathon-3.jpg", alt: "Computer-aided design model for a playable electronics enclosure" },
+  { src: "/art/playable-shrink-sketch.jpg", alt: "Notebook sketches of faces and a geometric construction" },
+  { src: "/art/playable-frankenanimals.jpg", alt: "Stuffed animals gathered for a Frankenanimals workshop" },
+  { src: "/art/playable-shrinkcircuits.jpg", alt: "Notebook tests for conductive ink formulations" },
+], [
+  "Swarm", "Etching", "Sensor", "Node", "Substrates", "Tessellation", "Lexicon",
+  "Breadboard", "Circadian", "CAD", "Morphology", "Chimera", "Conductivity",
+]);
 const artworksArchive = captionedImages([
   { src: "/artworks/creating-a-class-room.jpg", alt: "Preparing the Artworks summer youth program classroom" },
   { src: "/artworks/new-signs-for-our-entrance.jpg", alt: "Hand-painted Artworks entrance signs drying in the studio" },
@@ -519,7 +535,7 @@ export default function Home() {
         <div className="identity">
           <h1>Travis Feldman</h1>
           <div className="identity-ledger">
-            <p>works, exhibitions, recordings, writing</p>
+            <p>projects</p>
           </div>
         </div>
 
@@ -576,7 +592,7 @@ export default function Home() {
           title="Nerve Maps"
           year="2025–present"
           links={<ExternalLink href="https://nervemaps.bandcamp.com">Listen on Bandcamp</ExternalLink>}
-          thumbnail={{ src: "/images/nerve-maps.jpg", alt: "Nerve Maps cover image", href: "https://nervemaps.bandcamp.com" }}
+          thumbnail={{ src: "/images/nerve-maps-anatomy.jpg", alt: "Nerve Maps anatomical diagram in coral and white", href: "https://nervemaps.bandcamp.com", contain: true }}
         />
 
         <ExpandableProject
@@ -714,7 +730,7 @@ export default function Home() {
           title="The Many Mansions"
           year="2012–2014"
           links={<ExternalLink href="https://themanymansions.bandcamp.com/">Listen on Bandcamp</ExternalLink>}
-          thumbnail={{ src: "/art/many-mansions-album.jpg", alt: "The Many Mansions — Early Retirement album artwork", href: "https://themanymansions.bandcamp.com/" }}
+          thumbnail={{ src: "/art/many-mansions-flyer.jpg", alt: "Many Mansions and Fells Acres concert flyer", href: "https://themanymansions.bandcamp.com/", contain: true }}
         />
 
         <ExpandableProject
