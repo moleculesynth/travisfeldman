@@ -717,7 +717,7 @@ export default function Home() {
           className="project-pijin"
           title="PIJIN"
           year="2013"
-          links={<><ExternalLink href="https://pijin.org/">Project site</ExternalLink><ExternalLink href="https://www.kickstarter.com/projects/travisfeldman/pijin-the-spelling-game-of-the-spoken-word">Kickstarter</ExternalLink><ExternalLink href="https://www.behance.net/gallery/14485693/Pijin">Visual archive</ExternalLink></>}
+          links={<><ExternalLink href="https://www.kickstarter.com/projects/travisfeldman/pijin-the-spelling-game-of-the-spoken-word">Kickstarter</ExternalLink><ExternalLink href="https://pijin.org/">Project site</ExternalLink><ExternalLink href="https://www.behance.net/gallery/14485693/Pijin">Visual archive</ExternalLink></>}
           thumbnail={{ src: "/images/pijin.jpg", alt: "PIJIN game session", href: "https://www.behance.net/gallery/14485693/Pijin" }}
         />
 
