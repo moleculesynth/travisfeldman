@@ -17,7 +17,8 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   const html = await response.text();
   assert.match(html, /<title>Travis Feldman<\/title>/i);
   assert.doesNotMatch(html, /Homepage 0\.3\.5|Homepage 0\.3\.6|Homepage 1\.0\.1|Homepage 1\.0\.2|Homepage 1\.0\.3|Homepage 1\.2\.1/);
-  assert.match(html, /works, exhibitions, recordings, writing/);
+  assert.match(html, /<div class="identity-ledger"><p>projects<\/p><\/div>/);
+  assert.doesNotMatch(html, /works, exhibitions, recordings, writing/);
   assert.doesNotMatch(html, /2001—present/);
   assert.match(html, /100 Trees/);
   assert.match(html, /Selva[\s\S]*Oscura/);
@@ -98,7 +99,11 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.match(html, /<h2><em>Selva Oscura<\/em><\/h2>/);
   assert.match(html, /\/optimized\/thumb\/images\/writing-inclusive-makerspaces\.jpg/);
   assert.doesNotMatch(html, /DISCO!! Extended Play circular Shrink Circuits board design/);
-  assert.match(html, /many-mansions-album\.jpg/);
+  assert.match(html, /many-mansions-flyer\.jpg/);
+  assert.doesNotMatch(html, /many-mansions-album\.jpg/);
+  assert.match(html, /nerve-maps-anatomy\.jpg/);
+  assert.doesNotMatch(html, /optimized\/thumb\/images\/nerve-maps\.jpg/);
+  assert.equal((html.match(/class="project-thumbnail-contain"/g) ?? []).length, 2);
   assert.equal((html.match(/project-header-thumbnail/g) ?? []).length, 22);
   assert.match(html, /\/optimized\/thumb\/artworks\/view-of-the-walkway\.jpg/);
   assert.doesNotMatch(html, /trees-stream|selva-stream|micro-stream|metalworks-stream|night-stream|molecule-stream|shrink-stream|consumerisms-stream|tarot-stream|gan-stream|bpow-stream|prototype-stream|sound-stream|many-mansions-cover|movieposter-hero/);
@@ -166,6 +171,19 @@ test("ships the restrained design system and deep archives without the source li
     readFile(new URL("../public/optimized/full/artworks/view-of-the-walkway.jpg", import.meta.url)),
     readFile(new URL("../public/optimized/full/art/trees-contact-sheet.jpg", import.meta.url)),
   ]);
+  const newGalleryAssets = await Promise.all([
+    "../public/optimized/thumb/images/nerve-maps-anatomy.jpg",
+    "../public/optimized/thumb/art/many-mansions-flyer.jpg",
+    "../public/optimized/full/images/molecule-santiago-chile.jpg",
+    "../public/optimized/full/art/playable-racecar-game.jpg",
+    "../public/optimized/full/art/playable-pijin-prototype.jpg",
+    "../public/optimized/full/art/playable-hackathon.jpg",
+    "../public/optimized/full/art/playable-hackathon-2.jpg",
+    "../public/optimized/full/art/playable-hackathon-3.jpg",
+    "../public/optimized/full/art/playable-shrink-sketch.jpg",
+    "../public/optimized/full/art/playable-frankenanimals.jpg",
+    "../public/optimized/full/art/playable-shrinkcircuits.jpg",
+  ].map((asset) => readFile(new URL(asset, import.meta.url))));
 
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.match(packageJson, /"version": "1\.2\.1"/);
@@ -184,7 +202,9 @@ test("ships the restrained design system and deep archives without the source li
     "/art/shrink-lab.jpg",
     "/images/photo-1.jpg",
     "/images/photo-2.jpg",
+    "/images/photo-3.jpg",
     "/images/photo-4.jpg",
+    "/images/work-1.jpg",
     "/images/work-6.jpg",
     "/images/work-7.jpg",
     "/art/consumerisms-garden.jpg",
@@ -220,6 +240,7 @@ test("ships the restrained design system and deep archives without the source li
     "/art/night-extra-01.jpg",
     "/art/night-skyward-2.jpg",
     "/art/micro-town-council.jpg",
+    "/art/bpow-archive-07.jpg",
   ]) {
     assert.ok(!page.includes(removedGallerySource), `removed gallery source remains: ${removedGallerySource}`);
   }
@@ -269,9 +290,10 @@ test("ships the restrained design system and deep archives without the source li
     "Resonance",
     "Oracle",
     "Performance",
-    "Topology",
+    "Demonstration",
     "Luminescence",
     "Swarm",
+    "Conductivity",
     "Atelier",
   ]) {
     assert.ok(page.includes(`"${galleryCaption}"`), `missing gallery caption: ${galleryCaption}`);
@@ -282,7 +304,7 @@ test("ships the restrained design system and deep archives without the source li
   assert.match(page, /numberedArchive\("metal-extra", 13, "Additional Welding and Woodwork study", \[1, 4, 7, 8\]\)/);
   assert.match(page, /numberedArchive\("tarot-archive", 18, "Tarot TV still", \[18\]\)/);
   assert.match(page, /numberedArchive\("tarot-extra", 5, "Additional Tarot TV still", \[1, 3\]\)/);
-  assert.match(page, /numberedArchive\("bpow-archive", 12, "BPOW workshop and performance photograph", \[1\]\)/);
+  assert.match(page, /numberedArchive\("bpow-archive", 12, "BPOW workshop and performance photograph", \[1, 7\]\)/);
   assert.match(page, /\/art\/consumerisms-sage\.jpg/);
   assert.match(page, /\/images\/writing-sappho\.jpg/);
   assert.match(page, /\{expanded \? more : null\}/);
@@ -297,6 +319,8 @@ test("ships the restrained design system and deep archives without the source li
   assert.match(styles, /gallery-project:nth-of-type\(4n \+ 1\)/);
   assert.match(styles, /height: 100svh;[\s\S]*overflow-y: auto;/);
   assert.match(styles, /content: "# "/);
+  assert.match(styles, /\.identity-ledger \{[\s\S]*color: var\(--muted\)/);
+  assert.match(styles, /letter-spacing: \.3em/);
   assert.doesNotMatch(styles, /content: "## "/);
   assert.doesNotMatch(styles, /\.version::before|\.about-panel|\.metalworks-stream figcaption/);
   assert.doesNotMatch(styles, /--serif:|--acid:|--blue:|--violet:/);
@@ -314,4 +338,5 @@ test("ships the restrained design system and deep archives without the source li
   assert.ok(prototypeImage.byteLength > 50_000);
   assert.ok(artworksImage.byteLength > 20_000);
   assert.ok(treeContactSheet.byteLength > 100_000);
+  assert.ok(newGalleryAssets.every((asset) => asset.byteLength > 10_000));
 });
