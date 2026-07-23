@@ -72,7 +72,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .identity-ledger p {
   font-family: var(--mono);
   font-size: .72rem;
-  letter-spacing: .3em;
+  letter-spacing: .52em;
   line-height: 1.2;
   max-width: 24rem;
   text-transform: lowercase;
@@ -141,7 +141,12 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   padding: clamp(1.25rem, 2.5vw, 2.4rem);
 }
 .project-heading-layout-compact .project-header-thumbnail { grid-column: 2; grid-row: 1; }
-.project-title-row { min-width: 0; }
+.project-title-row {
+  align-items: baseline;
+  display: flex;
+  gap: .65rem;
+  min-width: 0;
+}
 .project-header h2 {
   font-size: clamp(1.25rem, 2.3vw, 1.85rem);
   font-weight: 500;
@@ -154,17 +159,19 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   border: 0;
   color: inherit;
   cursor: pointer;
-  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
   padding: 0;
   text-align: left;
-  width: 100%;
 }
+.project-title-row > h2 { flex: 1 1 auto; min-width: 0; }
 .project-title-button:hover h2 { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
 .project-control-row {
+  align-items: baseline;
   display: flex;
   flex-wrap: wrap;
-  gap: .65rem;
-  margin-top: .7rem;
+  gap: .65rem 1rem;
+  margin-top: .75rem;
 }
 .project-toggle-button {
   background: transparent;
@@ -173,20 +180,28 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   cursor: pointer;
   font: inherit;
   font-family: var(--mono);
-  font-size: .62rem;
+  font-size: .78rem;
+  line-height: 1;
   padding: 0;
   text-align: left;
 }
 .project-toggle-button:hover { text-decoration: underline; text-underline-offset: .2em; }
 .project-title-row time {
   color: var(--muted);
-  display: block;
+  flex: 0 0 auto;
   font-family: var(--mono);
-  font-size: .62rem;
-  margin-top: .55rem;
+  font-size: .59rem;
+  line-height: 1.2;
+  white-space: nowrap;
 }
-.project-links { align-self: start; display: flex; flex-wrap: wrap; gap: .6rem 1rem; }
-.project-heading-copy .project-links { margin-top: .8rem; }
+.project-links {
+  align-self: start;
+  display: flex;
+  flex: 1 1 14rem;
+  flex-wrap: wrap;
+  gap: .6rem 1rem;
+  min-width: 0;
+}
 .project-links a, .external-link {
   border-bottom: 1px solid currentColor;
   font-family: var(--mono);
@@ -194,6 +209,15 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   padding-bottom: .1rem;
 }
 .project-links a:hover, .external-link:hover { color: var(--accent); }
+.project-links .image-credit-line { flex-basis: 100%; }
+.project-links .image-credit-link {
+  border-bottom-color: rgba(102, 101, 95, .35);
+  color: rgba(102, 101, 95, .62);
+  font-size: .49rem;
+  line-height: 1.2;
+  padding-bottom: .05rem;
+}
+.project-links .image-credit-link:hover { color: var(--muted); }
 .project-header-thumbnail {
   background: transparent;
   border: 0;
