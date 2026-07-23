@@ -154,6 +154,7 @@ test("keeps video, Kickstarter, audio, writing, and project links direct", async
   assert.equal((html.match(/class="image-credit-line"><a[^>]*class="image-credit-link"[^>]*>image<\/a><\/span>/g) ?? []).length, 4);
   assert.match(html, />Read excerpt here(?:<!-- -->)? <span aria-hidden="true">↗<\/span><\/a>/);
   assert.match(html, /href="https:\/\/pijin\.org\/"[^>]*>Project site(?:<!-- -->)? <span aria-hidden="true">↗<\/span><\/a>/);
+  assert.match(html, /id="pijin"[\s\S]*?>Kickstarter(?:<!-- -->)? <span[\s\S]*?>Project site(?:<!-- -->)? <span[\s\S]*?>Visual archive(?:<!-- -->)? <span/);
   assert.doesNotMatch(html, /linkedin\.com/i);
 });
 
@@ -326,7 +327,7 @@ test("ships the restrained design system and deep archives without the source li
   assert.match(styles, /height: 100svh;[\s\S]*overflow-y: auto;/);
   assert.match(styles, /content: "# "/);
   assert.match(styles, /\.identity-ledger \{[\s\S]*color: var\(--muted\)/);
-  assert.match(styles, /letter-spacing: \.52em/);
+  assert.match(styles, /letter-spacing: \.68em/);
   assert.doesNotMatch(styles, /content: "## "/);
   assert.doesNotMatch(styles, /\.version::before|\.about-panel|\.metalworks-stream figcaption/);
   assert.doesNotMatch(styles, /--serif:|--acid:|--blue:|--violet:/);
