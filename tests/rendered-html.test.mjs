@@ -327,7 +327,7 @@ test("ships the restrained design system and deep archives without the source li
   assert.match(styles, /height: 100svh;[\s\S]*overflow-y: auto;/);
   assert.match(styles, /content: "# "/);
   assert.match(styles, /\.identity-ledger \{[\s\S]*color: var\(--muted\)/);
-  assert.match(styles, /letter-spacing: \.52em/);
+  assert.match(styles, /letter-spacing: \.68em/);
   assert.doesNotMatch(styles, /content: "## "/);
   assert.doesNotMatch(styles, /\.version::before|\.about-panel|\.metalworks-stream figcaption/);
   assert.doesNotMatch(styles, /--serif:|--acid:|--blue:|--violet:/);
