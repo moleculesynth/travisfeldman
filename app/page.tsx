@@ -36,6 +36,24 @@ const ExternalLink = ({ href, children, className = "external-link" }: {
   </a>
 );
 
+const ImageCreditLink = ({ href, credit }: {
+  href: string;
+  credit: string;
+}) => (
+  <span className="image-credit-line">
+    <a
+      aria-label={`Image credit: ${credit} (public domain)`}
+      className="image-credit-link"
+      href={href}
+      rel="noreferrer"
+      target="_blank"
+      title={`${credit} · public domain`}
+    >
+      image
+    </a>
+  </span>
+);
+
 const IndexLink = ({ href, children, year }: {
   href: string;
   children: React.ReactNode;
@@ -275,27 +293,35 @@ const ProjectHeader = ({ title, year, links, thumbnail, expanded, onToggle, cont
       <div className="project-heading-copy">
         <div className="project-title-row">
           {onToggle ? (
-            <div className="project-title-actions">
-              <button className="project-title-button" onClick={onToggle} type="button">
-                <h2>{title}</h2>
-              </button>
-              <div className="project-control-row">
-                <button
-                  aria-controls={controlsId}
-                  aria-expanded={expanded}
-                  aria-label={expanded ? "Close image gallery" : "Open image gallery"}
-                  className="project-toggle-button"
-                  onClick={onToggle}
-                  type="button"
-                >
-                  {expanded ? "[−]" : "[+]"}
-                </button>
-              </div>
-            </div>
+            <button
+              aria-controls={controlsId}
+              aria-expanded={expanded}
+              className="project-title-button"
+              onClick={onToggle}
+              type="button"
+            >
+              <h2>{title}</h2>
+            </button>
           ) : <h2>{title}</h2>}
           {year ? <time>{year}</time> : null}
         </div>
-        {links ? <div className="project-links">{links}</div> : null}
+        {onToggle || links ? (
+          <div className="project-control-row">
+            {onToggle ? (
+              <button
+                aria-controls={controlsId}
+                aria-expanded={expanded}
+                aria-label={expanded ? "Close image gallery" : "Open image gallery"}
+                className="project-toggle-button"
+                onClick={onToggle}
+                type="button"
+              >
+                {expanded ? "[−]" : "[+]"}
+              </button>
+            ) : null}
+            {links ? <div className="project-links">{links}</div> : null}
+          </div>
+        ) : null}
       </div>
       {thumbnail ? <ProjectThumbnail controlsId={controlsId} expanded={expanded} onToggle={onToggle} thumbnail={thumbnail} /> : null}
     </div>
@@ -691,7 +717,7 @@ export default function Home() {
           className="project-pijin"
           title="PIJIN"
           year="2013"
-          links={<><ExternalLink href="https://www.kickstarter.com/projects/travisfeldman/pijin-the-spelling-game-of-the-spoken-word">Kickstarter</ExternalLink><ExternalLink href="https://www.behance.net/gallery/14485693/Pijin">Visual archive</ExternalLink></>}
+          links={<><ExternalLink href="https://pijin.org/">Project site</ExternalLink><ExternalLink href="https://www.kickstarter.com/projects/travisfeldman/pijin-the-spelling-game-of-the-spoken-word">Kickstarter</ExternalLink><ExternalLink href="https://www.behance.net/gallery/14485693/Pijin">Visual archive</ExternalLink></>}
           thumbnail={{ src: "/images/pijin.jpg", alt: "PIJIN game session", href: "https://www.behance.net/gallery/14485693/Pijin" }}
         />
 
@@ -738,7 +764,7 @@ export default function Home() {
           className="project-writing"
           title="Controversial Crabbe"
           year="2012"
-          links={<><ExternalLink href="https://www.jstor.org/stable/24247222">Read on JSTOR</ExternalLink><ExternalLink href="https://commons.wikimedia.org/wiki/File:George_Crabbe_by_Henry_William_Pickersgill.jpg">Image: Henry William Pickersgill · public domain</ExternalLink></>}
+          links={<><ExternalLink href="https://www.jstor.org/stable/24247222">Read on JSTOR</ExternalLink><ImageCreditLink href="https://commons.wikimedia.org/wiki/File:George_Crabbe_by_Henry_William_Pickersgill.jpg" credit="Henry William Pickersgill" /></>}
           thumbnail={{
             src: "/images/writing-crabbe.jpg",
             alt: "Henry William Pickersgill's portrait of George Crabbe",
@@ -751,7 +777,7 @@ export default function Home() {
           className="project-writing"
           title="William Blake / The Four Zoas"
           year="2005"
-          links={<><ExternalLink href="https://cinema.washington.edu/people/travis-feldman">View research record</ExternalLink><ExternalLink href="https://commons.wikimedia.org/wiki/File:Bb209.1.3.ms.300.jpg">Image: William Blake, <em>The Four Zoas</em> · public domain</ExternalLink></>}
+          links={<><ExternalLink href="https://www.researchgate.net/publication/33517168_The_contexts_and_production_of_William_Blake%27s_The_Four_Zoas_towards_a_theory_of_the_manuscript">Read excerpt here</ExternalLink><ExternalLink href="https://cinema.washington.edu/people/travis-feldman">View research record</ExternalLink><ImageCreditLink href="https://commons.wikimedia.org/wiki/File:Bb209.1.3.ms.300.jpg" credit="William Blake, The Four Zoas" /></>}
           thumbnail={{
             src: "/images/writing-four-zoas.jpg",
             alt: "William Blake's manuscript page for Vala, or The Four Zoas",
@@ -764,7 +790,7 @@ export default function Home() {
           className="project-writing"
           title="English Literature and Ancient Languages"
           year="2004"
-          links={<><ExternalLink href="https://bmcr.brynmawr.edu/2004/2004.08.11/">Read review</ExternalLink><ExternalLink href="https://commons.wikimedia.org/wiki/File:Milton_Dictating_to_His_Daughter,_Henry_Fuseli_1794.jpg">Image: Henry Fuseli, 1794 · public domain</ExternalLink></>}
+          links={<><ExternalLink href="https://bmcr.brynmawr.edu/2004/2004.08.11/">Read review</ExternalLink><ImageCreditLink href="https://commons.wikimedia.org/wiki/File:Milton_Dictating_to_His_Daughter,_Henry_Fuseli_1794.jpg" credit="Henry Fuseli, 1794" /></>}
           thumbnail={{
             src: "/images/writing-ancient-languages.jpg",
             alt: "Henry Fuseli's painting of Milton dictating Paradise Lost to his daughter",
@@ -777,7 +803,7 @@ export default function Home() {
           className="project-writing"
           title="Sappho: Poems and Fragments"
           year="2002"
-          links={<><ExternalLink href="https://bmcr.brynmawr.edu/2002/2002.09.37">Read review</ExternalLink><ExternalLink href="https://commons.wikimedia.org/wiki/File:Malarz_Safony_-_Kalpis_wykonana_technik%C4%85_Six.jpg">Image: Sappho Painter kalpis · public domain</ExternalLink></>}
+          links={<><ExternalLink href="https://bmcr.brynmawr.edu/2002/2002.09.37">Read review</ExternalLink><ImageCreditLink href="https://commons.wikimedia.org/wiki/File:Malarz_Safony_-_Kalpis_wykonana_technik%C4%85_Six.jpg" credit="Sappho Painter kalpis" /></>}
           thumbnail={{
             src: "/images/writing-sappho.jpg",
             alt: "Ancient black-glaze kalpis depicting Sappho with a barbitos",

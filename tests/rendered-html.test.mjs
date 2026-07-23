@@ -132,6 +132,7 @@ test("keeps video, Kickstarter, audio, writing, and project links direct", async
     "https://github.com/moleculesynth",
     "https://www.kickstarter.com/projects/travisfeldman/molecule-synth",
     "https://www.kickstarter.com/projects/travisfeldman/pijin-the-spelling-game-of-the-spoken-word",
+    "https://pijin.org/",
     "https://www.kickstarter.com/projects/travisfeldman/bpow-battery-powered-orchestra-workshop",
     "https://moleculesynth.com",
     "https://nervemaps.bandcamp.com",
@@ -141,6 +142,7 @@ test("keeps video, Kickstarter, audio, writing, and project links direct", async
     "https://ijamm.pubpub.org/pub/o9n1tv3t",
     "https://commons.wikimedia.org/wiki/File:George_Crabbe_by_Henry_William_Pickersgill.jpg",
     "https://commons.wikimedia.org/wiki/File:Bb209.1.3.ms.300.jpg",
+    "https://www.researchgate.net/publication/33517168_The_contexts_and_production_of_William_Blake%27s_The_Four_Zoas_towards_a_theory_of_the_manuscript",
     "https://commons.wikimedia.org/wiki/File:Milton_Dictating_to_His_Daughter,_Henry_Fuseli_1794.jpg",
     "https://commons.wikimedia.org/wiki/File:Malarz_Safony_-_Kalpis_wykonana_technik%C4%85_Six.jpg",
     "https://bmcr.brynmawr.edu/2004/2004.08.11/",
@@ -148,6 +150,10 @@ test("keeps video, Kickstarter, audio, writing, and project links direct", async
   ]) {
     assert.ok(html.includes(destination), `missing direct destination: ${destination}`);
   }
+  assert.equal((html.match(/class="image-credit-link"/g) ?? []).length, 4);
+  assert.equal((html.match(/class="image-credit-line"><a[^>]*class="image-credit-link"[^>]*>image<\/a><\/span>/g) ?? []).length, 4);
+  assert.match(html, />Read excerpt here(?:<!-- -->)? <span aria-hidden="true">↗<\/span><\/a>/);
+  assert.match(html, /href="https:\/\/pijin\.org\/"[^>]*>Project site(?:<!-- -->)? <span aria-hidden="true">↗<\/span><\/a>/);
   assert.doesNotMatch(html, /linkedin\.com/i);
 });
 
@@ -320,7 +326,7 @@ test("ships the restrained design system and deep archives without the source li
   assert.match(styles, /height: 100svh;[\s\S]*overflow-y: auto;/);
   assert.match(styles, /content: "# "/);
   assert.match(styles, /\.identity-ledger \{[\s\S]*color: var\(--muted\)/);
-  assert.match(styles, /letter-spacing: \.3em/);
+  assert.match(styles, /letter-spacing: \.52em/);
   assert.doesNotMatch(styles, /content: "## "/);
   assert.doesNotMatch(styles, /\.version::before|\.about-panel|\.metalworks-stream figcaption/);
   assert.doesNotMatch(styles, /--serif:|--acid:|--blue:|--violet:/);
