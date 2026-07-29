@@ -231,6 +231,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 }
 .project-header-thumbnail img { height: 100%; object-fit: cover; width: 100%; }
 .project-header-thumbnail img.project-thumbnail-contain { object-fit: contain; }
+.project-sound .project-heading-layout-compact { min-height: clamp(133px, 15.4vw, 196px); }
+.project-sound .project-header-thumbnail img { object-fit: cover; object-position: center top; }
 .project-header-thumbnail:hover img { filter: brightness(.9); }
 .project-preview {
   padding: 0 clamp(1.25rem, 2.5vw, 2.4rem) clamp(1.25rem, 2.5vw, 2.4rem);
@@ -474,6 +476,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
     grid-template-columns: minmax(0, 1fr) minmax(112px, 38vw);
     min-height: 165px;
   }
+  .project-sound .project-heading-layout-compact { min-height: 116px; }
   .project-heading-layout-compact .project-heading-copy { padding: 1.4rem 1.1rem; }
   .project-preview { padding: 0 1.1rem 1.4rem; }
   .project-preview > * { max-width: none; width: 100%; }
