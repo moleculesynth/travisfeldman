@@ -130,9 +130,12 @@ const ArchiveGrid = ({ images, className = "", shuffle = true }: ArchiveGridProp
 
   useEffect(() => {
     if (!shuffle) return;
-    const now = new Date();
-    const day = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
-    setDailySeed(hashString(`${day}|${archiveKey}`));
+    const timer = window.setTimeout(() => {
+      const now = new Date();
+      const day = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+      setDailySeed(hashString(`${day}|${archiveKey}`));
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [archiveKey, shuffle]);
 
   const closeViewer = () => {
