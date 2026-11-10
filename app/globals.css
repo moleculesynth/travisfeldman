@@ -27,7 +27,7 @@ img { display: block; height: auto; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 p, h1, h2, h3, figure { margin: 0; }
 button, summary { font-family: inherit; }
-a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
 .skip-link {
   background: var(--accent);
@@ -227,6 +227,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   height: 100%;
   overflow: hidden;
   padding: 0;
+  position: relative;
   width: 100%;
 }
 .project-header-thumbnail img { height: 100%; object-fit: cover; width: 100%; }
@@ -259,11 +260,21 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   display: block;
   height: 100%;
   padding: 0;
+  position: relative;
   width: 100%;
 }
 .archive-image-button img { display: block; }
 .archive-image-button:hover img { filter: brightness(.92); }
-.archive-image-button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.archive-image-button:focus-visible, .project-header-thumbnail:focus-visible {
+  outline-offset: -2px;
+}
+.archive-image-button:focus-visible::after, .project-header-thumbnail:focus-visible::after {
+  border: 2px solid var(--paper);
+  content: "";
+  inset: 2px;
+  pointer-events: none;
+  position: absolute;
+}
 .archive-trees figure { aspect-ratio: 3 / 4; }
 .archive-metal { grid-template-columns: repeat(7, 1fr); }
 .archive-metal figure { aspect-ratio: 3 / 4; }
@@ -294,6 +305,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   padding: .75rem .35rem;
 }
 .archive-lightbox > button:hover, .archive-lightbox > button:focus-visible { color: var(--accent); }
+.archive-lightbox > button:focus-visible { outline-color: var(--paper); }
 .lightbox-close { grid-column: 1 / 4; justify-self: end; }
 .lightbox-previous { align-self: center; grid-column: 1; grid-row: 2; }
 .lightbox-next { align-self: center; grid-column: 3; grid-row: 2; }

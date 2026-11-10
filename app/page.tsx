@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 
 const Arrow = () => <span aria-hidden="true">↗</span>;
 
@@ -119,6 +119,7 @@ const shuffledImages = (images: ReadonlyArray<ArchiveImage>, seed: number) => {
 const ArchiveGrid = ({ images, className = "", shuffle = true }: ArchiveGridProps) => {
   const [dailySeed, setDailySeed] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
+  const viewerOpen = selected !== null;
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -149,22 +150,24 @@ const ArchiveGrid = ({ images, className = "", shuffle = true }: ArchiveGridProp
       : (current + direction + orderedImages.length) % orderedImages.length);
   };
 
+  const onViewerKeyDown = useEffectEvent((event: KeyboardEvent) => {
+    if (event.key === "Escape") closeViewer();
+    if (event.key === "ArrowLeft") moveSelection(-1);
+    if (event.key === "ArrowRight") moveSelection(1);
+  });
+
   useEffect(() => {
-    if (selected === null) return;
+    if (!viewerOpen) return;
     closeButtonRef.current?.focus();
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeViewer();
-      if (event.key === "ArrowLeft") moveSelection(-1);
-      if (event.key === "ArrowRight") moveSelection(1);
-    };
+    const onKeyDown = (event: KeyboardEvent) => onViewerKeyDown(event);
     window.addEventListener("keydown", onKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [orderedImages.length, selected]);
+  }, [viewerOpen]);
 
   const trapFocus = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key !== "Tab") return;
@@ -600,7 +603,7 @@ export default function Home() {
           <section>
             <h2>WRITING</h2>
             <IndexLink href="https://educ-met-site.sites.olt.ubc.ca/files/2023/05/Feldman_MET_25MAY2023.pdf" year="2023">Makerspaces as social systems</IndexLink>
-            <IndexLink href="https://ijamm.pubpub.org/pub/o9n1tv3t?readingCollection=7726e307" year="2022">Learning in makerspaces</IndexLink>
+            <IndexLink href="https://ijamm.pubpub.org/pub/o9n1tv3t?readingCollection=7726e307" year="2020">Learning in makerspaces</IndexLink>
             <IndexLink href="https://www.jstor.org/stable/24247222" year="2012">Controversial Crabbe</IndexLink>
             <IndexLink href="https://cinema.washington.edu/people/travis-feldman" year="2005">William Blake / The Four Zoas</IndexLink>
             <IndexLink href="https://bmcr.brynmawr.edu/2004/2004.08.11/" year="2004">English Literature and Ancient Languages</IndexLink>
@@ -677,7 +680,7 @@ export default function Home() {
           id="writing-learning-makerspaces"
           className="project-writing"
           title="Learning in makerspaces"
-          year="2022"
+          year="2020"
           links={<ExternalLink href="https://ijamm.pubpub.org/pub/o9n1tv3t?readingCollection=7726e307">Read article</ExternalLink>}
           thumbnail={{
             src: "/images/writing-learning-makerspaces.jpg",
