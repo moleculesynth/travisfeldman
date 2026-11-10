@@ -95,7 +95,8 @@ test("server-renders the 1.2.1 restrained exhibition index", async () => {
   assert.match(html, /<h2>SOUND<\/h2>/);
   assert.match(html, /<h2>SOUND<\/h2>[\s\S]*<h2>WRITING<\/h2>/);
   assert.match(html, /Learning in makerspaces/);
-  assert.match(html, /Makerspaces as social systems[\s\S]*2023[\s\S]*Learning in makerspaces[\s\S]*2022[\s\S]*Controversial Crabbe[\s\S]*2012[\s\S]*William Blake \/ The Four Zoas[\s\S]*2005[\s\S]*English Literature and Ancient Languages[\s\S]*2004[\s\S]*Sappho: Poems and Fragments[\s\S]*2002/);
+  assert.match(html, /Makerspaces as social systems[\s\S]*2023[\s\S]*Learning in makerspaces<\/span><time>2020<\/time>[\s\S]*Controversial Crabbe[\s\S]*2012[\s\S]*William Blake \/ The Four Zoas[\s\S]*2005[\s\S]*English Literature and Ancient Languages[\s\S]*2004[\s\S]*Sappho: Poems and Fragments[\s\S]*2002/);
+  assert.match(html, /id="writing-learning-makerspaces"[\s\S]*?<h2>Learning in makerspaces<\/h2><time>2020<\/time>/);
   assert.match(html, /<h2><em>Selva Oscura<\/em><\/h2>/);
   assert.match(html, /\/optimized\/thumb\/images\/writing-inclusive-makerspaces\.jpg/);
   assert.doesNotMatch(html, /DISCO!! Extended Play circular Shrink Circuits board design/);
