@@ -138,7 +138,7 @@ test("keeps video, Kickstarter, audio, writing, and project links direct", async
     "https://nervemaps.bandcamp.com",
     "https://themanymansions.bandcamp.com/",
     "https://www.awesomefoundation.org/en/projects/30742-shrink-circuits-nomad-lab",
-    "http://shrinkcircuits.org/",
+    "https://shrinkcircuits.org/",
     "https://ijamm.pubpub.org/pub/o9n1tv3t",
     "https://commons.wikimedia.org/wiki/File:George_Crabbe_by_Henry_William_Pickersgill.jpg",
     "https://commons.wikimedia.org/wiki/File:Bb209.1.3.ms.300.jpg",

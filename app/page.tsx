@@ -710,7 +710,7 @@ export default function Home() {
           className="project-shrink"
           title="Shrink Circuits Nomad Lab"
           year="2013–2018"
-          links={<><ExternalLink href="http://shrinkcircuits.org/">Project site</ExternalLink><ExternalLink href="https://www.awesomefoundation.org/en/projects/30742-shrink-circuits-nomad-lab">Project record</ExternalLink></>}
+          links={<><ExternalLink href="https://shrinkcircuits.org/">Project site</ExternalLink><ExternalLink href="https://www.awesomefoundation.org/en/projects/30742-shrink-circuits-nomad-lab">Project record</ExternalLink></>}
           thumbnail={{ src: "/art/shrink-workshop.jpg", alt: "A Shrink Circuits workshop gathered around a soldering station" }}
           more={<ArchiveGrid images={shrinkArchive} />}
         />
